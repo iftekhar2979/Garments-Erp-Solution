@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import postDocuments from '../../CustomHooks/postDocuments';
 import UseCollectArray from '../../CustomHooks/UseCollectArray';
 import InputForm from '../../Utility-Component/InputForm';
 import MoreInput from '../../Utility-Component/MoreInput';
@@ -17,7 +18,7 @@ const AddCompany = () => {
   const onSubmit = (object) => {
 
     const companyInfo={...object,buyers:val}
-    console.log(companyInfo)
+    postDocuments('http://localhost:8000/addCompany',companyInfo)
   };
   return (
     <section className='mx-6'>
@@ -49,6 +50,7 @@ const AddCompany = () => {
             handleChange={handleChange}
             handleRemove={handleRemove}
             val={val}
+            component={'Buyers'}
             setVal={setVal}
           />
         </div>

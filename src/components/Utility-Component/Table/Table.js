@@ -1,0 +1,29 @@
+import React from 'react';
+import TableContent from './TableContent';
+import TableHeading from './TableHeading';
+
+const Table = ({tableHeadings,tableData}) => {
+    // console.log(tableData)
+    
+    return (
+   
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-4 my-6">
+    <table class="w-full text-sm border text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr className='border'>
+               {tableHeadings?.map(heading=><TableHeading key={heading.id} headings={heading.heading}></TableHeading>)}
+            </tr>
+        </thead>
+        <tbody>
+            {
+                [...tableData]?.reverse().map(item=><TableContent key={item.id} contents={item}></TableContent>)
+
+            }
+        </tbody>
+       
+    </table>
+</div>
+    );
+};
+
+export default Table;
