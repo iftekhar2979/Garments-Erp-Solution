@@ -54,7 +54,7 @@ const orders=[
       <div className='drawer-side'>
         <label htmlFor='my-drawer-2' className='drawer-overlay'></label>
         <ul className='menu p-4 w-66 bg-base-200 text-base-content'>
-          <NavbarDropDown name={'Company'} data={company}/>
+          <NavbarDropDown name={'Company'} data={company} />
           <NavbarDropDown name={'Orders'} data={orders}/>
 
           <li>

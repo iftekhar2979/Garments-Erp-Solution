@@ -5,6 +5,7 @@ const putDocuments =(url,object,id)=>{
     axios.put(`${url}/${id}`,{object})
     .then(res=>{
         if(res.data){
+            console.log(res.data)
             const notify = () => toast('Edit product Succesfully');
             notify()
         }

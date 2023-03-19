@@ -5,20 +5,25 @@ import UseCollectArray from '../../CustomHooks/UseCollectArray';
 import MoreInput from '../../Utility-Component/MoreInput';
 import ViewProducts from './Products/ViewProducts';
 const AddProduct = () => {
-  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
   const { handleAdd, handleChange, handleRemove, val, setVal } =
     UseCollectArray();
-    const { data: totalProducts = [],refetch,isLoading,isRefetching } = useQuery({
-        queryKey: ['totalProducts'],
+    const { data: totalProducts = [],refetch,isLoading,isRefetching,isError} = useQuery({
+        queryKey: ['totalProducts','64161bb6a541e87d78c95b47'],
         queryFn: async () => {
           const res = await fetch(
             `http://localhost:8000/products/64161bb6a541e87d78c95b47`
           );
           const data = await res.json();
-            
+          // setProduct(data.products)
+
           return data;
         },
+        
+
+    
       });
+
   const handleProduct = () => {
     const products = [...val];
     putDocuments(
@@ -27,6 +32,7 @@ const AddProduct = () => {
       '64161bb6a541e87d78c95b47'
     );
     refetch()
+    window.location.reload()
     
     // setProducts([])
     // postDocuments('http://localhost:8000/products',{products})
@@ -35,7 +41,7 @@ const AddProduct = () => {
   return (
     <section>
       <div className='flex jusify-center'>
-        <div className='w-1/2 mx-4 border px-6 my-6'>
+        <div className='w-1/2 mx-4 border px-6 my-6 '>
           <MoreInput
             handleAdd={handleAdd}
             handleChange={handleChange}
@@ -53,7 +59,7 @@ const AddProduct = () => {
         </div>
 
         <div className='my-6 mx-4'>
-          <ViewProducts totalProducts={totalProducts} isLoading={isLoading} isRefetching={isRefetching}></ViewProducts>
+          <ViewProducts totalProducts={totalProducts} setProduct={setProduct} isLoading={isLoading} isRefetching={isRefetching} refetch={refetch}></ViewProducts>
         </div>
       </div>
     </section>
