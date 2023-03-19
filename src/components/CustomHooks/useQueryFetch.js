@@ -8,7 +8,7 @@ const useQueryFetch = (url,companyName) => {
 
     axios.get(`${url}=${companyName}`)
     .then(responce=>  {
-        
+       
        setbuyers(responce.data)}
     ).catch(error=>setError(error)
     )

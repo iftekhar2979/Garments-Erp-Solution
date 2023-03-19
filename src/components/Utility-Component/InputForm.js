@@ -3,7 +3,7 @@ import React from 'react';
 const InputForm = ({label,register,name}) => {
     return (
         <div>
-            <label className='label'>{label}</label>
+            <label className='label '>{label}</label>
             <input
               type='text'
               placeholder='Type here'

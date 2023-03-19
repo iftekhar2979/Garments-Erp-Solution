@@ -1,15 +1,17 @@
 import React from 'react';
 
-const InputDropDown = ({register,sectionName,options,label,}) => {
+const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder}) => {
     return (
         <>
          <div className='my-2'>
          <label className='label'>{label}</label>
               <select
                 className='select select-primary w-full max-w-xs'
-                {...register(sectionName, { required: true })}
+                name={sectionName}
+                onChange={handleInputDropdown}
+               
                 >
-                   <option disabled selected>Pick one Company</option>
+                     <option disabled selected>{placeholder}</option> 
                 {options?.map((option) => (
                   <option >{option}</option>
                 ))}
