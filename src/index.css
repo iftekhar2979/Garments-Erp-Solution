@@ -30,3 +30,19 @@ th {
   word-break: break-all;
   width: 130px;
 }
+input[type="date"]{
+  background-color: #0080ff;
+  padding: 15px;
+  position: relative;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}

@@ -3,6 +3,7 @@ import AddCompany from '../components/Pages/Dashboard/AddCompany'
 import AddProduct from '../components/Pages/Dashboard/AddProduct'
 import Companies from '../components/Pages/Dashboard/Companies'
 import Dashboard from '../components/Pages/Dashboard/Dashboard'
+import OrderListEdit from '../components/Pages/Dashboard/Edit Sections/OrderListEdit'
 import AddOrders from '../components/Pages/Dashboard/Orders/AddOrders'
 import ViewOrders from '../components/Pages/Dashboard/Orders/ViewOrders'
 import Home from '../components/Pages/Home/Home'
@@ -37,6 +38,12 @@ export const router = createBrowserRouter([
                 },{
                     path:'/dashboard/viewOrders',
                     element:<ViewOrders></ViewOrders>
+                },{
+                    path:'/dashboard/edit/:id',
+                    element:<OrderListEdit></OrderListEdit>,
+                    loader:async({params})=>{
+                        return fetch(`http://localhost:8000/orderList/${params.id}`)
+                    }
                 }
             ]
         }

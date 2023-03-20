@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder}) => {
+const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,defaultValue}) => {
     return (
         <>
          <div className='my-2'>
@@ -9,12 +9,13 @@ const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholde
                 className='select select-primary w-full max-w-xs '
                 name={sectionName}
                 onChange={handleInputDropdown}
+                defaultValue={defaultValue}
                 required
                
                 >
                      <option disabled selected>{placeholder}</option> 
                 {Array.isArray(options)&& options?.map((option) => (
-                  <option className='cursor-pointer'>{option}</option>
+                  <option className='cursor-pointer' >{option}</option>
                 ))}
               </select>
             </div>
