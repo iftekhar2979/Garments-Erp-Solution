@@ -1,11 +1,15 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useLoaderData } from 'react-router-dom';
 import useFetch from '../../../CustomHooks/useFetch';
+import DateInput from '../../../Utility-Component/Form/DateInput';
 import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
-import Radio from '../../../Utility-Component/Form/Radio';
 import InputForm from '../../../Utility-Component/InputForm';
 const AddOrders = () => {
+  const products = useLoaderData();
+  //form hook for register
   const {
     register,
     handleSubmit,
@@ -13,21 +17,25 @@ const AddOrders = () => {
     formState: { errors },
   } = useForm();
   const [buyers, setbuyers] = useState();
-  const [selectedValue, setSelectedValue] = useState('');
+  //target date
+  const [selected, setSelected] = useState(new Date());
+  //completed Date
+  const [completed, setCompleted] = useState(new Date());
+  //finding the company and buyer and other's data and handle that with this state
   const [companyName, setCompanyName] = useState({
     companyName: '',
     buyerName: '',
-    status:''
+    targetDate:'',
   });
-  const [isLoading, setisLoading] = useState(false);
   const { companyData, loading, error, setcompanyData } = useFetch(
     'http://localhost:8000/companyNames'
-  );
-
-  if (loading) {
-    return <h1 className='text-4xl'>Loading....</h1>;
-  }
-
+    );
+    
+    if (loading) {
+      return <h1 className='text-4xl'>Loading....</h1>;
+    }
+   
+ 
   const handleInputDropdown = (e) => {
     setCompanyName((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -38,36 +46,42 @@ const AddOrders = () => {
         setbuyers(responce.data);
       })
       .catch((error) => console.log(error))
-      .finally(() => setisLoading(false));
+      
   };
   const handleBuyer = (e) => {
     setCompanyName((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+    // console.log(companyName)
   };
-  
 
-  function handleRadioChange(e) {
+  const handleProduct = (e) => {
     setCompanyName((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-  }
+  };
+
+ 
   const onSubmit = (e) => {
-    console.log(companyName);
+    const targetDate={targetDate:format(selected,'PP')}
+   const completedDate={completedDate:format(completed,'PP')}
+    const orderDetails={...companyName,...e,...targetDate,...completedDate}
+    console.log(orderDetails);
+    // console.log({date:format(selected, 'PP')});
+
+    
   };
   return (
     <section>
-      <section className='mx-6'>
-        <h1 className='text-2xl my-3 font-bold'>
-          Add Your Company and Buyer Details
-        </h1>
+      <section className='mx-6 '>
+        <h1 className='text-2xl my-3 font-bold'>Add Your Order Details</h1>
         <form
           action=''
           onSubmit={handleSubmit(onSubmit)}
           className='border shadow-sm p-6'
         >
-          <div className='grid grid-cols-3 gap-2 '>
-            <div>
+          <div className='flex flex-wrap'>
+            <div className='w-1/2 mx-4'>
               <InputDropDown
                 label={'Company'}
                 handleInputDropdown={handleInputDropdown}
@@ -85,9 +99,24 @@ const AddOrders = () => {
                 placeholder={'Select your Buyer'}
                 register={register}
               />
+            <InputDropDown
+                label={'Product'}
+                handleInputDropdown={handleProduct}
+                options={products?.products}
+                sectionName={'productName'}
+                placeholder={'Select your Product Name'}
+                register={register}
+              />
+             
+             <DateInput
+                label={`Ordered Date : ${selected && format(selected,'PP')}`}
+                selected={selected}
+                onSelect={setSelected}
+               
+              ></DateInput>
             </div>
-            <div className='my-2'>
-              <InputForm
+            <div className='my-4 w-5/12'>
+            <InputForm
                 label={'P.O Number'}
                 register={register}
                 name={'poNumber'}
@@ -97,20 +126,19 @@ const AddOrders = () => {
                 register={register}
                 name={'quantity'}
               />
+               <DateInput
+                label={`Completed Date : ${completed && format(completed,'PP')}`}
+                selected={completed}
+                onSelect={setCompleted}
+               
+              ></DateInput>
+            
             </div>
-            <div className='my-4 border'>
-              <Radio label={`Order Status`} handleRadioChange={handleRadioChange} selectedValue={companyName?.status} />
-            </div>
+            
           </div>
-          <div className='grid grid-cols-2 gap-6'>
-            <InputForm
-              label={'Company Email'}
-              register={register}
-              name={'email'}
-            />
-          </div>
+        
           <div className='flex text-center justify-center my-4'>
-            <button className='btn btn-primary'>Save</button>
+            <button className='btn btn-primary'>Insert</button>
           </div>
         </form>
       </section>

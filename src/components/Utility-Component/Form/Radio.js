@@ -4,7 +4,8 @@ function Radio({label,handleRadioChange,selectedValue}) {
  
 
   return (
-    <div className='ml-4'>
+    <div className=' border'>
+        <div className='ml-4'>
         <label htmlFor="" className='text-xl font-bold'>{label}</label>
         <div className='flex flex-col form-control'>
       <label className='text-xl'>
@@ -25,6 +26,7 @@ function Radio({label,handleRadioChange,selectedValue}) {
       </label>
       </div>
       <p>You selected: {selectedValue}</p>
+      </div>
     </div>
   );
 }

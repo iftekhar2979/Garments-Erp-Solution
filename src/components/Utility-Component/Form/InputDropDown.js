@@ -12,8 +12,8 @@ const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholde
                
                 >
                      <option disabled selected>{placeholder}</option> 
-                {options?.map((option) => (
-                  <option >{option}</option>
+                {Array.isArray(options)&& options?.map((option) => (
+                  <option className='rounded'>{option}</option>
                 ))}
               </select>
             </div>

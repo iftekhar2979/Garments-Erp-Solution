@@ -30,7 +30,10 @@ export const router = createBrowserRouter([
                     element:<Companies></Companies>
                 },{
                     path:'/dashboard/addOrders',
-                    element:<AddOrders></AddOrders>
+                    element:<AddOrders></AddOrders>,
+                    loader:async()=>{
+                        return fetch(`http://localhost:8000/products/64161bb6a541e87d78c95b47`)
+                    }
                 },{
                     path:'/dashboard/viewOrders',
                     element:<ViewOrders></ViewOrders>
