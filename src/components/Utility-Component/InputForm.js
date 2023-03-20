@@ -9,6 +9,7 @@ const InputForm = ({label,register,name}) => {
               placeholder='Type here'
               className='input input-bordered w-full max-w-xs'
              {...register(name)}
+             required
             />
           </div>
     );

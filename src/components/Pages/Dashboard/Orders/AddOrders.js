@@ -2,8 +2,10 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from "react-hot-toast";
 import { useLoaderData } from 'react-router-dom';
 import useFetch from '../../../CustomHooks/useFetch';
+import usePostApi from '../../../CustomHooks/usePostDocument';
 import DateInput from '../../../Utility-Component/Form/DateInput';
 import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
 import InputForm from '../../../Utility-Component/InputForm';
@@ -15,6 +17,7 @@ const AddOrders = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm();
   const [buyers, setbuyers] = useState();
   //target date
@@ -25,17 +28,17 @@ const AddOrders = () => {
   const [companyName, setCompanyName] = useState({
     companyName: '',
     buyerName: '',
-    targetDate:'',
+    targetDate: '',
   });
   const { companyData, loading, error, setcompanyData } = useFetch(
     'http://localhost:8000/companyNames'
-    );
-    
-    if (loading) {
-      return <h1 className='text-4xl'>Loading....</h1>;
-    }
-   
- 
+  );
+  const [body,setBody]=useState(null)
+const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',body)
+  if (loading) {
+    return <h1 className='text-4xl'>Loading....</h1>;
+  }
+
   const handleInputDropdown = (e) => {
     setCompanyName((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -45,8 +48,7 @@ const AddOrders = () => {
       .then((responce) => {
         setbuyers(responce.data);
       })
-      .catch((error) => console.log(error))
-      
+      .catch((error) => console.log(error));
   };
   const handleBuyer = (e) => {
     setCompanyName((prev) => {
@@ -61,20 +63,25 @@ const AddOrders = () => {
     });
   };
 
- 
   const onSubmit = (e) => {
-    const targetDate={targetDate:format(selected,'PP')}
-   const completedDate={completedDate:format(completed,'PP')}
-    const orderDetails={...companyName,...e,...targetDate,...completedDate}
-    console.log(orderDetails);
+    const order = { orderedDate: format(selected, 'PP'), targetDate: format(completed, 'PP') };
+    const orderDetails = { ...companyName, ...e, ...order };
+    // console.log(orderDetails);
+    setBody(orderDetails)
+    // console.log(data)
+    if(data){
+      console.log(data)
+      const notify = () => toast('Order List Added Succesfully');
+            notify()
+    }
+    setCompanyName({ companyName: '', buyerName: '' });
+    reset();
     // console.log({date:format(selected, 'PP')});
-
-    
   };
   return (
     <section>
       <section className='mx-6 '>
-        <h1 className='text-2xl my-3 font-bold'>Add Your Order Details</h1>
+        <h1 className='text-2xl my-3 font-bold'>Add Your Order List</h1>
         <form
           action=''
           onSubmit={handleSubmit(onSubmit)}
@@ -99,7 +106,7 @@ const AddOrders = () => {
                 placeholder={'Select your Buyer'}
                 register={register}
               />
-            <InputDropDown
+              <InputDropDown
                 label={'Product'}
                 handleInputDropdown={handleProduct}
                 options={products?.products}
@@ -107,16 +114,16 @@ const AddOrders = () => {
                 placeholder={'Select your Product Name'}
                 register={register}
               />
-             
-             <DateInput
-                label={`Ordered Date : ${selected && format(selected,'PP')}`}
+
+              <DateInput
+                label={`Ordered Date : ${selected && format(selected, 'PP')}`}
                 selected={selected}
                 onSelect={setSelected}
-               
               ></DateInput>
             </div>
+          
             <div className='my-4 w-5/12'>
-            <InputForm
+              <InputForm
                 label={'P.O Number'}
                 register={register}
                 name={'poNumber'}
@@ -126,19 +133,16 @@ const AddOrders = () => {
                 register={register}
                 name={'quantity'}
               />
-               <DateInput
-                label={`Completed Date : ${completed && format(completed,'PP')}`}
+              <DateInput
+                label={`Target Date : ${completed && format(completed, 'PP')}`}
                 selected={completed}
                 onSelect={setCompleted}
-               
               ></DateInput>
-            
             </div>
-            
           </div>
-        
+
           <div className='flex text-center justify-center my-4'>
-            <button className='btn btn-primary'>Insert</button>
+            <button className='btn btn-primary'>Insert </button>
           </div>
         </form>
       </section>

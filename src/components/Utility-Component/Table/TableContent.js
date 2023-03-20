@@ -10,19 +10,19 @@ const TableContent = ({contents}) => {
                 <th scope="row" class="px-6 py-4 border font-medium text-gray-900 whitespace-nowrap dark:text-white">
                    {companyName}
                 </th>
-                <td class="px-6  border py-4">
+                <td class="px-2  border py-2">
                     {buyers?.map((buyer,i)=><Buyers key={i} buyer={buyer}></Buyers>)}
                 </td>
-                <td class="px-6 border py-4">
+                <td class="px-2 border py-2">
                     {location}
                 </td>
-                <td class="px-6 border py-4">
+                <td class="px-2 border py-2">
                     {email}
                 </td>
-                <td class="px-6 border py-4">
+                <td class="px-2 border py-2">
                     {contact}
                 </td>
-                <td class="px-6 border py-4">
+                <td class="px-2 border py-2">
                     {createdDate}
                 </td>
                 

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import Heading from '../../Utility-Component/Heading';
 import Table from '../../Utility-Component/Table/Table';
 
 const Companies = () => {
@@ -43,6 +44,7 @@ const Companies = () => {
     
     return (
         <div>
+            <Heading heading={'Your Subscribed Company and Details'}></Heading>
             <Table tableHeadings={tableHeadings} tableData={companies}></Table>
         </div>
     );

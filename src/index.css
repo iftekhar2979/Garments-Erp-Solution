@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+table {
+  border-spacing: 0px;
+  /* table-layout: fixed; */
+
+ 
+}
+table th{
+  word-break: break-all;
+}
+td {
+  /* border: 1px solid #666; */
+  word-break: break-all;
+  width: 110px;
+}
+th {
+  /* border: 1px solid #666; */
+  word-break: break-all;
+  width: 130px;
+}

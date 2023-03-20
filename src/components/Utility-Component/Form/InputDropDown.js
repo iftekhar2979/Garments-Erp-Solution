@@ -6,14 +6,15 @@ const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholde
          <div className='my-2'>
          <label className='label'>{label}</label>
               <select
-                className='select select-primary w-full max-w-xs'
+                className='select select-primary w-full max-w-xs '
                 name={sectionName}
                 onChange={handleInputDropdown}
+                required
                
                 >
                      <option disabled selected>{placeholder}</option> 
                 {Array.isArray(options)&& options?.map((option) => (
-                  <option className='rounded'>{option}</option>
+                  <option className='cursor-pointer'>{option}</option>
                 ))}
               </select>
             </div>
