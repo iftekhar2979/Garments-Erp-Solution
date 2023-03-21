@@ -1,35 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import deleteIcon from '../../../../../Assets/delete.svg';
 import editIcon from '../../../../../Assets/edit.svg';
 const TableOrder = ({contents}) => {
-    const {companyName,buyerName,poNumber,productName,quantity,targetDate,orderedDate,_id}=contents
+    const {companyName,buyerName,poNumber,productName,quantity,targetDate,style,orderedDate,_id}=contents
     return (
       <>
-          <tr class="border-b bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 border font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <tr className="border bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <th className="border font-medium text-gray-900 w-24 px-2">
                 {companyName}
                 </th>
-                <td class="px-2  border py-4">
+                <td className=" border px-1 w-24">
                     {buyerName}
                 </td>
-                <td class="px-2 border py-4">
-                <span className="link link-secondary">{poNumber}</span> 
+                <td className="border px-1 w-24">
+              <Link to={`/dashboard/po/${_id}`}>  <span className="link link-secondary">{poNumber}</span> </Link>
                 </td>
-                <td class="px-2 border py-4">
+                <td className="border  w-16">
+                {style}
+                </td>
+                <td className="border px-1 w-16">
                     {productName}
                 </td>
-                <td class="px-2 border py-4">
+                <td className="border px-1 w-12 font-bold">
                     {quantity}
                 </td>
-                <td class="px-2 border py-4">
+                <td className="border px-1 w-12 font-bold">
+                    {}
+                </td>
+                <td className="border px-1 w-12 font-bold">
+                    {}
+                </td>
+                <td className="border px-1 w-12 font-bold">
+                    {}
+                </td>
+                <td className="border px-1 w-16">
                     {targetDate}
                 </td>
-                <td class="px-2 border py-4">
+                <td className="border px-1 w-16">
                     {orderedDate}
                     <div>
                    <Link to={`/dashboard/edit/${_id}`}><img src={editIcon} alt="" className='w-8 inline cursor-pointer ml-2 hover:bg-yellow-500'/></Link> 
-                <img src={deleteIcon} alt="" className='w-8 inline cursor-pointer ml-2 hover:bg-red-700'/>
                     </div>
                 
                 </td>

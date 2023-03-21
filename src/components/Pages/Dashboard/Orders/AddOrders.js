@@ -129,6 +129,11 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
                 name={'poNumber'}
               />
               <InputForm
+                label={'style'}
+                register={register}
+                name={'style'}
+              />
+              <InputForm
                 label={'Quantity'}
                 register={register}
                 name={'quantity'}

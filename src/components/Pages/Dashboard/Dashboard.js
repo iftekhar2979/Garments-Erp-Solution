@@ -1,4 +1,5 @@
 import React from 'react';
+import { HiMenu } from "react-icons/hi";
 import { Outlet } from 'react-router-dom';
 import NavbarDropDown from '../../Utility-Component/NavbarDropDown/NavbarDropDown';
 const Dashboard = () => {
@@ -43,17 +44,18 @@ const orders=[
     <div className='drawer drawer-mobile'>
       <input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
       <div className='drawer-content '>
-        <Outlet></Outlet>
         <label
           htmlFor='my-drawer-2'
-          className='btn btn-primary drawer-button lg:hidden'
+          className=' bg-gray-300 lg:hidden absolute absolute top-6 right-[150px] '
         >
-          Open drawer
+          <HiMenu className=''/>
+          
         </label>
+        <Outlet></Outlet>
       </div>
-      <div className='drawer-side'>
+      <div className='drawer-side '>
         <label htmlFor='my-drawer-2' className='drawer-overlay'></label>
-        <ul className='menu p-4 w-66 bg-base-200 text-base-content'>
+        <ul className='menu p-4 md:w-1/3 bg-gray-200  text-base-content'>
           <NavbarDropDown name={'Company'} data={company} />
           <NavbarDropDown name={'Orders'} data={orders}/>
 

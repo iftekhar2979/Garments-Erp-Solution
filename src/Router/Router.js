@@ -5,6 +5,7 @@ import Companies from '../components/Pages/Dashboard/Companies'
 import Dashboard from '../components/Pages/Dashboard/Dashboard'
 import OrderListEdit from '../components/Pages/Dashboard/Edit Sections/OrderListEdit'
 import AddOrders from '../components/Pages/Dashboard/Orders/AddOrders'
+import SinglePO from '../components/Pages/Dashboard/Orders/View PO/SinglePO'
 import ViewOrders from '../components/Pages/Dashboard/Orders/ViewOrders'
 import Home from '../components/Pages/Home/Home'
 import Root from '../Root/Root'
@@ -41,6 +42,12 @@ export const router = createBrowserRouter([
                 },{
                     path:'/dashboard/edit/:id',
                     element:<OrderListEdit></OrderListEdit>,
+                    loader:async({params})=>{
+                        return fetch(`http://localhost:8000/orderList/${params.id}`)
+                    }
+                },{
+                    path:'/dashboard/po/:id',
+                    element:<SinglePO></SinglePO>,
                     loader:async({params})=>{
                         return fetch(`http://localhost:8000/orderList/${params.id}`)
                     }

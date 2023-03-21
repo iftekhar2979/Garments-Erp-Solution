@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router-dom';
+import putDocument from '../../../CustomHooks/putDocument';
 import useFetch from '../../../CustomHooks/useFetch';
 import useProductItem from '../../../CustomHooks/useProductHook';
 import Button from '../../../Utility-Component/Button';
@@ -59,7 +60,7 @@ const OrderListEdit = () => {
   const onSubmit = (obj) => {
     console.log(obj);
     const editedData = { ...companyAndProduct, ...obj };
-    console.log(editedData);
+    putDocument('http://localhost:8000/orderList',{...editedData},defaultData?._id)
   };
   return (
     <>

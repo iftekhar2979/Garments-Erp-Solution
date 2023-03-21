@@ -19,27 +19,53 @@ const ViewOrders = () => {
     const tableHeadings=[
         {
             id:4,
-            heading:'COMPANY NAME'
+            heading:'COMP. NAME',
+            class:"w-4"
         },
         {
             id:5,
-            heading:"BUYER'S"
+            heading:"BUYER'S",
+            class:"w-4"
         },{
             id:6,
-            heading:"PO NUMBER"
+            heading:"PO.NUM",
+            class:"w-4"
+        },{
+            id:17,
+            heading:"STYLE",
+            class:"w-4"
         },{
             id:7,
-            heading:"PRODUCT"
+            heading:"PRODUCT",
+            class:"w-4"
         },
         {
-            id:8,
-            heading:"QUANTITY"
+            id:57,
+            heading:"T. QTY.",
+            class:"w-4"
+        },
+        {
+            id:35,
+            heading:"Or. QTY.",
+            class:"w-4"
         },{
+            id:59,
+            heading:"Res. QTY.",
+            class:"w-4"
+        },
+        {
+            id:26,
+            heading:"D. QTY.",
+            class:"w-4"
+        },
+        {
             id:9,
-            heading:'ORDER DATE'
+            heading:'TAR. DATE',
+            class:"w-4"
         },{
-            id:9,
-            heading:'TARGET DATE'
+            id:29,
+            heading:'OR. DATE',
+            class:"w-4"
         }
     ]
     return (
