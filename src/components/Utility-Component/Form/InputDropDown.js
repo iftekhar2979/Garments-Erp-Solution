@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,defaultValue}) => {
+const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,defaultValue,selected}) => {
     return (
         <>
          <div className='my-2'>

@@ -22,7 +22,7 @@ const TableOrder = ({contents}) => {
                     {productName}
                 </td>
                 <td className="border px-1 w-12 font-bold">
-                    {quantity}
+                    {Number(quantity).toLocaleString("en-US")}
                 </td>
                 <td className="border px-1 w-12 font-bold">
                     {}
