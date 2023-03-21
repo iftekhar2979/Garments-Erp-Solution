@@ -3,14 +3,14 @@ import InputDropDown from '../../../../Utility-Component/Form/InputDropDown';
 
 const PoTable = ({ quantity }) => {
   const [data, setData] = useState();
-  const [deliveryQuantity, setDeliveryQuantity] = useState(0);
+  const [restQuantity, setrestQuantity] = useState(0);
   const [amount, setAmout] = useState(0);
 
   useEffect(() => {
-    setDeliveryQuantity(Number(quantity) - Number(data?.deliveryQuantity));
+    setrestQuantity(Number(quantity) - Number(data?.deliveryQuantity));
     setAmout(Number(quantity) * Number(data?.orderRate));
-    console.log(amount);
-  }, [deliveryQuantity,quantity, data?.deliveryQuantity,amount,data?.orderRate]);
+    // console.log(amount);
+  }, [restQuantity,quantity, data?.deliveryQuantity,amount,data?.orderRate]);
   const updateData = (e) => {
     setData((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -19,10 +19,12 @@ const PoTable = ({ quantity }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
- const amounts={deliveryQuantity,amount}
+    // console.log(data);
+ const amounts={restQuantity,amount}
+ const obj={...data,...amounts}
+ console.log(obj)
 
-    console.log(amounts)
+    // console.log(amounts)
   };
   const  options = [
 'SM','M','L','XL','XXL','XXL'  ]
@@ -81,7 +83,7 @@ const status=["Ordered",'Pending',"Completed","Canceled"]
             type='number'
             className='text-md p-2 w-full border border-md'
             name='restQuantity'
-            value={deliveryQuantity}
+            value={restQuantity}
             onChange={updateData}
           />
         </td>
