@@ -1,5 +1,4 @@
 import React from 'react';
-import { HiMenu } from "react-icons/hi";
 import { Outlet } from 'react-router-dom';
 import NavbarDropDown from '../../Utility-Component/NavbarDropDown/NavbarDropDown';
 const Dashboard = () => {
@@ -47,9 +46,7 @@ const orders=[
         <label
           htmlFor='my-drawer-2'
           className=' bg-gray-300 lg:hidden absolute absolute top-6 right-[150px] '
-        >
-          <HiMenu className=''/>
-          
+        > 
         </label>
         <Outlet></Outlet>
       </div>

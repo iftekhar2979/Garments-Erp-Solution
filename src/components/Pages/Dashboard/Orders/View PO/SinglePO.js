@@ -1,5 +1,4 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router-dom';
 import Heading from '../../../../Utility-Component/Heading';
 import Table from '../../../../Utility-Component/Table/Table';
@@ -9,73 +8,65 @@ import PoTable from './PoTable';
 const SinglePO = () => {
   const poDetail = useLoaderData();
   const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm();
-  const {
-    companyName,
-    buyerName,
     poNumber,
-    productName,
     quantity,
-    targetDate,
-    style,
-    orderedDate,
-    _id,
+    color,
+  
   } = poDetail;
+  console.log(color)
   const tableHeadings = [
     {
       id: 111,
-      heading: 'Ord. QTY',
-      class: 'w-4',
+      heading: 'Color',
+      class: 'border font-medium text-gray-900 w-24 px-2',
     },
     {
       id: 112,
-      heading: 'ORD. RATE',
+      heading: 'Size',
       class: 'w-4',
+    },
+    {
+      id:256,
+      heading:'T. Quantity',
+      class:'border w-24'
     },
     {
       id: 113,
-      heading: 'ACT. RATE',
-      class: 'w-4',
+      heading: 'Del. QTY',
+      class: 'border  w-24',
     },
     {
       id: 114,
-      heading: 'AMOUNT',
-      class: 'w-4',
+      heading: 'Rest. QTY',
+      class: 'border  w-24',
     },
     {
       id: 116,
-      heading: 'SIZE',
-      class: 'w-4',
+      heading: 'ORD. Rate',
+      class: 'border px-1 w-16 ',
     },
     {
       id: 117,
-      heading: 'T. QTY.',
-      class: 'w-4',
+      heading: 'Act. Rate',
+      class: 'border px-1 w-16 ',
     },
     {
       id: 118,
-      heading: 'REST QTY.',
-      class: 'w-4',
-    },
-    {
-      id: 119,
-      heading: 'DEL. QTY.',
-      class: 'w-4',
+      heading: 'Amount',
+      class: 'border px-1 w-24',
     },
     {
       id: 124,
-      heading: 'STATUS',
-      class: 'w-4',
+      heading: 'Comp. Date',
+      class: 'border px-1 w-24 ',
+    },
+    {
+      id: 127,
+      heading: 'Status',
+      class: 'border px-1 w-16 ',
     },
   ];
-  const onSubmit=(obj)=>{
-    console.log(obj)
-  }
+
   return (
     <div>
       <Heading heading={`Your Selected PO Number : ${poNumber}`}></Heading>
@@ -83,7 +74,7 @@ const SinglePO = () => {
 
       <Table tableHeadings={tableHeadings} tableData={[]}>
    
-        <PoTable quantity={quantity} />
+       {color.map(item=><PoTable color={item} quantity={quantity} />)}
        
       </Table>
     </div>

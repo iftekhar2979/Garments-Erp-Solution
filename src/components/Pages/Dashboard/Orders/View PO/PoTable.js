@@ -1,47 +1,107 @@
 import React, { useEffect, useState } from 'react';
 import InputDropDown from '../../../../Utility-Component/Form/InputDropDown';
+import SizeTable from './SizeTable';
 
-const PoTable = ({ quantity }) => {
+const PoTable = ({ quantity,color }) => {
   const [data, setData] = useState();
   const [restQuantity, setrestQuantity] = useState(0);
   const [amount, setAmout] = useState(0);
-
+  const [totalQuanity, settotalQuanity] = useState(0);
+  const [sizes,setSizes]=useState({})
+ 
   useEffect(() => {
-    setrestQuantity(Number(quantity) - Number(data?.deliveryQuantity));
-    setAmout(Number(quantity) * Number(data?.orderRate));
-    // console.log(amount);
+    setrestQuantity(parseFloat(quantity) - parseFloat(data?.deliveryQuantity));
+    setAmout(parseFloat(quantity) * parseFloat(data?.orderRate));
+    
   }, [restQuantity,quantity, data?.deliveryQuantity,amount,data?.orderRate]);
+ useEffect(()=>{
+const reduced=Object.values(sizes)
+console.log(reduced)
+const total=reduced.reduce((acc,cur)=>{
+  return acc+cur
+},0)
+settotalQuanity(total)
+ },[sizes])
   const updateData = (e) => {
-    setData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
+    if(typeof e.target.value==='string'){
+      const values= parseFloat(e.target.value)
+      console.log(typeof values)
+      setData((prev) => {
+        return { ...prev, [e.target.name]: values };
     });
+ 
+    }
+   
   };
+  const sizeChange=(e)=>{
+    if(typeof e.target.value==='string'){
+      const values= parseFloat(e.target.value)
+      console.log(typeof values)
 
+      setSizes((prev)=>{
+        return {...prev,[e.target.name]:values}
+      })
+ 
+    }}
+  
   const onSubmit = (e) => {
     e.preventDefault();
-    // console.log(data);
+    // console.log(sizes)
+    // console.log()
+    const sizeColorAndTotal={color,sizes,total:totalQuanity}
  const amounts={restQuantity,amount}
- const obj={...data,...amounts}
+ const obj={...data,...amounts,sizeColorAndTotal}
  console.log(obj)
 
     // console.log(amounts)
   };
-  const  options = [
-'SM','M','L','XL','XXL','XXL'  ]
+  const  sizeName = ['SM','M','L','XL','XXL','XXL'  ]
 const status=["Ordered",'Pending',"Completed","Canceled"]
   return (
     <>
       <tr className='border bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700'>
         <th className='border font-medium text-gray-900 w-24 px-2'>
-          <input
-            type='number'
+        <input
+            type='text'
+            className='text-md py-4 px-2 w-full border border-md'
+            value={color}
+            name='color'
+            onChange={updateData}
+          />
+        </th>
+        <td className=' border w-24'>
+        <SizeTable options={sizeName} sizes={sizes} setSizes={setSizes} sizeChange={sizeChange}/>
+        </td>
+        <td className='border w-16'>
+        <input
+            type='text'
             className='text-md p-2 w-full border border-md'
             value={quantity}
             name='quantity'
             onChange={updateData}
           />
-        </th>
-        <td className=' border px-1 w-24'>
+        
+        </td>
+        <td className='border  w-16'>
+        <input
+            type='number'
+            className='text-md p-2 w-full border border-md'
+            name='deliveryQuantity'
+            onChange={updateData}
+          />
+         
+        </td>
+        <td className='border w-16'>
+        <input
+            type='number'
+            className='text-md p-2 w-full border border-md'
+            name='restQuantity'
+            value={restQuantity}
+            onChange={updateData}
+          />
+          
+        </td>
+        <td className='border w-16 '>
           <input
             type='number'
             className='text-md p-2 w-full border border-md '
@@ -49,60 +109,40 @@ const status=["Ordered",'Pending',"Completed","Canceled"]
             onChange={updateData}
           />
         </td>
-        <td className='border px-1 w-16'>
-          <input
+        <td className='border w-16 '>
+          
+             <input
             type='number'
             className='text-md p-2 w-full border border-md'
             name='actualRate'
             onChange={updateData}
           />
         </td>
-        <td className='border  w-32'>
-          <input
+        <td className='border w-24'>
+     
+           <input
             type='number'
             className='text-md p-2 w-full border border-md'
             name='amount'
             value={amount.toFixed(4)}
             onChange={updateData}
           />
+        
         </td>
-        <td className='border px-1 w-16'>
-        <InputDropDown sectionName={'size'} options={options} handleInputDropdown={updateData} placeholder={'Size'}></InputDropDown>
-          
+        <td className='border w-16 '>
+        
         </td>
-        <td className='border px-1 w-16 '>
-          <input
-            type='number'
-            className='text-md p-2 w-full border border-md'
-            name='targetQuantity'
-            onChange={updateData}
-          />
+        <td className='border w-16 '>
+        <InputDropDown sectionName={'status'} className='w-16' options={status} handleInputDropdown={updateData} placeholder={'Status'} ></InputDropDown>
         </td>
-        <td className='border px-1 w-16 '>
-          <input
-            type='number'
-            className='text-md p-2 w-full border border-md'
-            name='restQuantity'
-            value={restQuantity}
-            onChange={updateData}
-          />
-        </td>
-        <td className='border px-1 w-16 '>
-          <input
-            type='number'
-            className='text-md p-2 w-full border border-md'
-            name='deliveryQuantity'
-            onChange={updateData}
-          />
-        </td>
-        <td className='border px-1 w-16 '>
-        <InputDropDown sectionName={'status'} options={status} handleInputDropdown={updateData} placeholder={'Status'} ></InputDropDown>
+        <td className='border w-16'>
+  
+
+<button onClick={onSubmit} className='btn btn-sm my-4'>submit</button>
+
         </td>
       </tr>
-      <div className='flex justify-center'>
-
-        <button onClick={onSubmit} className='btn btn-primary my-4'>submit</button>
-      </div>
+    
     </>
   );
 };

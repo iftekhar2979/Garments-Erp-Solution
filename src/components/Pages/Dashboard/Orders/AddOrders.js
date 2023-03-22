@@ -4,14 +4,17 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from "react-hot-toast";
 import { useLoaderData } from 'react-router-dom';
+import UseCollectArray from '../../../CustomHooks/UseCollectArray';
 import useFetch from '../../../CustomHooks/useFetch';
 import usePostApi from '../../../CustomHooks/usePostDocument';
 import DateInput from '../../../Utility-Component/Form/DateInput';
 import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
 import InputForm from '../../../Utility-Component/InputForm';
+import MoreInput from '../../../Utility-Component/MoreInput';
 const AddOrders = () => {
   const products = useLoaderData();
   //form hook for register
+  const {handleAdd,handleChange,handleRemove,val,setVal}=UseCollectArray()
   const {
     register,
     handleSubmit,
@@ -56,7 +59,7 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
     });
     // console.log(companyName)
   };
-
+// console.log('value',val)
   const handleProduct = (e) => {
     setCompanyName((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -65,8 +68,8 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
 
   const onSubmit = (e) => {
     const order = { orderedDate: format(selected, 'PP'), targetDate: format(completed, 'PP') };
-    const orderDetails = { ...companyName, ...e, ...order };
-    // console.log(orderDetails);
+    const orderDetails = { ...companyName, ...e, ...order,color:val };
+    console.log(orderDetails);
     setBody(orderDetails)
     // console.log(data)
     if(data){
@@ -133,6 +136,14 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
                 register={register}
                 name={'style'}
               />
+              <MoreInput
+            handleAdd={handleAdd}
+            handleChange={handleChange}
+            handleRemove={handleRemove}
+            val={val}
+            setVal={setVal}
+            component={'Style'}
+          />
               <InputForm
                 label={'Quantity'}
                 register={register}
