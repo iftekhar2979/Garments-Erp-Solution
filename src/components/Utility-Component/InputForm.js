@@ -1,15 +1,15 @@
 import React from 'react';
 
-const InputForm = ({label,register,name,defaultValue}) => {
+const InputForm = ({label,register,name,defaultValue,type}) => {
     return (
         <div>
             <label className='label '>{label}</label>
             <input
-              type='text'
+              type={type}
               placeholder='Type here'
               className='input input-bordered w-full max-w-xs'
               defaultValue={defaultValue}
-             {...register(name)}
+             {...register(name,{ required: true})}
              required
             />
           </div>

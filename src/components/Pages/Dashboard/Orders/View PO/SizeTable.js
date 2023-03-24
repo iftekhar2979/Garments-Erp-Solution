@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SizeTable = ({options,sizes,setSizes,sizeChange}) => {
+const SizeTable = ({options,totalQuanity,sizeChange}) => {
  
     return (
        <>
@@ -16,8 +16,12 @@ const SizeTable = ({options,sizes,setSizes,sizeChange}) => {
             <td ><input type="text" className='border w-16' name={singleSize} defaultValue={0} onChange={sizeChange}/></td>
           </tr>
         )
+       
       })}
-     
+      <tr  >
+            <td >Total : </td>
+            <td >{isNaN(totalQuanity)?0:totalQuanity}</td>
+          </tr>
       {/* <tr >
         <td>SM</td>
         <td ><input type="text" className='border'/></td>

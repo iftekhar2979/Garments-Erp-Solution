@@ -8,6 +8,7 @@ import AddOrders from '../components/Pages/Dashboard/Orders/AddOrders'
 import SinglePO from '../components/Pages/Dashboard/Orders/View PO/SinglePO'
 import ViewOrders from '../components/Pages/Dashboard/Orders/ViewOrders'
 import Home from '../components/Pages/Home/Home'
+import Login from '../components/UserContext.js/Login'
 import Root from '../Root/Root'
 export const router = createBrowserRouter([
   {
@@ -18,9 +19,17 @@ export const router = createBrowserRouter([
             path:'/',
             element:<Home></Home>
         },{
+            path:'/login',
+            element:<Login></Login>
+        },{
             path:'/dashboard/',
             element:<Dashboard></Dashboard>,
             children:[
+                {
+                    path:'/dashboard/',
+                    element:<AddCompany></AddCompany>
+                }
+                ,
                 {
                     path:'/dashboard/addCompany',
                     element:<AddCompany></AddCompany>

@@ -13,7 +13,7 @@ const SinglePO = () => {
     color,
   
   } = poDetail;
-  console.log(color)
+  console.log([poDetail])
   const tableHeadings = [
     {
       id: 111,

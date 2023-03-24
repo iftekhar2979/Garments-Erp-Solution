@@ -2,29 +2,30 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from "react-hot-toast";
+import { toast } from 'react-hot-toast';
 import { useLoaderData } from 'react-router-dom';
-import UseCollectArray from '../../../CustomHooks/UseCollectArray';
 import useFetch from '../../../CustomHooks/useFetch';
 import usePostApi from '../../../CustomHooks/usePostDocument';
 import DateInput from '../../../Utility-Component/Form/DateInput';
 import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
 import InputForm from '../../../Utility-Component/InputForm';
-import MoreInput from '../../../Utility-Component/MoreInput';
+import QuantityOrder from './QuantityOrder';
 const AddOrders = () => {
   const products = useLoaderData();
   //form hook for register
-  const {handleAdd,handleChange,handleRemove,val,setVal}=UseCollectArray()
+  const [colors,setColors]=useState([])
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
     reset,
   } = useForm();
   const [buyers, setbuyers] = useState();
   //target date
   const [selected, setSelected] = useState(new Date());
+  //quantity
+  const [quantity,setQuantity]=useState()
+  //total Quantity
+const [totalQty,setTotalQty]=useState(0)
   //completed Date
   const [completed, setCompleted] = useState(new Date());
   //finding the company and buyer and other's data and handle that with this state
@@ -33,11 +34,11 @@ const AddOrders = () => {
     buyerName: '',
     targetDate: '',
   });
-  const { companyData, loading, error, setcompanyData } = useFetch(
+  const { companyData, loading, } = useFetch(
     'http://localhost:8000/companyNames'
   );
   const [body,setBody]=useState(null)
-const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',body)
+const { data }=usePostApi('http://localhost:8000/addOrder',body)
   if (loading) {
     return <h1 className='text-4xl'>Loading....</h1>;
   }
@@ -67,11 +68,16 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
   };
 
   const onSubmit = (e) => {
+    let details=[]
+    if(colors){
+      for(let i=0;i<quantity.length;i++){
+        details=[...details,{color:colors[i],quantity:quantity[i]}]
+    }
+    }
+ 
     const order = { orderedDate: format(selected, 'PP'), targetDate: format(completed, 'PP') };
-    const orderDetails = { ...companyName, ...e, ...order,color:val };
-    console.log(orderDetails);
+    const orderDetails = { ...companyName, ...e, ...order,color:details};
     setBody(orderDetails)
-    // console.log(data)
     if(data){
       console.log(data)
       const notify = () => toast('Order List Added Succesfully');
@@ -79,8 +85,9 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
     }
     setCompanyName({ companyName: '', buyerName: '' });
     reset();
-    // console.log({date:format(selected, 'PP')});
-  };
+    console.log({date:format(selected, 'PP')});
+  }
+
   return (
     <section>
       <section className='mx-6 '>
@@ -130,24 +137,29 @@ const { data, isLoading, isError }=usePostApi('http://localhost:8000/addOrder',b
                 label={'P.O Number'}
                 register={register}
                 name={'poNumber'}
+                type='text'
               />
               <InputForm
                 label={'style'}
                 register={register}
                 name={'style'}
+                type='text'
               />
-              <MoreInput
+              {/* <MoreInput
             handleAdd={handleAdd}
             handleChange={handleChange}
             handleRemove={handleRemove}
             val={val}
             setVal={setVal}
             component={'Style'}
-          />
+          /> */}
+          <QuantityOrder quantity={quantity} setQuantity={setQuantity} setTotalQty={setTotalQty} setColors={setColors}/>
+        <p>Estimated Quantity : {totalQty || isNaN(totalQty) && ''}</p>
               <InputForm
                 label={'Quantity'}
                 register={register}
                 name={'quantity'}
+                type='text'
               />
               <DateInput
                 label={`Target Date : ${completed && format(completed, 'PP')}`}
