@@ -58,3 +58,6 @@ input[type="date"]{
       background: #d8dde7;
     }
     }
+    .scrollbar-hidden::-webkit-scrollbar {
+      display: none;
+    }

@@ -7,11 +7,23 @@ const UseCollectArray = () => {
   const [totalQuanity,setTotalQuantity]=useState(0)
   const handleAdd = (e) => {
     e.preventDefault();
-    
     const valueArray = [...val, []];
-    const quantArray = [...quant, []];
+   console.log('value',val)
     setVal(valueArray);
+  
+  };
+  const handleSingleAdd=(e)=>{
+    e.preventDefault();
+    const quantArray = [...quant, []];
+    console.log('quantArray',quantArray)
     setQuant(quantArray)
+  }
+  const handleSingleRemove = (e,index) => {
+    e.preventDefault()
+    const deleteValue = [...quant];
+    console.log('deleteValue',deleteValue)
+    deleteValue.splice(index, 1);
+    setQuant(deleteValue);
   };
   const handleChange = (onChangeValue, index) => {
     const inputData = [...val];
@@ -20,12 +32,7 @@ const UseCollectArray = () => {
   };
   const handleChangeOther = (onChangeValue, index) => {
     const inputData = [...quant];
-    inputData[index] = parseFloat(onChangeValue.target.value);
-    const totalQuantities=inputData.reduce((acc,cur)=>{
-      return acc+cur
-    },0)
-   
-    setTotalQuantity(totalQuantities)
+    inputData[index] = onChangeValue.target.value;
     setQuant(inputData);
   };
   const handleRemove = (index) => {
@@ -34,7 +41,7 @@ const UseCollectArray = () => {
     setVal(deleteValue);
   };
 
-return {handleAdd,handleChange,handleChangeOther,quant, handleRemove,val,setVal,totalQuanity}
+return {handleAdd,handleChange,handleChangeOther,handleSingleAdd,handleSingleRemove,quant, handleRemove,val,setVal,totalQuanity}
 };
 
 export default UseCollectArray;

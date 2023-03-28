@@ -2,7 +2,7 @@ import React from 'react';
 import Heading from '../../../../Utility-Component/Heading';
 
 const DetailPOProduct = ({properties}) => {
-    const {companyName,buyerName,productName,poNumber,style}=properties
+    const {companyName,buyerName,productName,orderNumber,style}=properties
 
     return (
         <div className='flex justify-center bg-gray-100 p-4'>
@@ -23,7 +23,7 @@ const DetailPOProduct = ({properties}) => {
           </h1>
           <h1 className='text-2xl'>
             {' '}
-            PO Number : <span className='text-xl'>{poNumber}</span>
+            PO Number : <span className='text-xl'>{orderNumber}</span>
           </h1>
           <h1 className='text-2xl'>
             {' '}

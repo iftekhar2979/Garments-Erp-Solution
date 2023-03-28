@@ -3,7 +3,7 @@ import React from 'react';
 const TableHeading = ({headings}) => {
   return (
     <>
-      <th scope='col' class=' py-2 border'>
+      <th scope='col' className=' py-2 px-4 border'>
         {headings}
       </th>
     </>

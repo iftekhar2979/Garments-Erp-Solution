@@ -21,38 +21,35 @@ const QuantityOrder = ({
 
   useEffect(() => {
     const colors = [...val];
-
     const quantantites = [...quant];
-
     setTotalQty(totalQuanity);
-
     setColors(colors);
     setQuantity(quantantites);
   }, [setQuantity, quant, val, setColors, totalQuanity, setTotalQty]);
 
   return (
     <div>
-      <div className='inline'>
+      <div className='w-full border my-2'>
         <label className='label'>{component} </label>
 
         {val?.map((item, index) => {
           return (
             <div className='mb-4 flex justify-center' key={index}>
               <div>
-                <label className='label'>Color</label>
+                <label className='label'>Style-{index+1}</label>
                 <input
                   type='text'
                   placeholder='Type here'
                   className='input input-bordered w-full max-w-xs'
-                  name='color'
+                  name='style'
                   onChange={(e) => handleChange(e, index)}
                 />
-                <label className='label'>Quantity</label>
+                <label className='label'>Color Quantity</label>
                 <input
                   type='number'
                   placeholder='Type here'
                   className='input input-bordered w-full max-w-xs'
-                  name='quantity'
+                  name='colorQuantity'
                   onChange={(e) => handleChangeOther(e, index)}
                 />
               </div>

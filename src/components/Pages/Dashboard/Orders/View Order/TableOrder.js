@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import editIcon from '../../../../../Assets/edit.svg';
 const TableOrder = ({contents}) => {
-    const {companyName,buyerName,poNumber,productName,quantity,targetDate,style,orderedDate,_id}=contents
+    const {companyName,buyerName,orderNumber,productName,targetDate,orderedDate,_id}=contents
     return (
       <>
           <tr className="border bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
@@ -13,16 +13,16 @@ const TableOrder = ({contents}) => {
                     {buyerName}
                 </td>
                 <td className="border px-1 w-24">
-              <Link to={`/dashboard/po/${_id}`}>  <span className="link link-secondary">{poNumber}</span> </Link>
+              <Link to={`/dashboard/po/${_id}`}>  <span className="link link-secondary">{orderNumber}</span> </Link>
                 </td>
                 <td className="border  w-16">
-                {style}
+                {}
                 </td>
                 <td className="border px-1 w-16">
                     {productName}
                 </td>
                 <td className="border px-1 w-12 font-bold">
-                    {Number(quantity).toLocaleString("en-US")}
+                    {}
                 </td>
                 <td className="border px-1 w-12 font-bold">
                     {}

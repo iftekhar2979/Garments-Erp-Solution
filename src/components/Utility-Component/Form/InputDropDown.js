@@ -9,13 +9,13 @@ const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholde
                 className='select select-primary w-full max-w-xs '
                 name={sectionName}
                 onChange={handleInputDropdown}
-                defaultValue={defaultValue}
+                selected={defaultValue}
                 required
                
                 >
                      <option disabled selected>{placeholder}</option> 
-                {Array.isArray(options)&& options?.map((option) => (
-                  <option className='cursor-pointer' >{option}</option>
+                {Array.isArray(options)&& options?.map((option,index) => (
+                  <option className='cursor-pointer' key={index} >{option}</option>
                 ))}
               </select>
             </div>

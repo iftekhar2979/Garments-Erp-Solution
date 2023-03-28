@@ -7,10 +7,10 @@ const Table = ({tableHeadings,tableData,children}) => {
     
     return (
    
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-4 my-6">
-    <table class="w-full text-sm border text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr className='border'>
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mx-4 my-6">
+    <table className="w-full text-sm border text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr className='border '>
                {tableHeadings?.map(heading=><TableHeading key={heading.id} headings={heading.heading}></TableHeading>)}
             </tr>
         </thead>

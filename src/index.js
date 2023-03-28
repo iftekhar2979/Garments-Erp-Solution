@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
 
 import { RouterProvider } from 'react-router-dom';
+import ViewContext from "./components/contextApi/ViewContext";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { router } from './Router/Router';
@@ -11,10 +12,12 @@ const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <ViewContext>
     <QueryClientProvider client={queryClient}>
     <RouterProvider router={router}></RouterProvider>
     <Toaster />
     </QueryClientProvider>
+    </ViewContext>
   </React.StrictMode>
 );
 

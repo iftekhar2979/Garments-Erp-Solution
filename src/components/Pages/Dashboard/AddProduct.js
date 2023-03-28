@@ -15,13 +15,8 @@ const AddProduct = () => {
             `http://localhost:8000/products/64161bb6a541e87d78c95b47`
           );
           const data = await res.json();
-          // setProduct(data.products)
-
           return data;
-        },
-        
-
-    
+        },   
       });
 
   const handleProduct = () => {
