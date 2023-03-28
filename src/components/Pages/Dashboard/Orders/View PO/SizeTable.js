@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SizeTable = ({ options, size, sizeChange, defaultValue,total }) => {
+const SizeTable = ({ options, size, sizeChange, defaultValue,total, }) => {
   // console.log(total)
   return (
     <>
@@ -15,7 +15,8 @@ const SizeTable = ({ options, size, sizeChange, defaultValue,total }) => {
                     type='text'
                     className='border w-20'
                     name={singleSize}
-                    defaultValue={defaultValue[singleSize]}
+                   
+                    value={defaultValue[singleSize]}
                     onChange={sizeChange}
                   />
                 </td>

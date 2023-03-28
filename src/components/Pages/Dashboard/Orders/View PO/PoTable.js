@@ -43,6 +43,8 @@ const status = ['Ordered', 'Pending', 'Completed', 'Canceled'];
 
 const PoTable = ({ quantity, style}) => {
   const [arr, setArr] = useState(new Array(style?.colorQuantity));
+  // const [quantites]=useContext(ViewContextProvider)
+  // console.log(quantites)
   return (
     <>
       <tr className='border bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700'>

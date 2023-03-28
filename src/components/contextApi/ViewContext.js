@@ -1,8 +1,7 @@
-import { createContext, useRef } from 'react';
+import { createContext } from 'react';
 export const ViewContextProvider = createContext(null);
 const ViewContext = ({ children }) => {
  
-  const ref=useRef()
   // useEffect(() => {
   //   // total Quantity of sizes
   //   const reduced = Object.values(size);
