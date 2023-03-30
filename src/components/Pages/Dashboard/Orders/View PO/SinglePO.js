@@ -19,6 +19,7 @@ const SinglePO = () => {
   const poDetail = useLoaderData();
 
  
+ 
   const { orderNumber, style } = poDetail;
 
   return (
