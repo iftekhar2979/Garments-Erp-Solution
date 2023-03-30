@@ -31,5 +31,25 @@ export const reducerFunction=(state,action)=>{
             ...state,
             colorName:action[action.property]
         }
+    }else if(action.type==='ADMIN_NOTE'){
+        return{
+            ...state,
+            [action.property]:action[action.property]
+        }
+    }else if(action.type==='STATUS'){
+        return {
+            ...state,
+            [action.property]:action[action.property]
+        }
+    }else if(action.type==='COMPLETE_DATE'){
+        return {
+            ...state,
+            completedDate:action?.payload
+        }
+    }else if(action.type==='STYLE'){
+        return {
+            ...state,
+            style:action?.payload
+        }
     }
 }

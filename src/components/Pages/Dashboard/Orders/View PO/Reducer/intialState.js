@@ -30,5 +30,7 @@ export const intialState={
     },
     totalQuantity:0,
     deliveryQuantity:0,
-    restQuantity:0
+    restQuantity:0,
+    completedDate:'',
+    style:''
 }

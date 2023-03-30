@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { ViewContextProvider } from '../../../../contextApi/ViewContext';
+import React, { useState } from 'react';
 import ColorTable from './ColorTable';
 
 const tableHeadings = [
@@ -44,8 +43,7 @@ const status = ['Ordered', 'Pending', 'Completed', 'Canceled'];
 
 const PoTable = ({ quantity, style}) => {
   const [arr, setArr] = useState(new Array(style?.colorQuantity));
-const {handleFound}=useContext(ViewContextProvider)
-  // console.log(quantites)
+
   
 
   return (
@@ -65,11 +63,10 @@ const {handleFound}=useContext(ViewContextProvider)
             </thead>
             <tbody>
               {[...arr].map((item,index) => (
-                <ColorTable options={sizeName} key={index}  status={status}/>
+                <ColorTable options={sizeName} style={style?.style} key={index}  status={status}/>
               ))}
             </tbody>
           </table>
-          <button onClick={handleFound} className="btn btn-primary">Submit</button>
         </td>
       </tr>
     </>

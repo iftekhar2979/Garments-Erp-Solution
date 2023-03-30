@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import Heading from '../../../../Utility-Component/Heading';
 import Table from '../../../../Utility-Component/Table/Table';
 import PoTable from './PoTable';
@@ -17,8 +18,10 @@ const tableHeadings = [
 
 const SinglePO = () => {
   const poDetail = useLoaderData();
-
- 
+  const {setPoState}=useContext(ViewContextProvider)
+ useEffect(()=>{
+  setPoState(poDetail)
+ },[poDetail,setPoState])
  
   const { orderNumber, style } = poDetail;
 

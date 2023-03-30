@@ -1,10 +1,12 @@
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useReducer,
   useRef,
   useState
 } from 'react';
+import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import { totalCount } from '../../../../CustomHooks/totalCounting';
 import InputDropDown from '../../../../Utility-Component/Form/InputDropDown';
 import { intialState } from './Reducer/intialState';
@@ -12,19 +14,24 @@ import { reducerFunction } from './Reducer/reducerFunction';
 import RestTable from './RestTable';
 import SizeTable from './SizeTable';
 
-const ColorTable = ({ options, status }) => {
+const ColorTable = ({ options, status,style }) => {
   let [colorStates, dispatch] = useReducer(reducerFunction, intialState);
   const [totalQuan, setTotalQuan] = useState();
   const colorName = useRef();
+  const adminNote = useRef();
+  const {poState}=useContext(ViewContextProvider)
   const {
     totalQuantity,
     restSize,
     restQuantity,
     deliveryQuantity,
   } = colorStates;
-  
-  useEffect(() => {
+  useEffect(()=>{
+    dispatch({type:'COMPLETE_DATE',payload:poState?.targetDate})
+    dispatch({type:'STYLE',payload:style})
 
+  },[poState,style])
+  useEffect(() => {
     colorStates.totalQuantity = totalCount(colorStates.size);
     colorStates.deliveryQuantity = totalCount(colorStates.deliverySize);
     colorStates.restQuantity = totalCount(colorStates.restSize);
@@ -56,7 +63,6 @@ const ColorTable = ({ options, status }) => {
     [colorStates.totalQuantity]
   );
   //delivery quantities of size handle Change
-
   const deliverySizeChange = (e) => {
     let values = e.target.value;
     if (isNaN(values)) {
@@ -100,20 +106,22 @@ const ColorTable = ({ options, status }) => {
         </td>
 
         <td className='border w-36'>
-          <RestTable
-          
+          <RestTable      
           options={options}
           total={restQuantity}
           defaultValue={restSize}
           />
         </td>
         <td className='border w-24'>
-          <p>Completed Date</p>
+          <p>{poState?.targetDate}</p>
         </td>
-        <td className='border w-36'>
+        <td className='border w-24'>
           <textarea
-            className='textarea textarea-bordered'
-            placeholder='Bio'
+            className='textarea textarea-bordered w-full'
+            placeholder='admin Note'
+            name='adminNote'
+            ref={adminNote}
+            onChange={(e)=>dispatch({type:'ADMIN_NOTE',[e.target.name]:e.target.value,property:e.target.name})}
           ></textarea>
         </td>
         <td className='border w-36 '>
@@ -121,18 +129,18 @@ const ColorTable = ({ options, status }) => {
             sectionName={'status'}
             className='w-full'
             options={status}
-            // handleInputDropdown={updateData}
+            handleInputDropdown={(e)=>dispatch({type:'STATUS',[e.target.name]:e.target.value,property:e.target.name})}
             placeholder={'Status'}
           ></InputDropDown>
         </td>
         <td className='border w-16'>
-          {/* <button
+          <button
               type='submit'
-              onClick={handleClick}
+              
               className='btn btn-sm my-4'
             >
               submit
-            </button> */}
+            </button>
         </td>
       </tr>
     </>
