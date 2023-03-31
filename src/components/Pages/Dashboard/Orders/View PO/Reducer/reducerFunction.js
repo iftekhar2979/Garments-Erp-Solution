@@ -53,3 +53,19 @@ export const reducerFunction=(state,action)=>{
         }
     }
 }
+export const contextReducer=(state,action)=>{
+    // console.log(state)
+    // console.log(action)
+    if(action.type==='ADD_ON_CONTEXT'){
+
+        return [
+            ...state,
+            action.payload
+        ]
+    }else if(action.type==='REMOVE_FROM_CONTEXT'){
+        const filteredState=state?.filter(item=>item.id!==action.payload.id)
+        return [
+            ...filteredState
+        ]
+    }
+}

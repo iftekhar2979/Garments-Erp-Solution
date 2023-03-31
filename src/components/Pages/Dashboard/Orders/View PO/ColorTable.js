@@ -9,7 +9,7 @@ import React, {
 import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import { totalCount } from '../../../../CustomHooks/totalCounting';
 import InputDropDown from '../../../../Utility-Component/Form/InputDropDown';
-import { intialState } from './Reducer/intialState';
+import { intialState, UidGenarate } from './Reducer/intialState';
 import { reducerFunction } from './Reducer/reducerFunction';
 import RestTable from './RestTable';
 import SizeTable from './SizeTable';
@@ -17,9 +17,10 @@ import SizeTable from './SizeTable';
 const ColorTable = ({ options, status,style }) => {
   let [colorStates, dispatch] = useReducer(reducerFunction, intialState);
   const [totalQuan, setTotalQuan] = useState();
+  const [isCheacked,setisCheacked]=useState(false)
   const colorName = useRef();
   const adminNote = useRef();
-  const {poState}=useContext(ViewContextProvider)
+  const {poState,context,contextDispatch}=useContext(ViewContextProvider)
   const {
     totalQuantity,
     restSize,
@@ -29,10 +30,11 @@ const ColorTable = ({ options, status,style }) => {
   useEffect(()=>{
     dispatch({type:'COMPLETE_DATE',payload:poState?.targetDate})
     dispatch({type:'STYLE',payload:style})
-
+    
   },[poState,style])
   useEffect(() => {
     colorStates.totalQuantity = totalCount(colorStates.size);
+    colorStates.id = UidGenarate()
     colorStates.deliveryQuantity = totalCount(colorStates.deliverySize);
     colorStates.restQuantity = totalCount(colorStates.restSize);
     let restObj = Object.keys(colorStates.size).reduce((prevObj, keys) => {
@@ -45,7 +47,6 @@ const ColorTable = ({ options, status,style }) => {
     colorStates.restSize=restObj
     setTotalQuan({totalQuantity,deliveryQuantity})
   }, [colorStates.totalQuantity,totalQuantity,deliveryQuantity, colorStates.deliverySize, colorStates,setTotalQuan]);
-  console.log(colorStates)
   //total quantities of size handle Change
   const sizeChange = useCallback(
     (e) => {
@@ -74,6 +75,14 @@ const ColorTable = ({ options, status,style }) => {
       property: e.target.name,
     });
   };
+  useEffect(()=>{
+    if(isCheacked){
+      contextDispatch({type:'ADD_ON_CONTEXT',payload:colorStates})
+      
+    }else{
+      contextDispatch({type:'REMOVE_FROM_CONTEXT',payload:colorStates})
+    }
+  },[isCheacked])
 
   return (
     <>
@@ -134,13 +143,7 @@ const ColorTable = ({ options, status,style }) => {
           ></InputDropDown>
         </td>
         <td className='border w-16'>
-          <button
-              type='submit'
-              
-              className='btn btn-sm my-4'
-            >
-              submit
-            </button>
+        <input type="checkbox" checked={`${isCheacked?'checked':''}`} onChange={()=>setisCheacked(!isCheacked)} className="checkbox" />
         </td>
       </tr>
     </>
