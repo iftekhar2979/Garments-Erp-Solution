@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
+import useDocumentTitle from '../components/CustomHooks/useDocumentTitle';
+import Spinner from '../components/Utility-Component/Spinner';
 
 const Root = () => {
-    return (
-        <div className=''>
+    useDocumentTitle('ABC SOURCING AND INTERNATIONAL')
+
+return (
+    <>
         <Navbar></Navbar>
         <Outlet></Outlet>
-        </div>
-    );
-};
+
+    </>
+);
+}
 
 export default Root;

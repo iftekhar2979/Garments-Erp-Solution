@@ -4,13 +4,10 @@ import RestTable from '../../Pages/Dashboard/Orders/View PO/RestTable';
 import { ViewContextProvider } from '../../contextApi/ViewContext';
 import AnotherRestTable from './AnotherRestTable';
 
-const ToogleTable = ({data,size_system}) => {
+const ToogleTable = ({data}) => {
     const {style,colorName,deliverySize,deliveryQuantity,restSize,restQuantity,sizeName}=data
-  console.log(data)
-    
     return (
       <>
-      {/* <div>hello</div> */}
        {
         deliveryQuantity ?  <tr className='w-full'>
           <td className='border px-2  w-48'>

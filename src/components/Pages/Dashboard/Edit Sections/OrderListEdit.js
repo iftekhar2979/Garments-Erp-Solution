@@ -11,6 +11,9 @@ import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
 import Heading from '../../../Utility-Component/Heading';
 import InputForm from '../../../Utility-Component/InputForm';
 import PreviousSelected from './PreviousSelected';
+import patchDocuments from '../../../CustomHooks/putDocument';
+import { format, parseISO } from 'date-fns';
+
 const OrderListEdit = () => {
   const defaultData = useLoaderData();
   const [buyers, setbuyers] = useState();
@@ -27,29 +30,27 @@ const OrderListEdit = () => {
     buyerName: '',
     targetDate: '',
   });
-  const { companyData, loading, error, setcompanyData } = useFetch(
-    'http://localhost:8000/companyNames'
-  );
+  const { companyData, loading } = useFetch('http://localhost:8000/companyNames');
+  const companyNames=companyData?.map(item=>item.companyName)
   //custom hook for load products from server
   const { product } = useProductItem();
-
 
   const handleInputDropdown = (e) => {
     setCompanyAndProduct((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    axios
-      .post(`http://localhost:8000/companyBuyers?companyName=${e.target.value}`)
-      .then((responce) => {
-        setbuyers(responce.data);
-      })
-      .catch((error) => console.log(error));
-  };
+
+    axios.post(`http://localhost:8000/companyBuyers?companyBuyers=${e.target.value}`)
+    .then((responce) => {
+      setbuyers(responce.data);
+    })
+    .catch((error) => console.log(error));
+  }
+   
   const handleBuyer = (e) => {
     setCompanyAndProduct((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-    // console.log(companyName)
   };
 
   const handleProduct = (e) => {
@@ -57,10 +58,15 @@ const OrderListEdit = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+  // console.log(defaultData?.companyName)
   const onSubmit = (obj) => {
-    console.log(obj);
+    let {targetDate,orderedDate}=obj
+    obj.targetDate=  format(parseISO(targetDate),'PP')
+    obj.orderedDate=  format(parseISO(orderedDate),'PP')
+    
     const editedData = { ...companyAndProduct, ...obj };
-    putDocument('http://localhost:8000/orderList',{...editedData},defaultData?._id)
+    
+    patchDocuments('http://localhost:8000/orderList',{...editedData},defaultData?._id)
   };
   return (
     <>
@@ -76,9 +82,11 @@ const OrderListEdit = () => {
             <InputDropDown
               label={'Company'}
               handleInputDropdown={handleInputDropdown}
-              options={companyData}
+              options={companyNames}
               sectionName={'companyName'}
               placeholder={'Select your Company'}
+             
+              className={'select select-primary'}
               register={register}
               
             />
@@ -89,6 +97,8 @@ const OrderListEdit = () => {
               options={buyers}
               sectionName={'buyerName'}
               placeholder={'Select your Buyer'}
+              className={'select select-primary'}
+              defaultValue={defaultData?.buyers}
               register={register}
               
             />
@@ -99,19 +109,20 @@ const OrderListEdit = () => {
               sectionName={'productName'}
               placeholder={'Select your Product Name'}
               register={register}
+              className={'select select-primary'}
             
             />
             <InputForm
-              label={'P.O Number'}
+              label={'Order Number'}
               register={register}
-              name={'poNumber'}
-              defaultValue={defaultData?.poNumber}
+              name={'orderNumber'}
+              defaultValue={defaultData?.orderNumber}
             />
             <InputForm
-              label={'Quantity'}
+              label={'Range'}
               register={register}
-              name={'quantity'}
-              defaultValue={defaultData?.quantity}
+              name={'range'}
+              defaultValue={defaultData?.range}
             />
             <InputDate
               register={register}

@@ -8,17 +8,23 @@ import ViewContext from "./components/contextApi/ViewContext";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { router } from './Router/Router';
+import AuthContext from "./components/contextApi/UserContext";
+import UserContext from "./components/contextApi/UserContext";
+import { Provider } from "react-redux";
+import { store } from "./App/Store";
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-  
+  // <React.StrictMode>
+    <Provider store={store}>
     <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router}></RouterProvider>
-    <Toaster />
+      <UserContext>
+        <RouterProvider router={router}></RouterProvider>
+        <Toaster />
+      </UserContext>
     </QueryClientProvider>
-   
-  </React.StrictMode>
+  </Provider>
+  // </React.StrictMode >
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import React, { useEffect, useReducer, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import useFetch from '../../../CustomHooks/useFetch';
 import usePostApi from '../../../CustomHooks/usePostDocument';
 import DateInput from '../../../Utility-Component/Form/DateInput';
@@ -14,51 +14,81 @@ import { addOrderReducer } from './View PO/Reducer/reducerFunction';
 import Input from '../../../Utility-Component/Input';
 import Radio from '../../../Utility-Component/Form/Radio';
 import Spinner from '../../../Utility-Component/Spinner';
+import useDocumentTitle from '../../../CustomHooks/useDocumentTitle';
+import InputCheckBox from '../../../Utility-Component/InputCheckBox';
+
+import { useAddOrderMutation, useAddOrderQuery, useGetCompanyNamesQuery, useGetProductsQuery } from '../../../../Redux/Features/api/apiSlice'
+
 
 const sectionSize = ['L-W-H', 'SM-XL', 'SINGLE-INPUT']
 const AddOrders = () => {
-  const products = useLoaderData();
+
+  useDocumentTitle('DASHBOARD--ADD ORDER')
   const [addOrderState, dispatch] = useReducer(addOrderReducer, orderListState)
   //form hook for register
+  const navigate = useNavigate()
   const { register, handleSubmit, reset } = useForm();
   const [buyers, setbuyers] = useState();
   //target date
   const [selected, setSelected] = useState(new Date());
   //completed Date
   const [completed, setCompleted] = useState(new Date());
-  const { companyData, loading } = useFetch('http://localhost:8000/companyNames');
-  const [body, setBody] = useState(null);
-  const { data, isLoading, isError } = usePostApi('http://localhost:8000/addOrder', body)
-  const [orderListError, setOrderListError] = useState('')
+  const [companyName, setCompanyName] = useState([])
+  const { data: companyData, isLoading, isError } = useGetCompanyNamesQuery()
+  const { data: products, isLoading: productIsLoading, isError: productIsError } = useGetProductsQuery()
+  const [addOrder, { isSuccess, isError: addingOrderError, error }] = useAddOrderMutation()
+  const [isChecked, setIsChecked] = useState(false)
+
+  const handleCheckbox = () => {
+    setIsChecked(!isChecked)
+  }
 
   useEffect(() => {
     dispatch({ type: 'DATE', orderedDate: format(selected, 'PP'), targetDate: format(completed, 'PP') })
+    if (isChecked) dispatch({ type: 'CARTOON_STICKER', payload: isChecked })
+    const names = companyData?.map(item => item.companyName)
+    setCompanyName(names)
   }
-    , [selected, completed,])
+    , [selected, completed, companyData, isChecked])
 
-  if (loading) {
-    return <Spinner/>;
+  if (isLoading) {
+    return <Spinner />;
   }
+  // console.log(companyData)
   const handleInputDropdown = (e) => {
-    dispatch({ type: 'COMPANY_NAME', companyName: e.target.value })
-    axios.post(`http://localhost:8000/companyBuyers?companyBuyers=${e.target.value}`)
-      .then((responce) => {
-        setbuyers(responce.data);
-      })
-      .catch((error) => console.log(error));
+    const val = e.target.value
+    const findCompanyLocation = companyData?.find((item, index) => {
+      return item?.companyName === val
+    })
+    // console.log(findCompanyLocation)
+    const { companyName, location, shortForm } = findCompanyLocation
+    console.log(shortForm)
+    dispatch({ type: 'COMPANY_NAME', payload: { companyName, location, shortForm } })
+
+    setbuyers(findCompanyLocation.buyer)
+
   };
 
   const onSubmit = () => {
-    setBody(addOrderState)
+    addOrder(addOrderState)
+    .then(res => {
+      console.log(res.data)
+      if(res.data){
+        const notify = () => toast.success('added ordered Succesfully');
+        notify()
+        navigate('/dashboard/viewOrders')
 
-    if (!data?.error) {
-      const notify = () => toast('added ordered Succesfully');
-      notify()
-    } else {
-      const notify = () => toast(data?.error)
-      notify()
-    }
-  };
+      }
+    })
+   
+  }
+
+  const findingErrors = {
+    companyError: addingOrderError && error.data.error.includes('companyName'),
+    productError: addingOrderError && error.data.error.includes('productName'),
+    tbError: addingOrderError && error.data.error.includes('tbNumber')
+  }
+  const { companyError, productError, tbError } = findingErrors
 
   return (
     <section>
@@ -73,38 +103,51 @@ const AddOrders = () => {
             <div className='w-1/2 mx-4'>
               <InputDropDown
                 label={'Company'}
+                divclass={'my-2'}
                 handleInputDropdown={handleInputDropdown}
-                options={companyData}
+                className={`select ${companyError ? "select-error" : "select-primary"} w-full max-w-xs `}
+                options={companyName}
                 sectionName={'companyName'}
                 placeholder={'Select your Company'}
                 register={register}
                 required
               />
+              {companyError && <h1 className='text-sm text-red-500'>Provide Company Name Here!!!</h1>}
 
               <InputDropDown
                 label={'Buyers'}
+                divclass={'my-2'}
                 handleInputDropdown={(e) => { dispatch({ type: 'BUYER_NAME', buyerName: e.target.value }) }}
                 options={buyers}
                 sectionName={'buyerName'}
                 placeholder={'Select your Buyer'}
                 register={register}
-                required
+                className={'select select-primary w-full max-w-xs '}
+
               />
               <InputDropDown
                 label={'Product'}
+                divclass={'my-2'}
                 handleInputDropdown={(e) => { dispatch({ type: 'PRODUCT_NAME', productName: e.target.value }) }}
                 options={products?.products}
                 sectionName={'productName'}
                 placeholder={'Select your Product Name'}
+                className={`select ${productError ? "select-error" : "select-primary"} w-full max-w-xs `}
                 register={register}
                 required
               />
+              {productError && <h1 className='text-sm text-red-500'>Provide Product Name Here!!!</h1>}
               <Radio
                 label={'Size System'}
                 array={sectionSize}
                 handleRadioChange={dispatch}
                 selectedValue={addOrderState.sizeSystem}
               />
+              {
+                addOrderState?.sizeSystem === 'SM-XL' &&
+                <InputCheckBox label={"Cartoon Sticker"} InputcheckboxChange={handleCheckbox} isChecked={isChecked} />
+
+              }
               <DateInput
                 label={`Ordered Date : ${selected && format(selected, 'PP')}`}
                 selected={selected}
@@ -121,11 +164,10 @@ const AddOrders = () => {
                     label={`Size Quantities for ${addOrderState.sizeSystem}`}
                     type='text'
                     name={'lwhQuantity'}
-                    inputChange={(e) => { dispatch({ type: 'SIZE_QUANTITIES', [e.target.name]: e.target.value, name: e.target.name }) }}
-
+                    value={1}
+                    inputChange={(e) => { dispatch({ type: 'SIZE_QUANTITIES', [e.target.name]: 1, name: e.target.name }) }}
                   />
                 </>
-
               }
               {
                 addOrderState?.sizeSystem === 'SINGLE-INPUT' &&
@@ -134,23 +176,36 @@ const AddOrders = () => {
                     label={`Size Quantities for ${addOrderState.sizeSystem}`}
                     type='text'
                     name={'singleInput'}
-                    value={addOrderState.sizeQuantities}
+
+                    value={1}
                     inputChange={(e) => { dispatch({ type: 'SIZE_QUANTITIES', [e.target.name]: 1, name: e.target.name }) }}
-                    required
+
                   />
                 </>
-
               }
-
               <Input
                 label={'Order Number'}
+                className={`input input-bordered w-full max-w-xs`}
+                placeholder={'Order Number'}
                 inputChange={(e) => dispatch({ type: 'ORDER_NUMBER', orderNumber: e.target.value })}
                 name={'orderNumber'}
                 type='text'
                 required
               />
               <Input
+                label={'TB'}
+                className={`input input-bordered ${tbError ? "input-error" : "input-primary"} w-full max-w-xs`}
+                placeholder={'TB Number'}
+                inputChange={(e) => dispatch({ type: 'TB_NUMBER', tbNumber: e.target.value })}
+                name={'tbNumber'}
+                type='text'
+                required
+              />
+              {tbError && <h1 className='text-sm text-red-500'>You Have Already Added The TB to Another Company!!!</h1>}
+              <Input
                 label={'Range'}
+                className={`input input-bordered w-full max-w-xs`}
+                placeholder={'Range'}
                 inputChange={(e) => dispatch({ type: 'RANGE', range: e.target.value })}
                 name={'range'}
                 type='text'
@@ -169,12 +224,12 @@ const AddOrders = () => {
               ></DateInput>
             </div>
           </div>
-          {orderListError ? orderListError : ''}
+
+          {addingOrderError && <h1 className='text-xl text-center text-red-500'>'Something Validation Error in Server Please Check Again!!!</h1>}
           <div className='flex text-center justify-center my-4'>
             <button type='submit' className='btn btn-primary'>Insert Order</button>
           </div>
         </form>
-
       </section>
     </section>
   );

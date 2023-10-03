@@ -1,4 +1,5 @@
 import React from 'react';
+import { HiOutlinePlusCircle,HiOutlineX } from "react-icons/hi";
 
 const MoreInput = ({
   handleAdd,
@@ -6,6 +7,7 @@ const MoreInput = ({
   handleRemove,
   val,
   setVal,
+  placeholder,
   component,
 }) => {
   return (
@@ -17,21 +19,21 @@ const MoreInput = ({
           <div className='mb-4 flex justify-center' key={index}>
             <input
               type='text'
-              placeholder='Type here'
+              placeholder={placeholder}
               className='input input-bordered w-full max-w-xs'
               onChange={(e) => handleChange(e, index)}
             />
             <button
-              className='btn-sm rounded-full text-center bg-gray-300'
+              className='btn-sm hover:bg-green-500 rounded-full'
               onClick={handleAdd}
             >
-              +
+              <HiOutlinePlusCircle size={26}/>
             </button>
             <button
-              className='btn-sm rounded-full bg-gray-300'
+              className='btn-sm hover:bg-red-600 rounded-full'
               onClick={() => handleRemove(index)}
             >
-              x
+              <HiOutlineX size={26}/>
             </button>
           </div>
         );

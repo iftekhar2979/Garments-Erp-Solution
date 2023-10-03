@@ -4,17 +4,18 @@ import { useEffect, useState } from 'react';
 function usePostApi(url, body) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setisError] = useState(null);
+  const [isError, setisError] = useState({});
 
   useEffect(() => {
 
     setIsLoading(true);
-    axios.post('http://localhost:8000/addOrder', body)
+    axios.post(url, body)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
-        setisError(error.response.data.error);
+        
+        setisError({error:error.message});
       })
       setIsLoading(false)
 

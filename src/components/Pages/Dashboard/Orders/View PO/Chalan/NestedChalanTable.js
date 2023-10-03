@@ -4,33 +4,30 @@ import { ViewContextProvider } from '../../../../../contextApi/ViewContext';
 const NestedChalanTable = ({sizeSystem,deliverySize}) => {
     // console.log(props)
     const { poState,sizeName } = useContext(ViewContextProvider)
+    
     return (
         <>
         {
             sizeSystem==='SM-XL' &&
             <>
-               <tr className=' '>
-                    {sizeName?.map((item,i)=><td key={i} className=' border-l w-[78px]'>{item}</td>)}
+                <div className='h-full '>
+                    {sizeName?.map((item,i)=><td key={i} className='  w-[90px] text-[12px]  text-center h-[50px] border-black border-l first:border-l-0  last:border-r-0 '>{deliverySize[item] ?deliverySize[item]:0}</td>)}
                     
-                </tr>
-                <tr className='border-t'>
-                    {sizeName?.map((item,i)=><td key={i} className='text-xs border-l'>{deliverySize[item]}</td>)}
-                    
-                </tr>
+                </div>
             </>
            
         }
                {
-            sizeSystem==='L-W-H' &&
+          sizeSystem==='L-W-H' &&
             <>
-              <p>{deliverySize.lwhSize}</p>
+              <p className='text-center  border-black'>{deliverySize.lwhSize}</p>
             </>
            
         }
           {
             sizeSystem==='SINGLE-INPUT' &&
             <>
-              <p>{deliverySize.singleInput}</p>
+              <p className='text-center  border-black'>{deliverySize.singleInput}</p>
             </>
            
         }

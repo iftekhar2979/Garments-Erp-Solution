@@ -62,6 +62,7 @@ export const grandQuantityState={
 }
 export const orderListState={
     companyName:'',
+    location:'',
     buyerName:'',
     productName:'',
     quantityOrder:[],

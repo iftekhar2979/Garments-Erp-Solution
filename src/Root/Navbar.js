@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext, AuthContextProvider } from '../components/contextApi/UserContext';
 const Navbar = () => {
+  // const state=useContext(AuthContextProvider)
+  const {user,signOutUser,setUser}=useContext(AuthContext)
+
+  const hanldeLogOut=()=>{
+    signOutUser().then((result) => {
+      setUser('');
+    })
+  }
   return (
-    <div className='navbar bg-base-100 shadow-md'>
+    <div className='navbar bg-wholebg shadow-md'>
       <div className='navbar-start'>
         <div className='dropdown'>
           <label tabIndex={0} className='btn btn-ghost lg:hidden'>
@@ -29,11 +38,11 @@ const Navbar = () => {
               <a className='justify-between'>HOME</a>
             </li>
             <li>
-              <NavLink to=''>DASHBOARD</NavLink>
+              <NavLink to='/dashboard'>DASHBOARD</NavLink>
             </li>
           </ul>
         </div>
-        <a className='btn btn-ghost normal-case text-xl'>ERP-SOLUTIONS</a>
+        <a className='btn btn-ghost normal-case text-xl'>ABC SOURCING</a>
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
@@ -60,7 +69,8 @@ const Navbar = () => {
         </ul>
       </div>
       <div className='navbar-end'>
-        <Link className='btn' to="/login">Log In</Link>
+      {!user &&  <Link className='btn btn-primary '  to="/login">Log In</Link>}
+      {user &&  <Link className='btn  btn-secondary btn-sm' onClick={hanldeLogOut} tooltip>Log Out</Link>}
       </div>
     </div>
   );

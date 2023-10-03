@@ -9,7 +9,7 @@ const AnotherRestTable = ({ defaultValue, options, total, value }) => {
 
                     return (
                         <tr key={i}>
-                            {defaultValue[singleSize] ? <td>{singleSize} : </td> : ''}
+                            {defaultValue[singleSize] ? <td>{singleSize.toUpperCase()} : </td> : ''}
                             {defaultValue[singleSize] ?
                                 <td>
                                     <td

@@ -1,23 +1,19 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 const NavbarDropDownList = ({data}) => {
-    const {path,name}=data
-    // console.log(data)
+    const {path,name,logo}=data
+
+    
     return (
         <>
-        <li>
-            <NavLink
-              to={path}
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? 'pending'
-                  : isActive
-                  ? 'active bg-indigo-400 text-base-100  px-4'
-                  : ''
-              }
+        <li className=''>
+            <Link
+              to={path}  
+             
             >
+          <img src={logo} className='w-4 inline ' alt="" />
               {name}
-            </NavLink>
+            </Link>
           </li>
         </>
     );

@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Input = ({ label, name, inputChange, defaultValue, type, value }) => {
+const Input = ({ label, name, inputChange, defaultValue, type, value,className ,placeholder}) => {
   return (
     <div>
       <label className='label '>{label}</label>
       <input
         type={type}
-        placeholder='Type here'
-        className='input input-bordered w-full max-w-xs'
+        placeholder={placeholder}
+        className={className}
         defaultValue={defaultValue}
         value={value}
         onChange={inputChange}

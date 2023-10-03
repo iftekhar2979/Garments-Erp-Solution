@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
-import ViewContext, { ViewContextProvider } from '../../../../contextApi/ViewContext';
+import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import Heading from '../../../../Utility-Component/Heading';
 import Table from '../../../../Utility-Component/Table/Table';
 import PoTable from './PoTable';
@@ -10,9 +10,16 @@ import { orderNumberFunction } from './Reducer/reducerFunction';
 import { format } from 'date-fns';
 import axios from 'axios';
 import DetailTable from './DetailTable';
-import ColorTable from './ColorTable';
-import postDocuments from '../../../../CustomHooks/postDocuments';
 import { toast } from 'react-hot-toast';
+import { increaseChalanNumber } from '../../../../CustomHooks/Functions.js/increaseDecreaseChalanNumber';
+import Spinner from '../../../../Utility-Component/Spinner';
+import { fetchSingleOrder } from '../../../../../Redux/Features/Single-Order/singleOrder';
+import { useDispatch, useSelector } from 'react-redux';
+import singleOrder from '../../../../../Redux/Features/Single-Order/singleOrder';
+import { clearingState } from '../../../../../Redux/Features/Order_Details/orderDetails';
+import { useAddDeliveryMutation, useAddDetailsAndPatchInSingleOrderMutation, useAddDetailsAndPatchInSingleOrderQuery, useAddDetailsInSingleOrderMutation, useGetSingleOrderQuery, usePatchInSingleOrderMutation } from '../../../../../Redux/Features/api/apiSlice';
+import { clearingDeliveryState } from '../../../../../Redux/Features/DELIVERY_TABLE/deliverytable';
+
 const tableHeadings = [
   {
     id: 111,
@@ -25,100 +32,124 @@ const tableHeadings = [
   },
 ];
 
+
 const SinglePO = () => {
-  const poDetail = useLoaderData();
+  const { id } = useParams()
+  const details = useSelector(state => state.orderDetails)
+  const { grandDeliveryQuantity, grandRestQuantity, details: detail } = useSelector(state => state?.deliveryTable)
+  const [addDetailsInSingleOrder, { isSuccess,isError:addingError, error:deliveryErrorDetails }] = useAddDetailsInSingleOrderMutation()
+  const [addDelivery, { isSuccess: deliverySuccess,isError:deliveryError,error:addingDeliveryError }] = useAddDeliveryMutation()
+  const [addDetailsAndPatchInSingleOrder, { isSuccess: patchedDetailSuccess,isError:editingError }] = usePatchInSingleOrderMutation()
+  const dispatch = useDispatch()
   const [isCheacked, setisCheacked] = useState(false)
-  const [chalanNumber,setChalanNumber]=useState(0)
   const [completed, setCompleted] = useState(new Date())
+  const { isLoading, isError, data: singleOrderDetails = {} } = useGetSingleOrderQuery(id, {
+    refetchOnMountOrArgChange: true
+  })
+  // 
+  const [delivered,setDelivered]=useState(false)
   const [orderState, orderNumberDispatch] = useReducer(orderNumberFunction, intialOrderNumber)
-  const { setPoState, grandTotal, context, poState, detailTableContext,lwhHeadingDetailTable,detailContextDispatch, tableDetailHeading, detailTableGrandTotal } = useContext(ViewContextProvider)
+
+
+  const { action, poState, setPoState, lwhHeadingDetailTable, tableDetailHeading, detailTableGrandTotal } = useContext(ViewContextProvider)
+  useEffect(() => {
+    if (Object.values(singleOrderDetails).length !== 0) {
+      setPoState(singleOrderDetails)
+    }
+
+  }, [id, singleOrderDetails])
+  // console.log(poState)
+
+
+  const { orderNumber,productName, quantityOrder, sizeSystem, _id, details: detailOfOrder, tbNumber, grandTotalQuantity: totalQuantities } = singleOrderDetails;
 
   useEffect(() => {
-
-    setPoState(poDetail)
-  }, [poDetail, setPoState])
-
-  const { orderNumber, quantityOrder,sizeSystem } = poDetail;
-// console.log(sizeSystem)
-  const { grandTotalQuantity, grandRestQuantity, grandDeliveryQuantity } = grandTotal
+    return () => {
+      dispatch(clearingState())
+      dispatch(clearingDeliveryState())
+    }
+  }, [])
 
   useEffect(() => {
     orderNumberDispatch({ type: 'COMPLETED_DATE', payload: format(completed, 'PP') })
-  }, [completed])
-  if (poDetail === {}) {
-    return <p className='text-4xl'>LOading...</p>
-  }
+    if (action) {
+      const douc = document.querySelectorAll(`.border.w-32.false`)
+      douc.forEach(item => item.value = '')
+    }
 
-  const handleSubmit = () => {
-    // const {status,adminNote}=orderState
-    if (poDetail?.details.length !== 0) {
+  }, [completed, action])
+
+  if (isLoading) {
+    return <Spinner />
     
-      const obj = { details: detailTableContext, orderId: poDetail?._id, orderNumber: poDetail?.orderNumber, ...detailTableGrandTotal, }
-      postDocuments('http://localhost:8000/deliverDetail', obj)
-      const newobj = { details: detailTableContext, ...detailTableGrandTotal }
-      axios.patch(`http://localhost:8000/addTotalOrder/${poDetail?._id}`, newobj)
-        .then(res => {
-          const notify = () => toast('order Edited Succesfully');
-          notify()
-          setisCheacked(false)
-          window.location.reload()
-        })
-        .catch((error=>{
-          const notify = () => toast(error.message);
-          notify()
-        }))
+  }
+ 
+console.log(deliveryErrorDetails)
+console.log(addingDeliveryError)
+  const handleSubmit = () => {
+    if (detailOfOrder.length !== 0) {
+      // post delivery details
+      const deliveryDetails = {
+        details: detail,
+        orderId: _id,
+        orderNumber,
+        tbNumber,
+        grandDeliveryQuantity,
+        grandRestQuantity,
+        productName //productName for delivery it is related with delivery statement
+      }
+     let patchedOrderInfo = {
+        details: detail,
+        grandDeliveryQuantity,
+        grandRestQuantity,
+      }
+      addDelivery(deliveryDetails)
+      .then(res=>{
+        increaseChalanNumber("645dcc1d5a65a1351c90c3bc");
+         addDetailsAndPatchInSingleOrder({ patchedOrderInfo, _id });
+         dispatch(clearingState())
+      }).catch(error=>{
+        console.log(error)
+        const notify=()=>toast.error('Something Error in Server')
+        notify()
+      })
 
     } else {
-      const obj = { details: context, ...grandTotal }
-      axios.put(`http://localhost:8000/addTotalOrder/${poDetail?._id}`, obj)
-        .then(res => {
-          setPoState(res.data)
-          const notify = () => toast('order Edited Succesfully');
-          notify()
-          setisCheacked(false)
-          window.location.reload()
-          // detailContextDispatch({type:'EMPTY_DETAIL_CONTEXT',payload:[]})
-        })
-        .catch((error)=>{
-          const notify = () => toast(error.message);
-          notify()
-        })
-      }
-      
+      addDetailsInSingleOrder({ details, _id })
+    }
   }
+  let errorContent
+ if(deliveryErrorDetails || addingDeliveryError || deliveryError){
+  console.log('error')
+  errorContent=<h1 className='bg-red-300 text-2xl '>Something Error IN Server Please Reload The Page And Try Again!!!</h1>
+ }
+
+
 
   return (
-
     <div>
       <Heading heading={`Your Selected orderNumber : ${orderNumber}`}></Heading>
-      <DetailPOProduct properties={poDetail} completed={completed} setCompleted={setCompleted} orderNumberDispatch={orderNumberDispatch}></DetailPOProduct>
-      
-      
-      
+      <DetailPOProduct properties={singleOrderDetails} completed={completed} setCompleted={setCompleted} orderNumberDispatch={orderNumberDispatch}></DetailPOProduct>
       {
-        poState?.details.length !== 0
+        singleOrderDetails && singleOrderDetails.details && singleOrderDetails?.details.length !== 0
           ?
           <>
-           <div className='text-center'>
-        <Link to={`/dashboard/po/deliveryDetail/${poState?.orderNumber}`} className='link-primary underline'>Delivery Details</Link>
-       <h2></h2> 
-      </div>
-      
-          
-            <Table tableHeadings={sizeSystem==='L-W-H'?lwhHeadingDetailTable:tableDetailHeading} tableData={[]}>
+            <div className='text-center'>
+              <Link to={`/dashboard/po/deliveryDetail/${poState?._id}`} className='link-primary underline'>Delivery Details</Link>
+              <h2></h2>
+            </div>
+            <Table tableHeadings={sizeSystem === 'L-W-H' ? lwhHeadingDetailTable : tableDetailHeading} tableData={[]}>
               {
-                poState?.details?.map(item =>
+                singleOrderDetails?.details?.map(item =>
                   <DetailTable isCheacked={isCheacked} setisCheacked={setisCheacked} key={item._id} poDetails={item} />)
               }
-              <tr className='h-12 border'>
+              <tr className='h-12 '>
                 <td></td>
                 <td></td>
-                <td className=''> Ordered Qty: <span className='font-bold'>{poDetail?poDetail?.grandTotalQuantity:detailTableGrandTotal?.grandDeliveryQuantity}</span></td>
-                <td className=''> Delivery Qty: <span className='font-bold'>{detailTableGrandTotal?.grandDeliveryQuantity}</span></td>
-                <td className=''>Rest Qty:  <span className='font-bold'>{detailTableGrandTotal?.grandRestQuantity}</span></td>
-                <td className='ml-6'><button className=' btn btn-primary btn-sm ' onClick={() => setisCheacked(!isCheacked)}>{isCheacked ? "Cancel Total" : 'Total'}</button> </td>
+                <td className=''> Ordered Qty: <span className='font-bold'>{totalQuantities}</span></td>
+                <td className=''> Delivery Qty: <span className='font-bold'>{grandDeliveryQuantity}</span></td>
+                <td className=''>Rest Qty:  <span className='font-bold'>{grandRestQuantity}</span></td>
               </tr>
-
             </Table>
           </>
           :
@@ -134,36 +165,14 @@ const SinglePO = () => {
 
                 />
               ))}
-              <tr>
-                <td></td>
-                <td>
-                  <table className='flex justify-between'>
-                    <tr className=''>
-                    </tr>
-                    <tr className=''>
-                      <td className=''>Order Qty: <span className='font-bold'>{grandTotalQuantity}</span></td>
-                    </tr>
-                    <tr className=''>
-                      <td className=''> Delivery Qty: <span className='font-bold'>{grandDeliveryQuantity}</span></td>
-                    </tr>
-                    <tr className=''>
-                      <td className='absolute right-60'>Rest Qty:  <span className='font-bold'>{grandRestQuantity}</span></td>
-                    </tr>
-                    <tr className=''>
-                      <td><button className='btn btn-primary btn-sm ' onClick={() => setisCheacked(!isCheacked)}>{isCheacked ? "Cancel Total" : 'Total'}</button> </td>
-                    </tr>
-                    <tr>
-                    </tr>
-                  </table>
-                </td>
 
-              </tr>
             </Table>
           </>
       }
+      {errorContent}
 
       <div className='flex justify-center'>
-        <button className='btn btn-primary' disabled={!isCheacked ? true : false} onClick={handleSubmit}>Submit</button>
+        <button className='btn btn-primary' onClick={handleSubmit}>Submit</button>
       </div>
 
     </div>

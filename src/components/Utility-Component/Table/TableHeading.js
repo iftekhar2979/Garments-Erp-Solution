@@ -1,9 +1,9 @@
 import React from 'react';
 
-const TableHeading = ({headings}) => {
+const TableHeading = ({headings ,className}) => {
   return (
     <>
-      <th scope='col' className=' py-2 pl-2 border'>
+      <th scope='col' className={` py-2  border ${className}`}>
         {headings}
       </th>
     </>

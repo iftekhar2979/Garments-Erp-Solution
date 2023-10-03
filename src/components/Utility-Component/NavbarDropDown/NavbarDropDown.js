@@ -14,6 +14,7 @@ const NavbarDropDown = ({ name, data }) => {
             aria-controls={`dropdown-${name}`}
             onClick={() => setDropdown(!dropdown)}
           >
+         
             <span className='flex-1 ml-3 text-left whitespace-nowrap'>
               {name}
             </span>
@@ -21,7 +22,7 @@ const NavbarDropDown = ({ name, data }) => {
           </button>
           {dropdown && (
             <>
-              <ul className='text-base font-normal py-2 bg-gray-100 space-y-2'>
+              <ul className='text-base font-normal'>
                 {data?.map((item) => {
                   return (
                     <NavbarDropDownList

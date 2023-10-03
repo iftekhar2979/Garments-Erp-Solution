@@ -13,8 +13,10 @@ function DynamicTwoInput(){
         setData(onchangeVal)
     }
     const handleDelete=(i)=>{
+        console.log(i)
         const deleteVal = [...data]
         deleteVal.splice(i,1)
+        
         setData(deleteVal)
     }
     return(

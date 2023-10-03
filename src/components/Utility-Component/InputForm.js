@@ -1,12 +1,12 @@
 import React from 'react';
 
-const InputForm = ({label,register,name,defaultValue,type}) => {
+const InputForm = ({label,register,name,defaultValue,type,placeholder}) => {
     return (
         <div>
             <label className='label '>{label}</label>
             <input
               type={type}
-              placeholder='Type here'
+              placeholder={placeholder}
               className='input input-bordered w-full max-w-xs'
               defaultValue={defaultValue}
              {...register(name,{ required: true})}

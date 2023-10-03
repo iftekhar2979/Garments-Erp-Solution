@@ -1,28 +1,44 @@
 import react, { useContext } from 'react';
 import { ViewContextProvider } from '../../../../../contextApi/ViewContext';
 import NestedChalanTable from './NestedChalanTable';
+import NewChalanObj from './NewChalanObj';
 
-const ChalanTable = ({props,sizeSystem}) => {
-
+const ChalanTable = ({props,sizeSystem,tableState}) => {
+    // const {colorQuantity,style}=props
     const {style,colorName,deliverySize,deliveryQuantity,sizeName}=props
   
-    
     return (
         <>
-    {deliveryQuantity>0 ? <>
-        <tr className='border w-full'>
-            <th className='border W-6'>{style}</th>
-            {sizeSystem==='L-W-H'?<td className='border text-center W-6'>{sizeName}</td>:<td className='border text-center W-6'>{colorName}</td>}
+        {/* <tr key="">
             
-            <td className=''>
+            <td>{style}</td>
+        <td>
+    <table>
+        <tbody>
+      {  [...new Array(colorQuantity)]?.map(item=><NewChalanObj></NewChalanObj>)}
+        </tbody>
+    </table>
+    </td>
+    </tr> */}
+
+
+
+
+   {deliveryQuantity>0 ? <>
+
+  
+    <tr className='b_b w-full' >
+            <td className='b_b text-center text-[12px]'>{style}</td>
+            {sizeSystem==='L-W-H'? < td className='b_b text-center text-[12px]'>{sizeName}</td>:<td className='border border-black text-[10px] text-center '>{colorName}</td>}
+            
+        
     <NestedChalanTable sizeSystem={sizeSystem} deliverySize={deliverySize}></NestedChalanTable>
-            </td>
-            <td className='w-20 border'>{deliveryQuantity}</td>
+    
+            <td className='w-20 b_b text-center text-[12px]'>{deliveryQuantity}</td>
         </tr>
     </>:''
-    }
-        
-        </>
+    } 
+        </> 
     )
 };
 export default ChalanTable;

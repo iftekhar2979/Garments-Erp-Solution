@@ -1,13 +1,13 @@
 import React from 'react';
 
-const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,defaultValue}) => {
- 
+const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,divclass,defaultValue,className,labelblock}) => {
+
   return (
         <>
-         <div className='my-2'>
-         <label className='label'>{label}</label>
+         <div className={divclass}>
+        {!labelblock && <label className='label'>{label}</label>}
               <select
-                className='select select-primary w-full max-w-xs '
+                className={className}
                 name={sectionName}
                 onChange={handleInputDropdown}
                 defaultValue={defaultValue}

@@ -1,8 +1,8 @@
+import { act } from "react-dom/test-utils"
+import { detailTableState, intialState } from "./intialState"
 
-export const reducerFunction = (state, action) => {
-    // console.log('state',state)
+export const reducerFunction = (state, action) => {   
     if (action.type === 'SIZECHANGES') {
-        console.log(action)
         return {
             ...state,
             size: {
@@ -27,7 +27,9 @@ export const reducerFunction = (state, action) => {
     } else if (action.type === 'COLOR_NAME') {
         return {
             ...state,
-            colorName: action[action.property]
+            colorName: action[action.property],
+            poNumber:action.payload
+
         }
     }else if(action.type==='SIZE_NAME') {
         return {
@@ -43,13 +45,20 @@ export const reducerFunction = (state, action) => {
     } else if (action.type === 'STYLE') {
         return {
             ...state,
-            style: action?.payload
+            style: action?.payload,
+            deliveryStyleId:action?._id
         }
     } else if (action.type === 'SIZE_CHANGE_LWH') {
-        console.log(action)
+        // console.log(action)
         return {
             ...state,
             totalQuantity: state.totalQuantity
+        }
+    }
+    else if(action.type==='EMPTY_COLOR_STATE'){
+        
+        return {
+            ...intialState
         }
     }
 }
@@ -71,10 +80,10 @@ export const contextReducer = (state, action) => {
 export const addOrderReducer = (state, action) => {
     const actionType = action.type
     if (actionType === 'COMPANY_NAME') {
-
+console.log('form',action.payload)
         return {
             ...state,
-            companyName: action.companyName
+            ...action.payload
         }
     } else if (actionType === 'BUYER_NAME') {
         return {
@@ -132,9 +141,18 @@ export const addOrderReducer = (state, action) => {
             sizeQuantities: parseFloat(action[name])
         }
     } else if (actionType === 'EMPTY_STATE') {
-        console.log(action.payload)
         return {
             ...action.payload
+        }
+    }else if (actionType === 'CARTOON_STICKER') {
+        return {
+            ...state,
+            cartoonSticker:action.payload
+        }
+    }else if(actionType==='TB_NUMBER'){
+        return {
+            ...state,
+            tbNumber:action.tbNumber
         }
     }
 }
@@ -162,7 +180,7 @@ export const singleStateFunction = (state, action) => {
     } else if (action.type === 'single_deliverySize_change') {
 
         // const {orderedQuantity}=state
-        console.log('del', action.payload)
+        // console.log('del', action.payload)
         // console.log('sub',state.orderedQuantity)
         return {
             ...state,
@@ -222,13 +240,22 @@ export const detailTableFunction = (state, action) => {
             },
             totalQuantity: totalQuantity
         }
-    } else if (action.type = 'COLOR_AND_STYLE_CHANGES') {
-        const { sizeName,colorName, style } = action
+    } else if (action.type === 'COLOR_AND_STYLE_CHANGES') {
+        const { sizeName,colorName, style,_id } = action
         return {
             ...state,
             sizeName:sizeName,
             colorName: colorName,
-            style: style
+            style: style,
+            deliveryStyleId:_id
+        }
+    }else if(action.type==='EMPTY_DETAIL_TABLE'){
+        return {
+            ...state,
+            deliveryQuantity:0,
+            deliverySize: {
+                ...detailTableState.deliverySize
+            },
         }
     }
 }
@@ -263,6 +290,6 @@ export const detailTableGrandFunction = (state, action) => {
         }
     } else if (actionType === '') {
         // console.log(action.payload)
-        console.log(action.payload)
+      
     }
 }

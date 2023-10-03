@@ -1,34 +1,29 @@
-// import { set } from 'date-fns';
+
 import React, { useEffect, useState } from 'react';
-
-
-const QuantityOrder = ({
-  component,dispatch,
-}) => {
+const QuantityOrder = ({component,dispatch}) => {
   const [data,setData]=useState([{style:"",colorQuantity:""}])
    
   const handleClick=()=>{
       setData([...data,{style:"",colorQuantity:""}])
-  }
+    }
   const handleChange=(e,i)=>{
       const {name,value}=e.target
       const onchangeVal = [...data]
       onchangeVal[i][name]=value
       dispatch({type:'QUANTITY_ORDER_STYLE',payload:onchangeVal})
       setData(onchangeVal)
-  }
+}
   const handleDelete=(i)=>{
       const deleteVal = [...data]
       deleteVal.splice(i,1)
       dispatch({type:'QUANTITY_ORDER_DELETE',payload:deleteVal})
       setData(deleteVal)
-  }
+}
 
   return (
     <div>
       <div className='w-full border my-2'>
         <label className='label'>{component} </label>
-
         {data?.map((item, index) => {
           return (
             <div className='mb-4 flex justify-center' key={index}>
@@ -53,7 +48,6 @@ const QuantityOrder = ({
                   onChange={(e) => handleChange(e, index)}
                 />
               </div>
-
               <a
                 className='btn-sm rounded cursor-copy mr-2 text-xl text-center bg-green-300'
                 onClick={handleClick}
