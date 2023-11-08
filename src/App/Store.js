@@ -6,7 +6,9 @@ import orderDetails from "../Redux/Features/Order_Details/orderDetails";
 import { apiSlice } from "../Redux/Features/api/apiSlice";
 import deliverytable from "../Redux/Features/DELIVERY_TABLE/deliverytable";
 import { summaryApiSlice } from "../Redux/Features/api/summaryApiSlice";
-
+import uiSlice from "../Redux/Features/UiBehavior/uiSlice";
+import orderListFilter from "../Redux/Features/orderListFilter/orderListFilter";
+import deliveryStatementSlice from "../Redux/Features/DeliveryStatement/deliveryStatementSlice";
 
 
 export const store=configureStore({
@@ -16,6 +18,9 @@ export const store=configureStore({
         sizeCalculation:sizeCalculationSlice,
         orderDetails:orderDetails,
         deliveryTable:deliverytable,
+        uiSlice:uiSlice,
+        orderListFilter:orderListFilter,
+        deliveryStatement:deliveryStatementSlice,
         [apiSlice.reducerPath]:apiSlice.reducer,
     },
    middleware:(getDefaultMiddleware)=>{

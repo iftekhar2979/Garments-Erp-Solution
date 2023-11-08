@@ -12,6 +12,11 @@ import FilterDropDown from '../../../Utility-Component/Filters/FilterDropDown';
 import Searching from '../../../Utility-Component/Filters/Searching';
 import { useGetBuyersQuery, useGetCompanyNamesQuery, useGetProductsQuery } from '../../../../Redux/Features/api/apiSlice';
 import Pagination from '../../../Utility-Component/Pagination';
+import { Page } from '@react-pdf/renderer';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { filtering } from '../../../../Redux/Features/orderListFilter/orderListFilter';
 const tableHeadings = [
     {
         id: 4,
@@ -97,21 +102,25 @@ const ViewOrders = () => {
     const { data = [], isLoading: listLoading } = useGetBuyersQuery(undefined, {
         refetchOnMountOrArgChange: 10
     })
-    // console.log(data[0])
+    const {filteredState,pageState}=useSelector(state=>state.orderListFilter)
+ 
 
-    const [filterSTring, setFilterString] = useState('')
+    // const [isloaded, setIsLoaded] = useState(false)
     const [page, setPage] = useState(0)
+    const [skip,setSkip]=useState(false)
     const [filtered, setFiltered] = useState(false)
-    const [url, setUrl] = useState(`http://localhost:8000/orderList?`)
+    const [url, setUrl] = useState(``)
     const [companyName, setCompanyName] = useState([])
     const [delDetail, setdelDetail] = useState()
+    const [copy,setCopy]=useState()
     const [searched, setsearched] = useState(false);
     const { data: orderList = [], refetch, isLoading } = useQuery({
         queryKey: ['orderList', url, page],
         queryFn: () => fetchOrder(page, url),
         dependencies: [page, url],
-        keepPreviousData: true
+       
     });
+    const dispatch=useDispatch()
 
     const singleStateRef = useRef(0);
 
@@ -119,20 +128,25 @@ const ViewOrders = () => {
     useEffect(() => {
         // const names = companyData?.map(item => item?.companyName)
         // setCompanyName(names)
-
-        if (!filtered) {
+        
+        if (!filteredState) {
             setUrl(`http://localhost:8000/orderList?`)
+            setSkip(true)
 
         }
-        if (!searched) {
-            setUrl(`http://localhost:8000/orderList?`)
-        }
+        // if (!searched) {
+        //     setUrl(`http://localhost:8000/orderList?`)
+        //     setSkip(true)
+        // }
 
     }, [filtered, searched])
     const handleFilter = (filter, property) => {
+        dispatch(filtering(`filterOrderList?${property}=${filter}&`))
+        // console.log(filteredState)
         setFiltered(true)
-        setUrl(`http://localhost:8000/filterOrderList?${property}=${filter}&`)
-        setPage(0)
+        setUrl(`http://localhost:8000/${filteredState}`)
+        refetch()
+        setPage(0)    
     }
 
     const { documentCount, findingData } = orderList
@@ -142,14 +156,16 @@ const ViewOrders = () => {
     const handleRemove = (id) => {
         setdelDetail(id)
     }
+    const handleCopy=(id)=>{
+        setCopy(id)
+    }
 
     const handleSearch = (text) => {
         setsearched(true)
         setUrl(`http://localhost:8000/search?orderNumber=${text}&`)
         setPage(0)
-
-
     }
+
     const handleAll = () => {
         setFiltered(false)
         setsearched(false)
@@ -158,27 +174,48 @@ const ViewOrders = () => {
 
         setPage(id)
     }
-
+    
     const handleDelete = (id) => {
         deleteWithModal('http://localhost:8000/orderList?id', id, setdelDetail, refetch)
     }
+    const handleCopyOrder=(id)=>{
+    
+        axios.post(`http://localhost:8000/order/copy/${id}`)
+        .then(res=>{
+            if(res.data){
+                const notify=()=>toast.success('Order Copied')
+                notify()
+                refetch()
+                setCopy('')
+            }
+        }).catch(error=>{
+            if(error){
+                const notify=()=>toast.error('Server Side Error')
+                notify()
+                refetch()
+                setCopy('')
+            }
+        })
+    }
+    
     if (listLoading) {
         return <Spinner />
     }
+    
     const { buyerList = [], companyList = [], productList = [] } = data[0]
     let tableContent
     let paginationLine
+    
     if (isLoading) {
-        console.log(isLoading)
         tableContent = <Spinner />
         paginationLine = ''
     }
+  
     if (!isLoading) {
         tableContent = <>
 
             <Table tableHeadings={findingData.length === 0 ? '' : tableHeadings} tableData={[]} >{
-                Array.isArray(findingData) && [...findingData]?.map(item => <TableOrder key={item._id} contents={item} handleRemove={handleRemove} isLoading={isLoading}></TableOrder>)
-
+                Array.isArray(findingData) && [...findingData]?.map(item => <TableOrder key={item._id} handleCopy={handleCopy} contents={item} handleRemove={handleRemove} isLoading={isLoading}></TableOrder>)
             }</Table>
         </>
         paginationLine = <> <Pagination count={count} page={page} handlePage={handlePage} /> </>
@@ -186,7 +223,6 @@ const ViewOrders = () => {
     return (
         <div>
             <Heading heading={' Order Lists'} />
-
             <div className='flex items-center'>
                 <button className='block border-b border-gray-200 bg-white h-14 hover:bg-gray-200  px-2 font-semibold ml-4 ' onClick={handleAll}> ALL</button>
                 <FilterDropDown companyName={companyList} label={'Company'} propertyName={'companyName'} handleFilter={handleFilter} />
@@ -198,7 +234,8 @@ const ViewOrders = () => {
             {/* {findingData.length === 0 ? <h1 className='text-center text-4xl text-red-500'>NO DATA FOUND</h1> : ''} */}
             {tableContent}
             {paginationLine}
-            {delDetail && <Modal modalId="my-modal-3" desc={delDetail?.orderNumber} item={'Order Number'} handleDelete={handleDelete} id={delDetail?._id} setDesc={setdelDetail} refetch={refetch}></Modal>}
+            {delDetail && <Modal modalId="my-modal-3" desc={delDetail?.orderNumber} description={'Do You Want to Remove That'} item={'Order Number'} functionName={handleDelete} id={delDetail?._id} setDesc={setdelDetail} refetch={refetch}></Modal>}
+            {copy && <Modal modalId="my-modal-11" description={"Do You Want to Copy "} desc={copy?.orderNumber} item={'Order Number'} functionName={handleCopyOrder} id={copy?._id} setDesc={setCopy} refetch={refetch}></Modal>}
         </div>
     );
 };

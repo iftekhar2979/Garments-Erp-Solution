@@ -23,61 +23,64 @@ const tableHeadings = [
   {
     id: 5,
     heading: "PI NUMBER"
-  },{
-    id:UidGenarate(),
-    heading:'COMPANY NAME'
+  }, {
+    id: UidGenarate(),
+    heading: 'COMPANY NAME'
   }
 ];
 const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
-  const [url,setUrl]=useState('/tbList')
-  const [getDeliveryStatement,{data:deliveryStatement,isSuccess}]=useGetDeliveryStatementMutation()
-  const {data:tbLists=[],isLoading,isError,refetch}=useGetPiListQuery(url)
+  const [url, setUrl] = useState('/tbList')
+  
+  const { data: tbLists = [], isLoading, isError, refetch } = useGetPiListQuery(url,{
+    refetchOnMountOrArgChange:true
+  })
   const { data = [], isLoading: listLoading } = useGetBuyersQuery(undefined, {
     refetchOnMountOrArgChange: 10
-})
+  })
 
-  const dispatch=useDispatch()
-// console.log(tbLists)
+  const dispatch = useDispatch()
+  // console.log(tbLists)
   if (isLoading && listLoading) {
     return <Spinner />;
   }
- 
+
 
   // console.log(totalAmount)
   const handleCheckboxChange = (event) => {
     const selectedValue = event.target.value;
     const isChecked = event.target.checked;
+
+  
     if (isChecked) {
       setSelectedValues([...selectedValues, selectedValue]);
     } else {
       setSelectedValues(selectedValues.filter(value => value !== selectedValue));
     }
-    
-    
+
+
   };
   let matchedCompany
-  if(selectedValues.length!==0){
-     matchedCompany=tbLists.find(item=>item.tbNumber===selectedValues[0])
-  
-    }
-  const handleDeliveryStatement=()=>{
-  getDeliveryStatement(selectedValues)
-  
-  // console.log(selectedValues.join('&'))
-}
-const {  companyList = [] } = data[0]
-// const {companyName=''}=matchedCompany
-// console.log(matchedCompany?.companyName)
-const handleInputDropdown=(e)=>{
-  setUrl(`/tbList?companyName=${e.target.value}`)
+  if (selectedValues.length !== 0) {
+    matchedCompany = tbLists.find(item => item.tbNumber === selectedValues[0])
 
-}
-const handleSearch=(text)=>{
-  setUrl(`/tbList?tbNumber=${text}`)
-}
-const handleAll=()=>{
-  setUrl(`/tbList`)
-}
+  }
+
+  
+  const handleDeliveryStatement = () => {
+
+    // console.log(selectedValues.join('&'))
+  }
+  const { companyList = {} } = data[0]
+  const handleInputDropdown = (e) => {
+    setUrl(`/tbList?companyName=${e.target.value}`)
+
+  }
+  const handleSearch = (text) => {
+    setUrl(`/tbList?tbNumber=${text}`)
+  }
+  const handleAll = () => {
+    setUrl(`/tbList`)
+  }
 
   return (
     <>
@@ -85,18 +88,18 @@ const handleAll=()=>{
       <div className='flex justify-between'>
         <div className='flex items-center'>
 
-      <button className='block border-b border-white shadow rounded bg-white h-[3rem] hover:bg-gray-200  px-2 font-semibold mt-4 ml-4 ' onClick={handleAll}> ALL</button>
-      <InputDropDown
-                divclass={'my-2'}
-                handleInputDropdown={handleInputDropdown}
-                className={`select  mx-4 max-w-xs `}
-                options={companyList}
-                sectionName={'companyName'}
-                placeholder={'Filter By Company'}
-               
-              />
+          <button className='block border-b border-white shadow rounded bg-white h-[3rem] hover:bg-gray-200  px-2 font-semibold mt-4 ml-4 ' onClick={handleAll}> ALL</button>
+          <InputDropDown
+            divclass={'my-2'}
+            handleInputDropdown={handleInputDropdown}
+            className={`select  mx-4 max-w-xs `}
+            options={companyList}
+            sectionName={'companyName'}
+            placeholder={'Filter By Company'}
+
+          />
         </div>
-      <Searching handleSearch={handleSearch} placeholder={'TB NUMBER...'} />
+        <Searching handleSearch={handleSearch} placeholder={'TB NUMBER...'} />
 
       </div>
       <Table tableHeadings={tableHeadings} tableData={[]} >
@@ -105,8 +108,8 @@ const handleAll=()=>{
         ))}
       </Table>
       <div className='m-6'>
-      <label htmlFor="my-modal-6" className={`btn btn-md btn-accent ${!selectedValues.length > 0 && 'hidden'}`} data-tip="Delete Order" onClick={handlePi}> Make PI</label>
-      <button className={`btn btn-secondary btn-md mx-4  ${!selectedValues.length > 0 && 'hidden'}`} onClick={handleDeliveryStatement} >MAKE DELIVERY STATEMENTS</button>
+        <label htmlFor="my-modal-6" className={`btn btn-md btn-accent ${!selectedValues.length > 0 && 'hidden'}`} data-tip="Delete Order" onClick={handlePi}> Make PI</label>
+
 
       </div>
     </>

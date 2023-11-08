@@ -72,24 +72,38 @@ useDocumentTitle('Delivery Details')
         setDelDetail(data)
 
     }
-    const handleDelete=async()=>{
+    const handleDelete=()=>{
         const {_id,orderId}=delDetail
         try {
-            const updatePromise = patchOlderDataFromDeliveryWhenDelete({_id, orderId});
-            const deletePromise = deleteDelivery(_id);
-            const [updateResponse, deleteResponse] = await Promise.all([updatePromise, deletePromise]);
+          
+            // const [updateResponse, deleteResponse] = await Promise.all([updatePromise, deletePromise]);
+            patchOlderDataFromDeliveryWhenDelete({_id, orderId})
+            .then(res=>{
+                if(res.data.isUpdated){
+                    deleteDelivery(_id)
+                    .then(res=>{
+                        if(res.data.isDeleted){
+                            setDelDetail('');
+                              const notifySuccess = () => toast.success('Deleted Successfully');
+                              notifySuccess();
+                              navigate(-1);
+                        }
+                    }).catch(error=>{
+                        if(error){
+                        const notifySuccess = () => toast.error('Deleting Error');
+                              notifySuccess();
+                        }
+                    })
+
+                }
+            }).catch(error=>{
+                if(error){
+                    const notifySuccess = () => toast.error('Editing Order Error');
+                    notifySuccess();
+                }
+            })
         
-            if (updateResponse.data.isUpdated && deleteResponse.data.isDeleted) {
-              // Assuming both promises resolved successfully
-              setDelDetail('');
-              const notifySuccess = () => toast.success('Deleted Successfully');
-              notifySuccess();
-              navigate(-1);
-            } else {
-              // Handle the case where either update or delete was not successful
-              const notify = () => toast.error('Update or Delete Unsuccessful');
-              notify();
-            }
+           
           } catch (error) {
             // Handle errors from API requests
             const notify = () => toast.error(error.message);
@@ -97,6 +111,7 @@ useDocumentTitle('Delivery Details')
           }
     }
    
+    console.log(data[currentIndex]?._id)
     return (
         <>
         <div>
@@ -112,13 +127,13 @@ useDocumentTitle('Delivery Details')
                         <td></td>
                         <DeleteDelivery handleDel={handleDel} data={data[currentIndex]}/>
                         <td className=''> Delivery Quantity: <span className='font-bold'>{data[currentIndex].grandDeliveryQuantity}</span></td>
-                        <td ><Link to={`/chalan/${data[currentIndex]._id}`}><button className='btn btn-secondary btn-sm' >Make Chalan</button></Link></td>
+                        <td ><Link to={`/chalan/${data[currentIndex]?._id}`}><button className='btn btn-secondary btn-sm' >Make Chalan</button></Link></td>
                     </tr>
                 </Table>
 
             ):<p className='text-4xl text-center my-4 text-red-600'>NO DELIVERY ADDED <span className='link link-primary' onClick={()=>navigate(-1)}>Add Delivery</span></p>}  
         </div>
-         {delDetail && <Modal modalId={'my-modal-5'} item={'Delivery'} desc={delDetail?.chalanNumber}  handleDelete={handleDelete} setDesc={setDelDetail}/>}
+         {delDetail && <Modal modalId={'my-modal-5'} item={'Delivery'} desc={delDetail?.chalanNumber} description={"Do you want to delete Chalan"}  functionName={handleDelete} setDesc={setDelDetail}/>}
          </>
     )
 };

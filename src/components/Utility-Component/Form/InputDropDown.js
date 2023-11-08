@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,divclass,defaultValue,className,labelblock}) => {
+const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholder,divclass,defaultValue,className,labelblock,prevSelected}) => {
 
   return (
         <>
@@ -14,7 +14,7 @@ const InputDropDown = ({handleInputDropdown,sectionName,options,label,placeholde
                 required
                
                 >
-                     <option disabled selected>{placeholder}</option> 
+                     <option disabled selected>{prevSelected?prevSelected:placeholder}</option> 
                 {Array.isArray(options)&& options?.map((option,index) => (
                   <option className='cursor-pointer' key={index}  >{option}</option>
                 ))}

@@ -29,7 +29,7 @@ const Dashboard = () => {
     },
     {
       id: 31,
-      path: '/dashboard/addEmployes',
+      path: '/dashboard/employes',
       name: 'Employes',
       parent: 'COMPANY',
       logo:'https://icons.veryicon.com/png/o/miscellaneous/classic-car-maintenance-dsm/employee-list-1.png'
@@ -55,7 +55,7 @@ const orders=[
       path:'/dashboard/tbLists',
       name:'TB List',
       parent: 'ORDERS',
-      logo:'https://icons.veryicon.com/png/o/miscellaneous/staff-360/pdf-36.png'
+      logo:'https://cdn1.iconfinder.com/data/icons/ios-11-glyphs/30/order-512.png'
     },
     {
       id:48,
@@ -63,6 +63,13 @@ const orders=[
       name:"Chalan's",
       parent: 'ORDERS',
       logo:'https://icons.veryicon.com/png/o/miscellaneous/staff-360/pdf-36.png'
+    },
+    {
+      id:49,
+      path:'/dashboard/piList',
+      name:"PI LIST",
+      parent: 'ORDERS',
+      logo:'https://static.vecteezy.com/system/resources/previews/019/006/957/original/invoice-flat-icons-png.png'
     }
   ]
 
@@ -74,14 +81,15 @@ const orders=[
       <div className='drawer-content '>
         <label
           htmlFor='my-drawer-2'
-          className=' bg-gray-300 lg:hidden absolute absolute top-6 right-[150px] '
+          className=' bg-gray-300  absolute absolute top-6 right-[150px] '
         > 
         </label>
         <Outlet></Outlet>
       </div>
       <div className='drawer-side border-r '>
         <label htmlFor='my-drawer-2' className='drawer-overlay'></label>
-        <ul className='menu p-4  lg:w-full text-base-content'>
+        <ul className='menu p-4  lg:w-full text-base-content '>
+
           <NavbarDropDown name={'Company'} data={company} />
           <NavbarDropDown name={'Orders'} data={orders}/>
         </ul>

@@ -15,7 +15,7 @@ const NavbarDropDown = ({ name, data }) => {
             onClick={() => setDropdown(!dropdown)}
           >
          
-            <span className='flex-1 ml-3 text-left whitespace-nowrap'>
+            <span className='flex-1 text-left whitespace-nowrap'>
               {name}
             </span>
             <HiChevronDown></HiChevronDown>

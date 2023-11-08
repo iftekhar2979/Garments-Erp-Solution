@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
 const ChalanListTable = ({detail}) => {
-    const {companyName,buyerName,productName,grandDeliveryQuantity,chalanNumber,createdAt,_id}=detail
+    const {companyName='',buyerName='',productName='',grandDeliveryQuantity,chalanNumber,createdAt,_id}=detail
     return (
         <>
         
@@ -20,10 +20,10 @@ const ChalanListTable = ({detail}) => {
               
                 </td>
                 <td className="border px-1 w-16">
-                <Link to={`/chalan/${_id}`} >  <span className="link link-secondary" >{chalanNumber}</span> </Link>
+                <Link to={`/chalan/${_id}`} >  <span className="link link-secondary font-bold text-lg" >{chalanNumber}</span> </Link>
                 </td>
-                <td className="border  w-16">
-                {grandDeliveryQuantity}
+                <td className="border  w-16 font-bold">
+                {grandDeliveryQuantity.toLocaleString()}
                 </td>
 
                 

@@ -62,7 +62,7 @@ const AddOrders = () => {
     })
     // console.log(findCompanyLocation)
     const { companyName, location, shortForm } = findCompanyLocation
-    console.log(shortForm)
+
     dispatch({ type: 'COMPANY_NAME', payload: { companyName, location, shortForm } })
 
     setbuyers(findCompanyLocation.buyer)
@@ -72,7 +72,6 @@ const AddOrders = () => {
   const onSubmit = () => {
     addOrder(addOrderState)
     .then(res => {
-      console.log(res.data)
       if(res.data){
         const notify = () => toast.success('added ordered Succesfully');
         notify()

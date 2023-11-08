@@ -16,6 +16,8 @@ import ChalanHeading from './ChalanHeading';
 import useDocumentTitle from '../../../../../CustomHooks/useDocumentTitle';
 import InputDropDown from '../../../../../Utility-Component/Form/InputDropDown';
 import { format } from 'date-fns';
+import Spinner from '../../../../../Utility-Component/Spinner';
+import { useGetDeliveryManQuery } from '../../../../../../Redux/Features/api/apiSlice';
 
 const tableHeading2 = [
     {
@@ -55,8 +57,9 @@ let sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 const deliveryManArray = ['Mr. Anwar', 'Mr. Shahin', 'Mr. Taleb', 'Mr. Rahman', 'Mr. Sarwar','Mr. Alamin']
 const Chalan = () => {
     const deliveryDetail = useLoaderData()
-    const { createdAt, details, grandDeliveryQuantity, chalanNumber, _id, deliveryMan } = deliveryDetail
-    useDocumentTitle(`Chl__${chalanNumber}`)
+    const {data:deliveryMens,isLoading:deliveryManLoading}=useGetDeliveryManQuery()
+    const { createdAt='', details, grandDeliveryQuantity, chalanNumber, _id, deliveryMan } = deliveryDetail
+    useDocumentTitle(`Challan No:${chalanNumber}`)
     let componentRef = useRef();
     const [block, setBlock] = useState(false)
     const [tableState, setTableState] = useState({})
@@ -72,7 +75,6 @@ const Chalan = () => {
             }
             return acc
         }, {})
-        // console.log(totalObj)
         setTotalArrayDetails(totalObj)
 
     }, [details])
@@ -83,12 +85,10 @@ const Chalan = () => {
                 return res.data
             })
             .catch(error => console.log(error))
-
     }
     const handlePrint = () => {
         setBlock(true)
         setTimeout(() => {
-
             window.print()
             setBlock(false)
         }, 10);
@@ -103,7 +103,7 @@ const Chalan = () => {
         },
     });
     if (isLoading) {
-        return <h1 className='text-3xl'>Loading...</h1>
+        return <Spinner/>
     }
     const { companyName, buyerName, productName,tbNumber='', range, sizeSystem, location, quantityOrder } = companyAndOtherDetail
 
@@ -136,10 +136,9 @@ const Chalan = () => {
                     </div>
                     <div className=''>
                         <h1>Challan No : 00{chalanNumber && chalanNumber}</h1>
-                        <h1>Date : {format(new Date(createdAt),'PP' )}</h1>
+                        <h1>Date : {createdAt && format(new Date(createdAt),'PP' )}</h1>
                         <h1 className='inline'>Through By : </h1>
-
-                        <>  <InputDropDown divclass={'inline'} placeholder={'Delivery Man'} sectionName={'deliveryMan'} labelblock={true} handleInputDropdown={(e) => handleDeliveryMan(e)} options={deliveryManArray} className={` w-32 text-md ${block && 'appearance-none'}`} />
+                        <>  <InputDropDown divclass={'inline'} placeholder={'Delivery Man'} sectionName={'deliveryMan'} labelblock={true} handleInputDropdown={(e) => handleDeliveryMan(e)} options={deliveryMens?.deliveryMan} className={` w-32 text-md ${block && 'appearance-none'}`} />
                         </>
                     </div>
                 </div>
@@ -147,45 +146,6 @@ const Chalan = () => {
             <div >
                 <h1 className='text-center font-bold text-xl text-black'>Delivery Challan</h1>
             </div>
-
-            {/* 
-            <div className='border mx-4'>
-                <div className=' flex flex-row'>
-                    <div className='basis-1/6 border-l border-black text-center'>Style</div>
-                    <div className='basis-1/4 border-l  relative  border-black text-center'>Color</div>
-                    <div className='basis-1/2 border-l  border-black text-center '>Delivered
-                    <div className='grid grid-cols-8'>{sizes?.map(ite=><span className='border'>{ite}</span>)}</div>
-                    </div>
-                    <div className='basis-1/6 border-l border-black text-center'>SubTotal</div>
-                </div>
-                <div className='border border-black flex flex-row'>
-                <div className='basis-1/6 flex   '>  {
-                        quantityOrder?.map((item) => <div className='text-center basis-1/6 border-b flex justify-center items-center' >{item.style}
-                       <hr></hr>
-                        </div>)
-                    }
-                
-                    </div>
-                    <div className='basis-1/4 '>
-                        {details?.map(item => <h2 className='border h-[50px]'>{item.colorName}</h2>)}
-                    </div>
-                    <div className=' basis-1/2 border grid grid-cols-8 '>
-                        {details?.map(item=>{
-                       return sizes?.map(ite=><span className='border h-[50px]'>{item.deliverySize[ite]}</span>)
-                       })}
-                    </div>
-                    <div className='basis-1/6 border '>
-                    {details?.map(item => <h2 className='border h-[50px]'>{item.deliveryQuantity}</h2>)}
-                    </div>
-
-                </div>
-
-            </div> */}
-            {/* 
-<Table tableHeadings={tableHeadings} tableData={[]}>
-    {quantityOrder?.map(item=><ChalanTable props={item}></ChalanTable>)}
-
-</Table> */}
             <div className='flex w-full justify-center'>
                 <table className='my-2 text-sm w-full text-black mx-2 border-black'>
                     <thead className='border border-black'>

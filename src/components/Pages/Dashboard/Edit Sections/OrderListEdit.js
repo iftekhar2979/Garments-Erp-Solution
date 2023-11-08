@@ -85,7 +85,7 @@ const OrderListEdit = () => {
               options={companyNames}
               sectionName={'companyName'}
               placeholder={'Select your Company'}
-             
+              // prevSelected={defaultData?.companyName}
               className={'select select-primary'}
               register={register}
               
@@ -98,7 +98,7 @@ const OrderListEdit = () => {
               sectionName={'buyerName'}
               placeholder={'Select your Buyer'}
               className={'select select-primary'}
-              defaultValue={defaultData?.buyers}
+              // prevSelected={defaultData?.buyerName}
               register={register}
               
             />
@@ -109,6 +109,7 @@ const OrderListEdit = () => {
               sectionName={'productName'}
               placeholder={'Select your Product Name'}
               register={register}
+              // prevSelected={defaultData.productName}
               className={'select select-primary'}
             
             />

@@ -35,8 +35,10 @@ const piSlice = createSlice({
             mutableFilter(piValue, (item) => item.perPics !== 0)
         },
         addCompanyName: (state, action) => {
-            const {companyName,shortForm}=action.payload
+            const {companyName,shortForm,location,buyerName}=action.payload
             state.companyName=companyName
+            state.location=location
+            state.buyerName=buyerName
             
         
             const currentDate = new Date();

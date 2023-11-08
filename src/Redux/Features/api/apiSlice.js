@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:8000` }),
-    tagTypes: ['Product','company','SingleOrderAndDetails','CREATEDPI','ORDER'],
+    tagTypes: ['Product','company','SingleOrderAndDetails','CREATEDPI','ORDER','DeliveryMan'],
     endpoints: (builder) => ({
         // Company and Buyer Related Endpoints
         addCompany:builder.mutation({
@@ -149,13 +149,37 @@ export const apiSlice = createApi({
         getProductSummary:builder.query({
             query:()=>'/productSummary',
             keepUnusedDataFor:600,
-    
             // providesTags:['company']
         }),
+        getCreatedPILists:builder.query({
+            query:()=>'/piList',
+            keepUnusedDataFor:600,
+            providesTags:['CREATEDPI']
+        }),
+        getSinglePiStatement:builder.query({
+            query:(id)=>`/piStatement/${id}`,
+            providesTags:['CREATEDPI']
+        }),
+        getDeliveryMan:builder.query({
+            query:()=>`/deliveryMan/64bb861c152398f7395f9268`,
+            keepUnusedDataFor:600,
+            providesTags:['DeliveryMan']
+        
+        }),
+        addDeliveryMan:builder.mutation({
+            query:(body)=>({
+                url:'/deliveryMan/64bb861c152398f7395f9268',
+                method: 'PATCH',
+                body: body 
+            }),
+            invalidatesTags:['DeliveryMan']
+        })
     }),
 
 })
 export const { useGetCompanyNamesQuery, useGetProductsQuery, useAddOrderMutation,
     useAddCompanyMutation, useGetBuyersQuery, useAddProductMutation, useDeleteProductMutation,
     useGetCompanyQuery ,useAddDetailsInSingleOrderMutation ,useGetPIMutation,useGetSingleOrderQuery,
-usePatchInSingleOrderMutation,useGetDeliveryStatementMutation,useGetProductSummaryQuery,useGetPiListQuery,useAddDeliveryMutation,usePatchOlderDataFromDeliveryWhenDeleteMutation,useAddPIMutation,useDeleteDeliveryMutation} = apiSlice
+usePatchInSingleOrderMutation,useGetCreatedPIListsQuery,useGetSinglePiStatementQuery,
+useGetDeliveryStatementMutation,useGetDeliveryManQuery,useAddDeliveryManMutation,useGetProductSummaryQuery,useGetPiListQuery,useAddDeliveryMutation
+,usePatchOlderDataFromDeliveryWhenDeleteMutation,useAddPIMutation,useDeleteDeliveryMutation} = apiSlice

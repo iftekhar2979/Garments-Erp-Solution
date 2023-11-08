@@ -83,9 +83,7 @@ const SinglePO = () => {
     return <Spinner />
     
   }
- 
-console.log(deliveryErrorDetails)
-console.log(addingDeliveryError)
+
   const handleSubmit = () => {
     if (detailOfOrder.length !== 0) {
       // post delivery details
@@ -105,13 +103,17 @@ console.log(addingDeliveryError)
       }
       addDelivery(deliveryDetails)
       .then(res=>{
+        
+        if(res.data){
         increaseChalanNumber("645dcc1d5a65a1351c90c3bc");
          addDetailsAndPatchInSingleOrder({ patchedOrderInfo, _id });
          dispatch(clearingState())
+        }
       }).catch(error=>{
-        console.log(error)
+        if(error){
         const notify=()=>toast.error('Something Error in Server')
         notify()
+        }
       })
 
     } else {

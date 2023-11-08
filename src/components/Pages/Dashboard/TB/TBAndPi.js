@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SubmitButton from './SubmitButton';
 import { addTBNumbers, addTBNumbersAndDates, clearingState } from '../../../../Redux/Features/pi/piSlice';
 import TotalTableOfPI from './TotalTableOfPI';
+import { useGetDeliveryStatementMutation } from '../../../../Redux/Features/api/apiSlice';
 
 const tableHeadings = [
 
@@ -46,16 +47,15 @@ const TBAndPi = () => {
   const [selectedValues, setSelectedValues] = useState([])
   const [piData, setPiData] = useState([])
   const [amount,setAmount]=useState(0)
+  const [getDeliveryStatement, { data: deliveryStatement, isSuccess }] = useGetDeliveryStatementMutation()
   
   // const {totalAmount=0} = useSelector(state => state.pI) 
   const dispatch=useDispatch()
   const handlePi = () => {
     dispatch(addTBNumbersAndDates(selectedValues))
-    console.log(selectedValues)
     axios.post('http://localhost:8000/pi', { selectedValues })
-      .then(res => setPiData(res.data))
+    .then(res => setPiData(res.data))
   }
-  console.log(piData)
 
   return (
     <>
@@ -65,14 +65,13 @@ const TBAndPi = () => {
       <div className="modal">
         <div className="modal-box relative w-11/12 max-w-5xl h-11/12">
           <label htmlFor='my-modal-6' className="btn btn-sm btn-circle absolute right-2 top-2" onClick={()=>dispatch(clearingState())}>✕</label>
-          <h3 className="text-lg font-bold">Perfoma Invoice of {selectedValues?.map(item => `${item}  `)}</h3>
+          <h3 className="text-lg font-bold">Perfoma Invoice of {selectedValues && selectedValues?.map(item => `${item}  `)}</h3>
           <Table tableHeadings={tableHeadings} tableData={[]} >
             {piData?.map((item) => <>
             <ModalTable key={UidGenarate()} setAmount={setAmount} detail={item} /> 
             </>)}
          <TotalTableOfPI/>
           </Table>
-          
           <div className="modal-action">
           <SubmitButton setSelectedValues={setSelectedValues}/>
           </div>

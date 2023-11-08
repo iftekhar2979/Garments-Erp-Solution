@@ -24,6 +24,10 @@ import PrivateRoute from './PrivateRoute'
 import TBList from '../components/Pages/Dashboard/TB/TBList'
 import TBAndPi from '../components/Pages/Dashboard/TB/TBAndPi'
 import ChalanList from '../components/Pages/Dashboard/Chalan List/ChalanList'
+import PiStatement from '../components/Pages/Dashboard/TB/PI_Section/PiStatement'
+import PIList from '../components/Pages/Dashboard/TB/PI_Section/PIList'
+import Employee from '../components/Pages/Dashboard/Employe/Employee'
+import DeliveryStatement from '../components/Pages/Dashboard/TB/DeliveryStatement/DeliveryStatement'
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -100,7 +104,17 @@ export const router = createBrowserRouter([
                     },{
                         path:'/dashboard/Chalans',
                         element:<ChalanList/>
+                    },
+                    ,{
+                        path:'/dashboard/piList',
+                        element:<PIList/>
+                        
+                    },{
+                        path: '/dashboard/employes',
+                        element:<Employee/>
+
                     }
+                
                 ]
             }
         ]
@@ -112,4 +126,16 @@ export const router = createBrowserRouter([
         loader: async ({ params }) => {
             return fetch(`http://localhost:8000/singleDeliveryDetail/${params.id}`)
         }
-    }])
+    },
+    ,{
+        path:'/piStatement/:id',
+        element:<PiStatement/>
+        
+    },
+    ,{
+        path:'/deliveryStatement/:id',
+        element:<DeliveryStatement/>
+        
+    }
+
+])

@@ -71,17 +71,13 @@ export
             keepPreviousData: true
         });
         useEffect(() => {
-            // const names = companyData?.map(item => item?.companyName)
-            // setCompanyName(names)
-
             if (!searched) {
                 setUrl(`http://localhost:8000/ChalanLists?`)
             }
-    
         }, [ searched])
         // console.log(isLoading)
         let content
-        if (emptyObjectChecker(chalanList)||isLoading ) {
+        if (emptyObjectChecker(chalanList) ) {
          
             content = <Spinner />
         }
@@ -125,9 +121,6 @@ export
                 <Searching handleSearch={handleSearch} placeholder={'Chalan No...'} />
                 </div>
                 {content}
-
-
-
             </>
         )
     };

@@ -24,6 +24,7 @@ const AddCompany = () => {
   const onSubmit = (object) => {
 
     const companyInfo = { ...object, buyers: val }
+    
     addCompany(companyInfo)
 
   };
@@ -58,6 +59,12 @@ const AddCompany = () => {
               register={register}
               name={'location'}
               placeholder={'Location'}
+            />
+               <InputForm
+              label={'Short Form'}
+              register={register}
+              name={'shortForm'}
+              placeholder={'Company Short Form'}
             />
             <InputForm label={'Contact'} placeholder={'Contact Number'} register={register} name={'contact'} />
             <InputForm

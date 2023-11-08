@@ -8,7 +8,22 @@ import { useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, u
 import Spinner from '../../../Utility-Component/Spinner';
 import { Area, AreaChart, CartesianGrid, Tooltip, ResponsiveContainer, XAxis, YAxis, PieChart, Pie, Cell, ComposedChart, Bar, Line, Scatter } from 'recharts';
 import { Legend } from 'chart.js';
+import toast from 'react-hot-toast';
+import { PureComponent } from 'react';
 
+class CustomizedAxisTick extends PureComponent {
+  render() {
+    const { x, y, stroke, payload } = this.props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-45)">
+          {payload.value}
+        </text>
+      </g>
+    );
+  }
+}
 const AddProduct = () => {
   const { data: totalProducts, isLoading, isError } = useGetProductsQuery()
   const { data: summaryData = [], isLoading: summaryLoading } = useGetProductSummaryQuery()
@@ -22,21 +37,28 @@ const AddProduct = () => {
 if (summaryLoading) {
   return <Spinner />
 }
-console.log(summaryData)
-  console.log(summaryData)
+
   const handleADD = () => {
     // mutate() 
-    addProduct([...val])
+    addProduct([...val]).then(res=>{
+      if(res.data){
+        const notify=toast.success('Added Product Successfully')
+        notify()
+      }
+    }).catch(error=>{
+      const notify=toast.error('Server Side Error')
+      notify()
+    })
 
   }
   return (
     <section>
-      <div className='flex'>
-      <div className='h-72 my-4 w-1/2 bg-white shadow-md mx-2 p-6 rounded-md '>
-        <ResponsiveContainer width="100%" height="94%">
+      <div className='flex justify-between'>
+      <div className='h-[550px] my-4 w-1/2 bg-white shadow-md mx-2 p-6 rounded-md '>
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            width={1000}
-            height={400}
+            width={500}
+            height={1000}
             data={summaryData}
             margin={{
               top: 10,
@@ -46,20 +68,20 @@ console.log(summaryData)
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="product_Name" />
+            <XAxis dataKey="product_Name"  interval={0} height={200} tick={<CustomizedAxisTick/>} />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="Order_Count" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="Order_Count" stroke="#ffc658" fill="#ffc658" />
             {/* <Area type="monotone" dataKey="totalDeliveredQuantity" stroke="#8884d8" fill="#8884d8" /> */}
           </AreaChart>
         </ResponsiveContainer>
         <h2 className='font-bold text-md text-center' >Product Summary With Order</h2>
       </div>
-      <div className='h-72 my-4 w-1/2 bg-white shadow-md mx-2 p-6 rounded-md '>
+      <div className='h-96 my-4 w-1/2 bg-white shadow-md mx-2 p-6 rounded-md '>
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           width={500}
-          height={400}
+          height={600}
           data={summaryData}
           margin={{
             top: 20,
@@ -77,7 +99,7 @@ console.log(summaryData)
           <Bar dataKey="total_Rest_Quantity" barSize={20} fill="#4285F4" />
         </ComposedChart>
       </ResponsiveContainer>
-        <h2 className='font-bold text-md text-center' >Product Summary With Order</h2>
+        <h2 className='font-bold text-md text-center ' >Product Summary With Order Quantity and Rest Quantity</h2>
       </div>
       </div>
       <div className='my-6 py-6'>
@@ -94,7 +116,7 @@ console.log(summaryData)
           />
           <div className='flex justify-center py-2'>
             <button className='btn btn-primary' onClick={handleADD}>
-              Add Product
+             {addingProuductSuccess?'Adding...':" Add Product"}
             </button>
           </div>
         </div>

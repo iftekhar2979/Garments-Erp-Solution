@@ -23,8 +23,9 @@ const MoreInput = ({
               className='input input-bordered w-full max-w-xs'
               onChange={(e) => handleChange(e, index)}
             />
+            <div className='flex items-center'>
             <button
-              className='btn-sm hover:bg-green-500 rounded-full'
+              className='btn-sm  hover:bg-green-500 rounded-full'
               onClick={handleAdd}
             >
               <HiOutlinePlusCircle size={26}/>
@@ -35,6 +36,7 @@ const MoreInput = ({
             >
               <HiOutlineX size={26}/>
             </button>
+            </div>
           </div>
         );
       })}

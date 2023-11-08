@@ -21,7 +21,7 @@ const ChalanHeading = ({ sizeSystem, tableState, block, handleInputDropdown }) =
           <th className={`border   w-44 border-black ${tableState['Color'] === 'N/A' && 'hidden'}`}>
             <InputDropDown sectionName={'Color'} labelblock={true} handleInputDropdown={handleInputDropdown} options={size} className={`text-center w-[150px]  text-md ${block && 'appearance-none'}`} defaultValue={size[0]} />
           </th>
-          <th class="  text-[14px] border border-black" style={{
+          <th className="  text-[14px] border border-black" style={{
             paddingBottom: "0px",
             paddingRight: "0px",
             paddingLeft: "0px",

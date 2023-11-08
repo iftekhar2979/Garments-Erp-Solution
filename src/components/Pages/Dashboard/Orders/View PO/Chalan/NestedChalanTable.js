@@ -11,7 +11,7 @@ const NestedChalanTable = ({sizeSystem,deliverySize}) => {
             sizeSystem==='SM-XL' &&
             <>
                 <div className='h-full '>
-                    {sizeName?.map((item,i)=><td key={i} className='  w-[90px] text-[12px]  text-center h-[50px] border-black border-l first:border-l-0  last:border-r-0 '>{deliverySize[item] ?deliverySize[item]:0}</td>)}
+                    {sizeName?.map((item,i)=><td key={i} className='  w-[90px] text-[12px] align-middle  text-center h-[50px] border-black border-l first:border-l-0  last:border-r-0 '>{deliverySize[item] ?deliverySize[item]:0}</td>)}
                     
                 </div>
             </>

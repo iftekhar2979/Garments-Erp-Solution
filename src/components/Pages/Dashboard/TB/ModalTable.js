@@ -14,14 +14,14 @@ const ModalTable = ({ detail }) => {
 
 
 
-    const { totalQuantity, productName, companyName, _id,shortForm } = detail
+    const { totalQuantity, productName, companyName, _id,shortForm,location,buyerName } = detail
     const dispatch = useDispatch()
     const handleChange = (e) => {
         setValue(parseFloat(e.target.value))
     }
     let count = 0
     const amount = isNaN(totalQuantity * value) ? 0 : (totalQuantity * value)
-    console.log(_id)
+    // console.log(_id)
     // useEffect(()=>{
     //     const object = {
     //         _id,
@@ -50,7 +50,7 @@ const ModalTable = ({ detail }) => {
         }
         dispatch(addPi(object))
         dispatch(totalQuantityCounting())
-        dispatch(addCompanyName({companyName,shortForm}))
+        dispatch(addCompanyName({companyName,shortForm,location,buyerName}))
         
 
     }, [value, length,size,color])

@@ -9,21 +9,6 @@ const ChalanTable = ({props,sizeSystem,tableState}) => {
   
     return (
         <>
-        {/* <tr key="">
-            
-            <td>{style}</td>
-        <td>
-    <table>
-        <tbody>
-      {  [...new Array(colorQuantity)]?.map(item=><NewChalanObj></NewChalanObj>)}
-        </tbody>
-    </table>
-    </td>
-    </tr> */}
-
-
-
-
    {deliveryQuantity>0 ? <>
 
   

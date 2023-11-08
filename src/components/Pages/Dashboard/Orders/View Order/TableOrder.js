@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AiFillDelete, AiFillEdit } from "react-icons/ai"
+import { AiFillDelete, AiFillEdit,AiOutlineCopy } from "react-icons/ai"
 
 import { format } from "date-fns/esm"
 
-const TableOrder = ({ contents, handleRemove }) => {
+const TableOrder = ({ contents, handleRemove ,handleCopy}) => {
 
-    const { companyName, buyerName, orderNumber, tbNumber, productName, status = '', targetDate, orderedDate, _id, range, grandTotalQuantity, grandRestQuantity } = contents
+    const { companyName, buyerName, orderNumber, tbNumber, productName,completeDate='', status = '', targetDate, orderedDate, _id, range, grandTotalQuantity, grandRestQuantity } = contents
     const deliveryTotal = grandTotalQuantity - grandRestQuantity
+    // console.log(completeDate)
     let statusColor = (props) => {
         switch (props) {
             case "":
@@ -78,11 +79,12 @@ const TableOrder = ({ contents, handleRemove }) => {
 
 
                 </td>
-                <td className='border px-1 w-16'>
+                <td className='border px-1 font-bold w-16'>
                     {contents?.completeDate ? format(new Date(contents?.completeDate), 'PP') : ''}
                     <br />
-                    <label htmlFor="my-modal-3" className='inline-block tooltip' data-tip="Delete Order" onClick={() => handleRemove(contents)}><AiFillDelete style={{ fontSize: '2em', color: 'red', cursor: 'pointer' }}></AiFillDelete></label>
-                    <label className='inline-block tooltip' data-tip="Edit">  <Link to={`/dashboard/edit/${_id}`} ><AiFillEdit style={{ fontSize: '2em', color: 'green', cursor: 'pointer' }} /></Link></label>
+                    <label htmlFor="my-modal-3" className='inline-block tooltip' data-tip="Delete Order" onClick={() => handleRemove(contents)}><AiFillDelete style={{ fontSize: '1.5em', color: 'red', cursor: 'pointer' }}></AiFillDelete></label>
+                    <label htmlFor="my-modal-11" className='inline-block tooltip' data-tip="Copy Order" onClick={()=>handleCopy(contents)} ><AiOutlineCopy style={{ fontSize: '1.5em', color: 'green', cursor: 'pointer' }}></AiOutlineCopy></label>
+                    <label className='inline-block tooltip' data-tip="Edit">  <Link to={`/dashboard/edit/${_id}`} ><AiFillEdit style={{ fontSize: '1.5em', color: 'green', cursor: 'pointer' }} /></Link></label>
 
                 </td>
 
