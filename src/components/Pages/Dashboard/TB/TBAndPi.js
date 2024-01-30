@@ -10,7 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import SubmitButton from './SubmitButton';
 import { addTBNumbers, addTBNumbersAndDates, clearingState } from '../../../../Redux/Features/pi/piSlice';
 import TotalTableOfPI from './TotalTableOfPI';
-import { useGetDeliveryStatementMutation } from '../../../../Redux/Features/api/apiSlice';
+import {  useGetDeliveryStatementMutation } from '../../../../Redux/Features/api/apiSlice';
+import { useAddPiMutation } from '../../../../Redux/Features/api/summaryApiSlice';
+import toast from 'react-hot-toast';
 
 const tableHeadings = [
   {
@@ -47,11 +49,17 @@ const TBAndPi = () => {
   const [piData, setPiData] = useState([])
   const [amount,setAmount]=useState(0)
   const [getDeliveryStatement,{data: deliveryStatement, isSuccess}] = useGetDeliveryStatementMutation()
+  const [addPi,{isLoading,isError}]=useAddPiMutation()
   const dispatch=useDispatch()
   const handlePi = () => {
     dispatch(addTBNumbersAndDates(selectedValues))
-    axios.post('http://localhost:8000/pi', { selectedValues })
-    .then(res => setPiData(res.data))
+    addPi(selectedValues)
+    .then(res=>{
+      setPiData(res.data)
+    }).catch(error=>{
+      toast.error("Server Side Error")
+    })
+
   }
 
   return (
