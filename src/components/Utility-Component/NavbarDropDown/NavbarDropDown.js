@@ -5,8 +5,13 @@ import { useSelector } from 'react-redux';
 const NavbarDropDown = ({ name, data }) => {
   const [dropdown, setDropdown] = useState(false);
   const {userInfo:{data:{isAdmin}}}=useSelector(state=>state.user)
+  let filteredIds
   if(!isAdmin){
-    data=data.slice(0,3)
+    let routesId=[45,49]
+     filteredIds=data.filter(item=>!routesId.includes(item.id))
+   
+  }else{
+    filteredIds=data
   }
 
   return (
@@ -28,7 +33,7 @@ const NavbarDropDown = ({ name, data }) => {
           {dropdown && (
             <>
               <ul className='text-base font-normal'>
-                {data?.map((item) => {
+                {filteredIds?.map((item) => {
                   return (
                     <NavbarDropDownList
                       data={item}
