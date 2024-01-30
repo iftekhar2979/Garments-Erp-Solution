@@ -81,7 +81,7 @@ const PiStatement = () => {
     }
     const handleEditChange = (e) => {
         setTimeout(() => {
-            axios.patch(`http://localhost:8000/piName/${_id}`, { piNumber: e.target.value })
+            axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/piName/${_id}`, { piNumber: e.target.value })
                 .then(res => console.log(res.json))
                 .catch(err => console.log(err))
         }, 800)

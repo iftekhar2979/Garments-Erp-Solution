@@ -53,7 +53,7 @@ const PIList = (props) => {
         setdelDetail(id)
     }
     const handleDelete = (id) => {
-        deleteWithModal('http://localhost:8000/deletePi?id', id, setdelDetail, refetch)
+        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/deletePi?id`, id, setdelDetail, refetch)
     }
     let content
     if (!isLoading && !isError) {

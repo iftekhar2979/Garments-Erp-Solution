@@ -4,7 +4,7 @@ const usePutReactQuery = (id) => {
     return useMutation({
       mutationFn: () =>
         axios
-          .put(`http://localhost:8000/addProducts/${id}`, {products})
+          .put(`${process.env.REACT_APP_DEVELOPMENT_URL}/addProducts/${id}`, {products})
           .then((response) =>console.log( response.data)),
       // 💡 response of the mutation is passed to onSuccess
       onSuccess: (newPost) => {

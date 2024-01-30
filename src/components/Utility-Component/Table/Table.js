@@ -13,7 +13,7 @@ const Table = ({tableHeadings,tableData,children,refetch}) => {
         setDelDetail(contents)
     }
     const handleDelete=()=>{
-       deleteWithModal('http://localhost:8000/companyList?id',delDetail?._id,setDelDetail,refetch)
+       deleteWithModal('${process.env.REACT_APP_DEVELOPMENT_URL}/companyList?id',delDetail?._id,setDelDetail,refetch)
     }
     
     return (

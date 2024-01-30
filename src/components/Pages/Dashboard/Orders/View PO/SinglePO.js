@@ -120,7 +120,7 @@ const SinglePO = () => {
               notify()
             }
           })
-        // axios.post(`http://localhost:8000/updateOrder/${_id}`,{deliveryDetails,patchedOrderInfo})
+        // axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/updateOrder/${_id}`,{deliveryDetails,patchedOrderInfo})
         // .then(res=>{
         //   if (res.data) {
         //     console.log('hlk')

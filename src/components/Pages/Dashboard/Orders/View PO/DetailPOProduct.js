@@ -14,7 +14,7 @@ const DetailPOProduct = ({ properties, orderNumberDispatch }) => {
 
   useEffect(() => {
 
-    axios.put(`http://localhost:8000/editDate/${properties?._id}`, { completeDate: completed })
+    axios.put(`${process.env.REACT_APP_DEVELOPMENT_URL}/editDate/${properties?._id}`, { completeDate: completed })
       .then(res => {
         // // console.log(res.data)
         return res.data
@@ -23,7 +23,7 @@ const DetailPOProduct = ({ properties, orderNumberDispatch }) => {
     // console.log(compDate)
   }, [completed, properties?._id])
   const handleStatus = (e) => {
-    axios.patch(`http://localhost:8000/editStatus/${properties?._id}`, { status: e.target.value })
+    axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/editStatus/${properties?._id}`, { status: e.target.value })
       .then(res => res.data)
   }
   return (
