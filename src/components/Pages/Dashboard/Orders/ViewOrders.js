@@ -20,72 +20,9 @@ import { changingPage, clearFiltering, clearSearching, decrementFirstPage, filte
 import Alert from '../../../Utility-Component/Alert/Alert';
 import FilterAllButton from '../../../Utility-Component/Filters/FilterAllButton';
 import usePaginationNextAndPrev from '../../../CustomHooks/usePaginationNextAndPrev';
-const tableHeadings = [
-    {
-        id: 4,
-        heading: 'COMPANY',
-        class: "w-4"
-    },
-    {
-        id: 5,
-        heading: "BUYER",
-        class: "w-4"
-    },
-    {
-        id: 7,
-        heading: "PRODUCT",
-        class: "w-4"
-    },
-    {
-        id: 17,
-        heading: "RANGE",
-        class: "w-4"
-    },
-    {
-        id: 25,
-        heading: 'TB NUM.',
-        class: 'w-4'
-    },
-    {
-        id: 6,
-        heading: "ORD. NUM.",
-        class: "w-4"
-    },
-    {
-        id: 35,
-        heading: "ORD. QTY",
-        class: "w-4"
-    },
-    {
-        id: 26,
-        heading: "DEL. QTY",
-        class: "w-4"
-    },
-    {
-        id: 59,
-        heading: "REST QTY",
-        class: "w-4"
-    }, {
-        id: 27,
-        heading: 'ORD. DATE',
-        class: "w-4"
-    },
+import { viewOrdersTableHeading } from '../../../../utils/headings';
+import { reFetchingOrder } from '../../../../Redux/Features/RetchFunctions/refetchSlices';
 
-    {
-        id: 9,
-        heading: 'TAR. DATE',
-        class: "w-4"
-    },
-    {
-        id: 29,
-        heading: 'STATUS',
-        class: "w-4"
-    }, {
-        id: 456,
-        heading: 'COM. DATE',
-        class: "w-4"
-    }
-]
 const status = ['Ordered', 'Completed', 'Pending', "Canceled"]
 const fetchOrder = async (url) => {
     const res = await fetch(url,{
@@ -98,9 +35,10 @@ const ViewOrders = () => {
     useDocumentTitle('View Orders Dashboard')
   let count
     const { data = [], isLoading: listLoading, isError: listError } = useGetBuyersQuery(undefined, {
-        refetchOnMountOrArgChange: 10
+        refetchOnMountOrArgChange: 600,
+        keepUnusedDataFor: 14400,
     })
- 
+   
     const { orderFiltering: { filteredState,firstPage,lastPage, isFiltered, page: pageState, urlOfOrders, searchedKeyWords, isSearched, searchPageNumber, filteredPageNumber } } = useSelector(state => state.orderListFilter)
     const [page, setPage] = useState(0)
     const pageRef = useRef(false)
@@ -112,6 +50,7 @@ const ViewOrders = () => {
         queryKey: ['orderList', urlOfOrders],
         queryFn: () => fetchOrder(urlOfOrders),
         dependencies: [urlOfOrders],
+        
     });
     const dispatch = useDispatch()
     useEffect(() => {
@@ -131,6 +70,7 @@ const ViewOrders = () => {
             dispatch(clearFiltering())
             dispatch(filterPageChanging(0))
         }
+        // dispatch(reFetchingOrder(refetch))
 
     }, [pageState, urlOfOrders, pageRef, filterRef, filteredState, searchedKeyWords, filteredPageNumber, searchPageNumber])
     const handleFilter = (filter, property) => {
@@ -183,10 +123,10 @@ const ViewOrders = () => {
     }
     let filterObjectPropertyForPagination = { pageState, filteredPageNumber, searchPageNumber, isSearched, isFiltered }
     const handleDelete = (id) => {
-        deleteWithModal('${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id', id, setdelDetail, refetch)
+        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id`, id, setdelDetail, refetch)
     }
     const handleCopyOrder = (id) => {
-        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`)
+        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`,{},{withCredentials:true})
             .then(res => {
                 if (res.data) {
                     const notify = () => toast.success('Order Copied')
@@ -245,7 +185,7 @@ const ViewOrders = () => {
     }
     if (!isLoading) {
         tableContent = <>
-            <Table tableHeadings={findingData.length === 0 ? '' : tableHeadings} tableData={[]} >{
+            <Table tableHeadings={findingData.length === 0 ? '' : viewOrdersTableHeading} tableData={[]} >{
                 Array.isArray(findingData) && [...findingData]?.map(item => <TableOrder key={item._id} handleCopy={handleCopy} contents={item} handleRemove={handleRemove} isLoading={isLoading}></TableOrder>)
             }</Table>
         </>

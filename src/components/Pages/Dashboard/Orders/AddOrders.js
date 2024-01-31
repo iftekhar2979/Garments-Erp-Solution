@@ -16,8 +16,8 @@ import Radio from '../../../Utility-Component/Form/Radio';
 import Spinner from '../../../Utility-Component/Spinner';
 import useDocumentTitle from '../../../CustomHooks/useDocumentTitle';
 import InputCheckBox from '../../../Utility-Component/InputCheckBox';
-
 import { useAddOrderMutation, useAddOrderQuery, useGetCompanyNamesQuery, useGetProductsQuery } from '../../../../Redux/Features/api/apiSlice'
+import { useSelector } from 'react-redux';
 
 
 const sectionSize = ['L-W-H', 'SM-XL', 'SINGLE-INPUT']
@@ -27,6 +27,7 @@ const AddOrders = () => {
   const [addOrderState, dispatch] = useReducer(addOrderReducer, orderListState)
   //form hook for register
   const navigate = useNavigate()
+  const {refetchOrder}=useSelector(state=>state.refetching)
   const { register, handleSubmit, reset } = useForm();
   const [buyers, setbuyers] = useState();
   //target date
@@ -34,14 +35,21 @@ const AddOrders = () => {
   //completed Date
   const [completed, setCompleted] = useState(new Date());
   const [companyName, setCompanyName] = useState([])
-  const { data: companyData, isLoading, isError } = useGetCompanyNamesQuery()
-  const { data: products, isLoading: productIsLoading, isError: productIsError } = useGetProductsQuery()
+  const { data: companyData, isLoading, isError } = useGetCompanyNamesQuery(undefined,{
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor:600    
+  })
+  const { data: products, isLoading: productIsLoading, isError: productIsError } = useGetProductsQuery(undefined,{
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor:600    
+  })
   const [addOrder, { isSuccess, isError: addingOrderError, error }] = useAddOrderMutation()
   const [isChecked, setIsChecked] = useState(false)
 
   const handleCheckbox = () => {
     setIsChecked(!isChecked)
-  }
+}
+
 
   useEffect(() => {
     dispatch({ type: 'DATE', orderedDate: format(selected, 'PP'), targetDate: format(completed, 'PP') })
@@ -54,7 +62,7 @@ const AddOrders = () => {
   if (isLoading) {
     return <Spinner />;
   }
-  // console.log(companyData)
+  // console.log(refetchOrder.refetchOrder)
   const handleInputDropdown = (e) => {
     const val = e.target.value
     const findCompanyLocation = companyData?.find((item, index) => {
@@ -73,9 +81,10 @@ const AddOrders = () => {
     addOrder(addOrderState)
     .then(res => {
       if(res.data){
+        navigate('/dashboard/viewOrders')
+        refetchOrder()
         const notify = () => toast.success('added ordered Succesfully');
         notify()
-        navigate('/dashboard/viewOrders')
 
       }
     })

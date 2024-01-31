@@ -70,7 +70,10 @@ export const ChalanList = () => {
         queryKey: [urlOfChalans],
         queryFn: () => fetchOrder(urlOfChalans),
         dependencies: [urlOfChalans],
-        keepPreviousData: true
+        keepPreviousData: 600,
+        refetchOnReconnect:true,
+        refetchOnWindowFocus:true,
+        
     });
     const dispatch = useDispatch()
     const { handleNext, handlePrev } = usePaginationNextAndPrev({

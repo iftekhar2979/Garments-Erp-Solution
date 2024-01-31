@@ -7,11 +7,11 @@ import { totalCount } from '../../../../CustomHooks/totalCounting';
 import { useDispatch, useSelector } from 'react-redux';
 import { calculateGrandDeliveryAndRestTotal, pushingDetailOfDeliveryOrder } from '../../../../../Redux/Features/DELIVERY_TABLE/deliverytable';
 
-const intialSizes = { XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0, lwhSize: 0, singleInput: 0 }
+const intialSizes = { XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0,XXXL:0, lwhSize: 0, singleInput: 0 }
 const DetailTable = ({ poDetails, isCheacked, }) => {
   const { sizeName,} = useContext(ViewContextProvider)
   //redux delivery size
-  const [sizes, setSizes] = useState({ XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0, lwhSize: 0, singleInput: 0 })
+  const [sizes, setSizes] = useState({ XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0,XXXL:0, lwhSize: 0, singleInput: 0 })
   const [totalOrder, setTotalOrder] = useState({})
   const [restObject, setRestObject] = useState()
   const [value, setValue] = useState(0)

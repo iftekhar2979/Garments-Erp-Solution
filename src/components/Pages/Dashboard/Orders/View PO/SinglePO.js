@@ -105,53 +105,55 @@ const SinglePO = () => {
         grandDeliveryQuantity,
         grandRestQuantity,
       }
-      if (grandDeliveryQuantity > 0) {
-        addDeliveryAndUpdateOrders({id:_id,deliveryDetails,patchedOrderInfo})
-           .then(res => {
-             if (res.data?.isUpdated) {
+   
+      // if (grandDeliveryQuantity > 0) {
+      //   addDeliveryAndUpdateOrders({id:_id,deliveryDetails,patchedOrderInfo})
+      //      .then(res => {
+      //        if (res.data?.isUpdated) {
         
-          // console.log('state',res.data)
-              dispatch(clearingState())
-            }
-          }).catch(error => {
-            if (error) {
-              console.log(error)
-              const notify = () => toast.error('Something Error in Server')
-              notify()
-            }
-          })
-        // axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/updateOrder/${_id}`,{deliveryDetails,patchedOrderInfo})
-        // .then(res=>{
-        //   if (res.data) {
-        //     console.log('hlk')
-        //     const notify = () => toast.success('DID')
-        //     notify()
-        //           dispatch(clearingState())
-        //         }
-        // }).catch(error => {
-        //   if (error) {
-        //     const notify = () => toast.error('Something Error in Server')
-        //     notify()
-        //   }
-        // })
-        // addDelivery(deliveryDetails)
-        //   .then(res => {
-        //     if (res.data) {
-        //       increaseChalanNumber("645dcc1d5a65a1351c90c3bc");
-        //       addDetailsAndPatchInSingleOrder({ patchedOrderInfo, _id });
-        //       dispatch(clearingState())
-        //     }
-        //   }).catch(error => {
-        //     if (error) {
-        //       const notify = () => toast.error('Something Error in Server')
-        //       notify()
-        //     }
-        //   })
-      } else {
-        const notify = () => toast.error('Please add the Valid Input')
-        notify()
-      }
+      //     // console.log('state',res.data)
+      //         dispatch(clearingState())
+      //       }
+      //     }).catch(error => {
+      //       if (error) {
+      //         console.log(error)
+      //         const notify = () => toast.error('Something Error in Server')
+      //         notify()
+      //       }
+      //     })
+      //   // axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/updateOrder/${_id}`,{deliveryDetails,patchedOrderInfo})
+      //   // .then(res=>{
+      //   //   if (res.data) {
+      //   //     console.log('hlk')
+      //   //     const notify = () => toast.success('DID')
+      //   //     notify()
+      //   //           dispatch(clearingState())
+      //   //         }
+      //   // }).catch(error => {
+      //   //   if (error) {
+      //   //     const notify = () => toast.error('Something Error in Server')
+      //   //     notify()
+      //   //   }
+      //   // })
+      //   // addDelivery(deliveryDetails)
+      //   //   .then(res => {
+      //   //     if (res.data) {
+      //   //       increaseChalanNumber("645dcc1d5a65a1351c90c3bc");
+      //   //       addDetailsAndPatchInSingleOrder({ patchedOrderInfo, _id });
+      //   //       dispatch(clearingState())
+      //   //     }
+      //   //   }).catch(error => {
+      //   //     if (error) {
+      //   //       const notify = () => toast.error('Something Error in Server')
+      //   //       notify()
+      //   //     }
+      //   //   })
+      // } else {
+      //   const notify = () => toast.error('Please add the Valid Input')
+      //   notify()
+      // }
     } else {
+      console.log(details)
       addDetailsInSingleOrder({ details, _id })
     }
   }

@@ -29,16 +29,18 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   const [url, setUrl] = useState('/tbList')
   const [completed, setCompleted] = useState(false)
   const { data: tbLists = [], isLoading, isError, refetch } = useGetPiListQuery(url, {
-    refetchOnMountOrArgChange: true
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor:600    
   })
   const { data = [], isLoading: listLoading } = useGetBuyersQuery(undefined, {
-    refetchOnMountOrArgChange: 10
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor: 14400,
   })
   if (isLoading && listLoading) {
     return <Spinner />;
   }
   const createdTB = [...new Set(tbLists.flatMap(item => item.tbArray))];
-  console.log(createdTB)
+ 
   const handleCheckboxChange = (event) => {
     const selectedValue = event.target.value;
     const isChecked = event.target.checked;

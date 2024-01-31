@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore, createSerializableStateInvariantMiddleware, getDefaultMiddleware } from "@reduxjs/toolkit";
 import piSlice from "../Redux/Features/pi/piSlice";
 import singleOrder from "../Redux/Features/Single-Order/singleOrder";
 import sizeCalculationSlice from "../Redux/Features/Size-Calculation-Totals/sizeCalculationSlice";
@@ -10,6 +10,7 @@ import uiSlice from "../Redux/Features/UiBehavior/uiSlice";
 import orderListFilter from "../Redux/Features/orderListFilter/orderListFilter";
 import deliveryStatementSlice from "../Redux/Features/DeliveryStatement/deliveryStatementSlice";
 import userSlice from "../Redux/Features/api/Users/userSlice";
+import refetchSlices from "../Redux/Features/RetchFunctions/refetchSlices";
 
 
 export const store=configureStore({
@@ -20,6 +21,7 @@ export const store=configureStore({
         orderDetails:orderDetails,
         deliveryTable:deliverytable,
         uiSlice:uiSlice,
+        refetching:refetchSlices,
         orderListFilter:orderListFilter,
         deliveryStatement:deliveryStatementSlice,
         [apiSlice.reducerPath]:apiSlice.reducer,

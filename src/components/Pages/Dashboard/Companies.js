@@ -33,7 +33,8 @@ const tableHeadings = [
 const Companies = () => {
     useDocumentTitle('COMPANIES--ABC SOURCING')
     const { data: companies, isLoading, isError, refetch } = useGetCompanyQuery(undefined, {
-        refetchOnMountOrArgChange: true,
+        refetchOnMountOrArgChange: 600,
+        keepUnusedDataFor: 14400,
         refetchOnFocus: true,
         refetchOnReconnect: true
     })

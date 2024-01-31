@@ -3,12 +3,11 @@ import { ViewContextProvider } from "../../../../contextApi/ViewContext";
 import { UidGenarate } from "./Reducer/intialState";
 
 const RestTable = ({ options, size, sizeChange, defaultValue, total, value }) => {
-  const [makeArrOfDefaultValue, setMakeArrOfDefaultValue] = useState()
+
   const { sizeName } = useContext(ViewContextProvider)
   
   let select=(arr, obj) => {
     const selectedProperties = arr.reduce((result, key) => {
-      console.log(key,obj[key])
       if (obj[key]) {
         result[key] = obj[key];
       }
