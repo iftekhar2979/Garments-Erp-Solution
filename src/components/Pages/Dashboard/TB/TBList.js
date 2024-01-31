@@ -39,7 +39,6 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
     return <Spinner />;
   }
   const createdTB = [...new Set(tbLists.flatMap(item => item.tbArray))];
-  console.log(createdTB)
   const handleCheckboxChange = (event) => {
   const selectedValue = event.target.value
     const isChecked = event.target.checked;
