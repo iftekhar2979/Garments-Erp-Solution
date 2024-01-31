@@ -80,7 +80,7 @@ const Chalan = () => {
     }, [details])
    
     const handleDeliveryMan = (e) => {
-        axios.patch(`http://localhost:8000/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value })
+        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value })
             .then(res => {
                 return res.data
             })
@@ -97,7 +97,7 @@ const Chalan = () => {
     const { data: companyAndOtherDetail = [], refetch, isLoading } = useQuery({
         queryKey: [deliveryDetail?.orderId],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:8000/orderList/${deliveryDetail?.orderId}`,{credentials:'include'});
+            const res = await fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList/${deliveryDetail?.orderId}`,{credentials:'include'});
             const data = await res.json();
             return data;
         },

@@ -30,7 +30,7 @@ const OrderListEdit = () => {
     buyerName: '',
     targetDate: '',
   });
-  const { companyData, loading } = useFetch('http://localhost:8000/companyNames');
+  const { companyData, loading } = useFetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/companyNames`);
   const companyNames=companyData?.map(item=>item.companyName)
   //custom hook for load products from server
   const { product } = useProductItem();
@@ -40,7 +40,7 @@ const OrderListEdit = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
 
-    axios.post(`http://localhost:8000/companyBuyers?companyBuyers=${e.target.value}`)
+    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/companyBuyers?companyBuyers=${e.target.value}`)
     .then((responce) => {
       setbuyers(responce.data);
     })
@@ -66,7 +66,7 @@ const OrderListEdit = () => {
     
     const editedData = { ...companyAndProduct, ...obj };
     
-    patchDocuments('http://localhost:8000/orderList',{...editedData},defaultData?._id)
+    patchDocuments('${process.env.REACT_APP_DEVELOPMENT_URL}/orderList',{...editedData},defaultData?._id)
   };
   return (
     <>

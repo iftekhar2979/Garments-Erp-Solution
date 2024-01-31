@@ -7,13 +7,13 @@ const useProductItem = () => {
    useEffect(()=>{
     setLoading(true)
 
-    axios.get(`http://localhost:8000/products/64161bb6a541e87d78c95b47`)
+    axios.get(`${process.env.REACT_APP_DEVELOPMENT_URL}/products/64161bb6a541e87d78c95b47`)
     .then(responce=>  {
         
        setproduct(responce.data)}
     ).catch(error=>setError(error)
     ).finally(()=>setLoading(false))
-   },[`http://localhost:8000/products/64161bb6a541e87d78c95b47`])
+   },[`${process.env.REACT_APP_DEVELOPMENT_URL}/products/64161bb6a541e87d78c95b47`])
    return {product,loading,error,setproduct}
 };
 

@@ -85,7 +85,7 @@ const isObjectEmpty = (objectName) => {
                                         <div className="ml-3 text-sm">
                                         
                                           
-                                            <div className="swap-on cursor-pointer " onClick={()=>setShowPass(!showpass)}>{showpass?'Show Password':'Hide Password'}</div>
+                                            <div className="swap-on cursor-pointer " onClick={()=>setShowPass(!showpass)}>{showpass?'Hide Password':'Show Password'}</div>
                                         </div>
                                     </div>
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>

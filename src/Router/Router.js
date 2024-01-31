@@ -74,14 +74,14 @@ export const router = createBrowserRouter([
                         path: '/dashboard/edit/:id',
                         element: <OrderListEdit></OrderListEdit>,
                         loader: async ({ params }) => {
-                            return fetch(`http://localhost:8000/orderList/${params.id}`,{credentials:'include'})
+                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList/${params.id}`,{credentials:'include'})
                         }
                     },
                     , {
                         path: '/dashboard/po/:id',
                         element: <ViewContext><SinglePO></SinglePO></ViewContext>,
                         // loader: async ({ params }) => {
-                        //     return fetch(`http://localhost:8000/orderList/${params.id}`)
+                        //     return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList/${params.id}`)
                         // },
                         
                     },
@@ -89,13 +89,13 @@ export const router = createBrowserRouter([
                         path: '/dashboard/po/deliveryDetail/:id',
                         element: <ViewContext><DeliveryDetail></DeliveryDetail></ViewContext>,
                         loader: async ({ params }) => {
-                            return fetch(`http://localhost:8000/deliveryDetail/${params.id}`,{credentials:'include'})
+                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/deliveryDetail/${params.id}`,{credentials:'include'})
                         },
                     }, {
                         path: '/dashboard/po/singledeliveryDetail/:id',
                         element: <ViewContext><SingleDetailDelivery /></ViewContext>,
                         loader: async ({ params }) => {
-                            return fetch(`http://localhost:8000/singleDeliveryDetail/${params.id}`,{credentials:'include'})
+                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/singleDeliveryDetail/${params.id}`,{credentials:'include'})
                         }
                     },{
                         path:'/dashboard/tbLists',
@@ -123,7 +123,7 @@ export const router = createBrowserRouter([
         path: '/chalan/:id',
         element: <PrivateRoute><ViewContext><Chalan></Chalan></ViewContext></PrivateRoute>,
         loader: async ({ params }) => {
-            return fetch(`http://localhost:8000/singleDeliveryDetail/${params.id}`,{credentials:'include'})
+            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/singleDeliveryDetail/${params.id}`,{credentials:'include'})
         }
     },
     ,{

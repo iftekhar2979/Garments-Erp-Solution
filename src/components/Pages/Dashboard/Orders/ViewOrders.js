@@ -116,17 +116,17 @@ const ViewOrders = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         if (pageRef?.current) {
-            let url = `http://localhost:8000/orderList?page=${pageState}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?page=${pageState}`
             dispatch(urlChanging(url))
         }
         if (isFiltered && filterRef) {
-            let url = `http://localhost:8000/${filteredState}&page=${filteredPageNumber}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/${filteredState}&page=${filteredPageNumber}`
             dispatch(urlChanging(url)) //changing request url
             dispatch(clearSearching('')) // clear searching
             dispatch(searchingPageChanging(0)) //filtering page number 0
         }
         if (isSearched) {
-            let url = `http://localhost:8000/search?orderNumber=${searchedKeyWords}&page=${searchPageNumber}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/search?orderNumber=${searchedKeyWords}&page=${searchPageNumber}`
             dispatch(urlChanging(url))
             dispatch(clearFiltering())
             dispatch(filterPageChanging(0))
@@ -183,10 +183,10 @@ const ViewOrders = () => {
     }
     let filterObjectPropertyForPagination = { pageState, filteredPageNumber, searchPageNumber, isSearched, isFiltered }
     const handleDelete = (id) => {
-        deleteWithModal('http://localhost:8000/orderList?id', id, setdelDetail, refetch)
+        deleteWithModal('${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id', id, setdelDetail, refetch)
     }
     const handleCopyOrder = (id) => {
-        axios.post(`http://localhost:8000/order/copy/${id}`)
+        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`)
             .then(res => {
                 if (res.data) {
                     const notify = () => toast.success('Order Copied')
