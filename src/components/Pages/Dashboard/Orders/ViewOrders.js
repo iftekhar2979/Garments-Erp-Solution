@@ -98,7 +98,7 @@ const ViewOrders = () => {
     useDocumentTitle('View Orders Dashboard')
   let count
     const { data = [], isLoading: listLoading, isError: listError } = useGetBuyersQuery(undefined, {
-        refetchOnMountOrArgChange: 10
+        refetchOnMountOrArgChange: 600
     })
  
     const { orderFiltering: { filteredState,firstPage,lastPage, isFiltered, page: pageState, urlOfOrders, searchedKeyWords, isSearched, searchPageNumber, filteredPageNumber } } = useSelector(state => state.orderListFilter)
@@ -112,6 +112,7 @@ const ViewOrders = () => {
         queryKey: ['orderList', urlOfOrders],
         queryFn: () => fetchOrder(urlOfOrders),
         dependencies: [urlOfOrders],
+        refetchOnWindowFocus:true,
     });
     const dispatch = useDispatch()
     useEffect(() => {

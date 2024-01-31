@@ -57,7 +57,10 @@ let sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 const deliveryManArray = ['Mr. Anwar', 'Mr. Shahin','Mr. Taleb', 'Mr. Rahman', 'Mr. Sarwar','Mr. Alamin']
 const Chalan = () => {
     const deliveryDetail = useLoaderData()
-    const {data:deliveryMens,isLoading:deliveryManLoading}=useGetDeliveryManQuery()
+    const {data:deliveryMens,isLoading:deliveryManLoading}=useGetDeliveryManQuery(undefined,{
+        refetchOnMountOrArgChange:600,
+        keepUnusedDataFor:600
+    })
     const { createdAt='', details, grandDeliveryQuantity, chalanNumber, _id, deliveryMan } = deliveryDetail
     useDocumentTitle(`Challan No:${chalanNumber}`)
     let componentRef = useRef();
@@ -80,7 +83,7 @@ const Chalan = () => {
     }, [details])
    
     const handleDeliveryMan = (e) => {
-        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value })
+        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value },{withCredentials:true})
             .then(res => {
                 return res.data
             })

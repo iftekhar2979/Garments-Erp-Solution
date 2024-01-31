@@ -109,9 +109,9 @@ const SinglePO = () => {
         addDeliveryAndUpdateOrders({id:_id,deliveryDetails,patchedOrderInfo})
            .then(res => {
              if (res.data?.isUpdated) {
-        
-          // console.log('state',res.data)
               dispatch(clearingState())
+              const notify = () => toast.success('Delivered Succesfully')
+              notify()
             }
           }).catch(error => {
             if (error) {
@@ -120,20 +120,7 @@ const SinglePO = () => {
               notify()
             }
           })
-        // axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/updateOrder/${_id}`,{deliveryDetails,patchedOrderInfo})
-        // .then(res=>{
-        //   if (res.data) {
-        //     console.log('hlk')
-        //     const notify = () => toast.success('DID')
-        //     notify()
-        //           dispatch(clearingState())
-        //         }
-        // }).catch(error => {
-        //   if (error) {
-        //     const notify = () => toast.error('Something Error in Server')
-        //     notify()
-        //   }
-        // })
+  
         // addDelivery(deliveryDetails)
         //   .then(res => {
         //     if (res.data) {

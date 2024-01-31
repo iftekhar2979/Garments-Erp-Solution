@@ -63,7 +63,7 @@ const PoTable = ({ style, isCheacked, setisCheacked }) => {
       let newLwh = new Array(1)
       setsizeName(['input'])
     } else {
-      console.log(sizes)
+     
       setsizeName(sizes)
     }
   }, [poState?.sizeSystem, setsizeName])

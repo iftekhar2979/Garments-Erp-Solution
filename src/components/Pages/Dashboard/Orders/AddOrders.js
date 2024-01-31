@@ -34,8 +34,16 @@ const AddOrders = () => {
   //completed Date
   const [completed, setCompleted] = useState(new Date());
   const [companyName, setCompanyName] = useState([])
-  const { data: companyData, isLoading, isError } = useGetCompanyNamesQuery()
-  const { data: products, isLoading: productIsLoading, isError: productIsError } = useGetProductsQuery()
+  const { data: companyData, isLoading, isError } = useGetCompanyNamesQuery(undefined,{
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor:600
+    
+  })
+  const { data: products, isLoading: productIsLoading, isError: productIsError } = useGetProductsQuery(undefined,{
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor:600
+    
+  })
   const [addOrder, { isSuccess, isError: addingOrderError, error }] = useAddOrderMutation()
   const [isChecked, setIsChecked] = useState(false)
 
