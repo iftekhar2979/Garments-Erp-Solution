@@ -13,6 +13,7 @@ import InputForm from '../../../Utility-Component/InputForm';
 import PreviousSelected from './PreviousSelected';
 import patchDocuments from '../../../CustomHooks/putDocument';
 import { format, parseISO } from 'date-fns';
+import { useGetProductsQuery } from '../../../../Redux/Features/api/apiSlice';
 
 const OrderListEdit = () => {
   const defaultData = useLoaderData();
@@ -33,14 +34,18 @@ const OrderListEdit = () => {
   const { companyData, loading } = useFetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/companyNames`);
   const companyNames=companyData?.map(item=>item.companyName)
   //custom hook for load products from server
-  const { product } = useProductItem();
+  const { data: product, isLoading: productIsLoading, isError: productIsError } = useGetProductsQuery(undefined,{
+    refetchOnMountOrArgChange: 600,
+    keepUnusedDataFor:600
+    
+  })
 
   const handleInputDropdown = (e) => {
     setCompanyAndProduct((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
 
-    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/companyBuyers?companyBuyers=${e.target.value}`)
+    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/companyBuyers?companyBuyers=${e.target.value}`,{},{withCredentials:true})
     .then((responce) => {
       setbuyers(responce.data);
     })
@@ -66,7 +71,7 @@ const OrderListEdit = () => {
     
     const editedData = { ...companyAndProduct, ...obj };
     
-    patchDocuments('${process.env.REACT_APP_DEVELOPMENT_URL}/orderList',{...editedData},defaultData?._id)
+    patchDocuments(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList`,{...editedData},defaultData?._id)
   };
   return (
     <>

@@ -7,7 +7,7 @@ const useFetch = (url) => {
    useEffect(()=>{
     setLoading(true)
 
-    axios.get(url)
+    axios.get(url,{withCredentials:true})
     .then(responce=>  {
        setcompanyData(responce.data)}
     ).catch(error=>setError(error)

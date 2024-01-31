@@ -8,7 +8,7 @@ const RestTable = ({ options, size, sizeChange, defaultValue, total, value }) =>
   
   let select=(arr, obj) => {
     const selectedProperties = arr.reduce((result, key) => {
-      console.log(key,obj[key])
+      
       if (obj[key]) {
         result[key] = obj[key];
       }

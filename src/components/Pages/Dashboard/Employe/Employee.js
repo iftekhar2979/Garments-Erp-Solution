@@ -9,15 +9,20 @@ import Spinner from '../../../Utility-Component/Spinner';
 import Alert from '../../../Utility-Component/Alert/Alert';
 
 const Employee = (props) => {
-    const {data:deliveryMens,isLoading}=useGetDeliveryManQuery()
-    const [addDeliveryMan, { isSuccess: deliveryManSuccess, isLoading: deliveryManLoading,isError ,refetch}] = useAddDeliveryManMutation()
+    const { data: deliveryMens, isLoading } = useGetDeliveryManQuery()
+    const [addDeliveryMan, { isSuccess: deliveryManSuccess, isLoading: deliveryManLoading, isError, refetch }] = useAddDeliveryManMutation(undefined, {
+
+        refetchOnMountOrArgChange: 600,
+        keepUnUsedFor: 600
+
+    })
     const { handleAdd, handleChange, handleRemove, val, setVal } =
         UseCollectArray();
 
     const handleADD = async () => {
         // console.log(val)
-        addDeliveryMan(val).then(res=>{
-            if(res.data){
+        addDeliveryMan(val).then(res => {
+            if (res.data) {
                 const notify = toast.success('Added Succesfully')
                 notify()
             }
@@ -27,18 +32,18 @@ const Employee = (props) => {
 
     }
     let content
-    if(isLoading){
-        content=<Spinner/> 
+    if (isLoading) {
+        content = <Spinner />
     }
-    
-    if(isError) {
-        content=<Alert alertDescription={'Something Error in Server Please Try Again'} className={'w-fit mx-auto my-6'} role={'alert alert-warning'}/>
+
+    if (isError) {
+        content = <Alert alertDescription={'Something Error in Server Please Try Again'} className={'w-fit mx-auto my-6'} role={'alert alert-warning'} />
     }
- if( !isLoading&&!isError&& deliveryMens.deliveryMan){
-content=  <ul className='text-center'>
-{deliveryMens?.deliveryMan.length!==0 && deliveryMens?.deliveryMan?.map(item=><li className='border-t border-b'>{item}</li>)}
-</ul>
- }
+    if (!isLoading && !isError && deliveryMens.deliveryMan) {
+        content = <ul className='text-center'>
+            {deliveryMens?.deliveryMan.length !== 0 && deliveryMens?.deliveryMan?.map(item => <li className='border-t border-b'>{item}</li>)}
+        </ul>
+    }
     return (
         <section className='flex justify-center items-center flex-col my-4'>
             <div className='w-1/2  py-4 border bg-white  '>
@@ -58,7 +63,7 @@ content=  <ul className='text-center'>
                 </div>
             </div>
             <div className='w-1/2  my-4 py-4 border bg-white  '>
-              {content}
+                {content}
             </div>
         </section>
 

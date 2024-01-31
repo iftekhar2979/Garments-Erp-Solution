@@ -26,7 +26,9 @@ class CustomizedAxisTick extends PureComponent {
 }
 const AddProduct = () => {
   const { data: totalProducts, isLoading, isError } = useGetProductsQuery()
-  const { data: summaryData = [], isLoading: summaryLoading ,isError:summaryError} = useGetProductSummaryQuery()
+  const { data: summaryData = [], isLoading: summaryLoading ,isError:summaryError} = useGetProductSummaryQuery(undefined,{
+    refetchOnMountOrArgChange:600
+  })
   const [addProduct, { isSuccess: addingProuductSuccess, isError: addingProductError }] = useAddProductMutation()
   useDocumentTitle('PRODUCT-DASHBOARD')
   const { handleAdd, handleChange, handleRemove, val, setVal } =
