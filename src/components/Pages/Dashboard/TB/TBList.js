@@ -28,9 +28,7 @@ const tableHeadings = [
 const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   const [url, setUrl] = useState('/tbList')
   const [completed, setCompleted] = useState(false)
-  const { data: tbLists = [], isLoading, isError, refetch } = useGetPiListQuery(url, {
-    refetchOnMountOrArgChange: 600
-  })
+  const { data: tbLists = [], isLoading, isError, refetch } = useGetPiListQuery(url)
   const { data = [], isLoading: listLoading } = useGetBuyersQuery(undefined, {
     refetchOnMountOrArgChange: 600,
     
@@ -52,6 +50,7 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   if (selectedValues.length !== 0) {
     matchedCompany = tbLists.find(item => item.tbNumber === selectedValues[0])
   }
+
   const { companyList = {} } = data[0]
   const handleInputDropdown = (e) => {
     setUrl(`/tbList?companyName=${e.target.value}`)

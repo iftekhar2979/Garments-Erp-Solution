@@ -185,10 +185,10 @@ const ViewOrders = () => {
     }
     let filterObjectPropertyForPagination = { pageState, filteredPageNumber, searchPageNumber, isSearched, isFiltered }
     const handleDelete = (id) => {
-        deleteWithModal('${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id', id, setdelDetail, refetch)
+        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id`, id, setdelDetail, refetch)
     }
     const handleCopyOrder = (id) => {
-        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`)
+        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`,{},{withCredentials:true})
             .then(res => {
                 if (res.data) {
                     const notify = () => toast.success('Order Copied')

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SubmitButton from './SubmitButton';
 import { addTBNumbers, addTBNumbersAndDates, clearingState } from '../../../../Redux/Features/pi/piSlice';
 import TotalTableOfPI from './TotalTableOfPI';
-import {  useGetDeliveryStatementMutation } from '../../../../Redux/Features/api/apiSlice';
+import { useGetDeliveryStatementMutation } from '../../../../Redux/Features/api/apiSlice';
 import { useAddPiMutation } from '../../../../Redux/Features/api/summaryApiSlice';
 import toast from 'react-hot-toast';
 
@@ -47,38 +47,46 @@ const tableHeadings = [
 const TBAndPi = () => {
   const [selectedValues, setSelectedValues] = useState([])
   const [piData, setPiData] = useState([])
-  const [amount,setAmount]=useState(0)
-  const [getDeliveryStatement,{data: deliveryStatement, isSuccess}] = useGetDeliveryStatementMutation()
-  const [addPi,{isLoading,isError}]=useAddPiMutation()
-  const dispatch=useDispatch()
+  const [amount, setAmount] = useState(0)
+  const [getDeliveryStatement, { data: deliveryStatement, isSuccess }] = useGetDeliveryStatementMutation()
+  const [addPi, { isLoading, isError }] = useAddPiMutation()
+  const dispatch = useDispatch()
   const handlePi = () => {
     dispatch(addTBNumbersAndDates(selectedValues))
-    addPi(selectedValues)
-    .then(res=>{
-      setPiData(res.data)
-    }).catch(error=>{
-      toast.error("Server Side Error")
-    })
 
+    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/pi`, { selectedValues }, { withCredentials: true })
+      .then(res => setPiData(res.data))
+      .catch(err => {
+        const notifySuccess = () => toast.error('Server side Error, Please Reload!!!');
+        notifySuccess();
+      })
   }
+  // addPi(selectedValues)
+  // .then(res=>{
+  //   setPiData(res.data)
+  // }).catch(error=>{
+  //   toast.error("Server Side Error")
+  // })
+
+  // }
 
   return (
     <>
-      <TBList setSelectedValues={setSelectedValues} handlePi={handlePi}  selectedValues={selectedValues} />
+      <TBList setSelectedValues={setSelectedValues} handlePi={handlePi} selectedValues={selectedValues} />
 
       <input type="checkbox" id='my-modal-6' className="modal-toggle" />
       <div className="modal">
         <div className="modal-box relative w-11/12 max-w-5xl h-11/12">
-          <label htmlFor='my-modal-6' className="btn btn-sm btn-circle absolute right-2 top-2" onClick={()=>dispatch(clearingState())}>✕</label>
+          <label htmlFor='my-modal-6' className="btn btn-sm btn-circle absolute right-2 top-2" onClick={() => dispatch(clearingState())}>✕</label>
           <h3 className="text-lg font-bold">Perfoma Invoice of {selectedValues && selectedValues?.map(item => `${item}  `)}</h3>
           <Table tableHeadings={tableHeadings} tableData={[]} >
             {piData?.map((item) => <>
-            <ModalTable key={UidGenarate()} setAmount={setAmount} detail={item} /> 
+              <ModalTable key={UidGenarate()} setAmount={setAmount} detail={item} />
             </>)}
-         <TotalTableOfPI/>
+            <TotalTableOfPI />
           </Table>
           <div className="modal-action">
-          <SubmitButton setSelectedValues={setSelectedValues}/>
+            <SubmitButton setSelectedValues={setSelectedValues} />
           </div>
         </div>
       </div>
