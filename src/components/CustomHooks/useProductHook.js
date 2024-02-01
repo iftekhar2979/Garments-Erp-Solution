@@ -7,7 +7,7 @@ const useProductItem = () => {
    useEffect(()=>{
     setLoading(true)
 
-    axios.get(`${process.env.REACT_APP_DEVELOPMENT_URL}/products/64161bb6a541e87d78c95b47`)
+    axios.get(`${process.env.REACT_APP_DEVELOPMENT_URL}/products/64161bb6a541e87d78c95b47`,{withCredentials:true})
     .then(responce=>  {
         
        setproduct(responce.data)}
