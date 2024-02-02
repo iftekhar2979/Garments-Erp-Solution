@@ -16,6 +16,8 @@ This web application serves as a comprehensive dashboard for managing orders, de
 
 **Authentication and Authorization:** Secured access through Firebase authentication, JWT tokens, and role-based authorization to ensure data safety and privacy.
 Technology Stack
+
+
 # Frontend
 1. **React JS:** For building a dynamic and responsive user interface.
 
@@ -26,6 +28,7 @@ Technology Stack
 4. **RTK Query & React Query:** Utilized for seamless data fetching, caching, and state management. React Query is specifically used for its powerful data synchronization capabilities.
 5. **Tailwind CSS:** Adopted for its utility-first approach to styling, enabling custom designs with efficiency and minimal effort. 
 
+Github link : <https://github.com/iftekhar2979/garments-Sourching.git>
 # Backend
 1. **Node.js & Express.js:** Forms the backbone of the server-side application, enabling robust API development.
 
@@ -36,6 +39,7 @@ Technology Stack
 
 4. **Authentication & Authorization:** Leveraging Firebase for secure sign-in mechanisms and JWT for maintaining sessions and access permissions.
 
+Github link : <https://github.com/iftekhar2979/Garments_Erp_Server.git>
 ## Live Link
 
 <https://mellifluous-kashata-ea4cfa.netlify.app/>
