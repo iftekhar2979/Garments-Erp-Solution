@@ -24,6 +24,12 @@ export const viewOrdersTableHeading = [
         heading: 'TB NUM.',
         class: 'w-4'
     },
+    
+    {
+        id:78,
+        heading:"SEASON",
+        class:'w-4'
+    },
     {
         id: 6,
         heading: "ORD. NUM.",

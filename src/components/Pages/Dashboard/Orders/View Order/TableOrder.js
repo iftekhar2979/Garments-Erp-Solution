@@ -10,7 +10,7 @@ const TableOrder = ({ contents, handleRemove ,handleCopy}) => {
     const {orderFiltering: {lastClicked}}=useSelector(state=>state.orderListFilter)
     const dispatch=useDispatch()
 
-    const { companyName, buyerName, orderNumber, tbNumber, productName,completeDate='', status = '', targetDate, orderedDate, _id, range, grandTotalQuantity, grandRestQuantity } = contents
+    const { companyName, buyerName, orderNumber, tbNumber, productName,completeDate='', status = '',season='', targetDate, orderedDate, _id, range, grandTotalQuantity, grandRestQuantity } = contents
     const deliveryTotal = grandTotalQuantity - grandRestQuantity
     
     let statusColor = (props) => {
@@ -38,8 +38,8 @@ let lastClickedClass=()=>{
 }
     return (
         <>
-            <tr className={`border bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700`}>
-                <th className="border font-medium pl-2 text-gray-900 w-20 ">
+            <tr className={`border text-[9pt] bg-gray-50 border hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700`}>
+                <th className="border px-1 font-medium  text-gray-900 w-20 ">
                     {companyName}
                 </th>
                 <td className=" border px-1 w-10">
@@ -54,6 +54,9 @@ let lastClickedClass=()=>{
                 </td>
                 <td className="border  w-16">
                     {tbNumber}
+                </td>
+                <td className="border  w-10">
+                    {season}
                 </td>
                 <td className="border px-1 w-16">
                     <Link to={`/dashboard/po/${_id}`} >  <span className={lastClickedClass()} onClick={handleLastRoute} >{orderNumber}</span> </Link>

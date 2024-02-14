@@ -23,10 +23,11 @@ import usePaginationNextAndPrev from '../../../CustomHooks/usePaginationNextAndP
 import { viewOrdersTableHeading } from '../../../../utils/headings';
 import { reFetchingOrder } from '../../../../Redux/Features/RetchFunctions/refetchSlices';
 import RefetchComponent from '../../../Utility-Component/RefetchComponent';
-
+import { useGetSeasonByIdMutation, useGetSeasonByIdQuery } from '../../../../Redux/Features/api/seasonApi';
+import { CSVLink } from "react-csv";
 const status = ['Ordered', 'Completed', 'Pending', "Canceled"]
 const fetchOrder = async (url) => {
-    const res = await fetch(url,{
+    const res = await fetch(url, {
         credentials: 'include'
     })
     const data = await res.json()
@@ -34,27 +35,33 @@ const fetchOrder = async (url) => {
 }
 const ViewOrders = () => {
     useDocumentTitle('View Orders Dashboard')
-  let count
+    let count
     const { data = [], isLoading: listLoading, isError: listError } = useGetBuyersQuery(undefined, {
         refetchOnMountOrArgChange: 600,
         keepUnusedDataFor: 14400,
     })
-   
-    const { orderFiltering: { filteredState,firstPage,lastPage, isFiltered, page: pageState, urlOfOrders, searchedKeyWords, isSearched, searchPageNumber, filteredPageNumber } } = useSelector(state => state.orderListFilter)
+    const [getSeasonById, { data: seasonsSummary }] = useGetSeasonByIdMutation(undefined, {
+        refetchOnMountOrArgChange: 600,
+        keepUnusedDataFor: 14400,
+    })
+
+    const { orderFiltering: { filteredState, firstPage, lastPage, isFiltered, page: pageState, urlOfOrders, searchedKeyWords, isSearched, searchPageNumber, filteredPageNumber } } = useSelector(state => state.orderListFilter)
     const [page, setPage] = useState(0)
     const pageRef = useRef(false)
     const filterRef = useRef(false)
+    const seasonRef = useRef(null)
     const [delDetail, setdelDetail] = useState()
     const [copy, setCopy] = useState()
+
 
     const { data: orderList = [], refetch, isLoading } = useQuery({
         queryKey: ['orderList', urlOfOrders],
         queryFn: () => fetchOrder(urlOfOrders),
         dependencies: [urlOfOrders],
-        refetchOnMount:false,
-        refetchOnReconnect:true,
-        refetchOnWindowFocus:true,
-        
+        refetchOnMount: false,
+        refetchOnReconnect: true,
+        refetchOnWindowFocus: true,
+
     });
     const dispatch = useDispatch()
     useEffect(() => {
@@ -74,28 +81,27 @@ const ViewOrders = () => {
             dispatch(clearFiltering())
             dispatch(filterPageChanging(0))
         }
-       
+
 
     }, [pageState, urlOfOrders, pageRef, filterRef, filteredState, searchedKeyWords, filteredPageNumber, searchPageNumber])
     const handleFilter = (filter, property) => {
         dispatch(filtering(`filterOrderList?${property}=${filter}`))
         dispatch(filterPageChanging(0))
 
+        getSeasonById(filter)
+        seasonRef.current = filter
+
     }
-    // const { handleNext, handlePrev } = usePaginationNextAndPrev({
-    //     filterName: 'orderFiltering',
-    //     PageChanging: filterPageChanging,
-    //     incrementFirstPage: incrementFirstPage,
-    //     lastPageIncrement: lastPageIncrement,
-    //     decrementFirstPage: decrementFirstPage,
-    //     lastPageDecrement: lastPageDecrement,
-    //     page: pageState,
-    //     count,
-    //     firstPage:firstPage,
-    //     lastPage:lastPage
-    // })
+    let headers = [
+        { label: "Company", key: "company" },
+        { label: "Buyer", key: "buyer" },
+        { label: "Product", key: "product" },
+        { label: "Quantity", key: "orderQuantity" }
+    ];
+
+    console.log(seasonsSummary)
     const { documentCount, findingData } = orderList
-     count = Math.ceil(documentCount / 15)
+    count = Math.ceil(documentCount / 15)
     const handleRemove = (id) => {
         setdelDetail(id)
     }
@@ -130,7 +136,7 @@ const ViewOrders = () => {
         deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id`, id, setdelDetail, refetch)
     }
     const handleCopyOrder = (id) => {
-        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`,{},{withCredentials:true})
+        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`, {}, { withCredentials: true })
             .then(res => {
                 if (res.data) {
                     const notify = () => toast.success('Order Copied')
@@ -149,28 +155,28 @@ const ViewOrders = () => {
             })
     }
     const handleNext = () => {
-        if(pageState===count){
-            dispatch(changingPage(pageState))
-            return 
-        }
-        if(lastPage===count){
-            dispatch(changingPage(pageState+1))
-            return 
-        }
-        dispatch(changingPage(pageState+1))
-        dispatch(incrementFirstPage('orderFiltering'))
-        dispatch(lastPageIncrement('orderFiltering'))     
-        }
-    const handlePrev=()=>{
-        if(pageState===0){
+        if (pageState === count) {
             dispatch(changingPage(pageState))
             return
         }
-        if(firstPage===0){
-            dispatch(changingPage(pageState-1))
-            return 
+        if (lastPage === count) {
+            dispatch(changingPage(pageState + 1))
+            return
         }
-        dispatch(changingPage(pageState-1))
+        dispatch(changingPage(pageState + 1))
+        dispatch(incrementFirstPage('orderFiltering'))
+        dispatch(lastPageIncrement('orderFiltering'))
+    }
+    const handlePrev = () => {
+        if (pageState === 0) {
+            dispatch(changingPage(pageState))
+            return
+        }
+        if (firstPage === 0) {
+            dispatch(changingPage(pageState - 1))
+            return
+        }
+        dispatch(changingPage(pageState - 1))
         dispatch(decrementFirstPage('orderFiltering'))
         dispatch(lastPageDecrement('orderFiltering'))
     }
@@ -180,12 +186,13 @@ const ViewOrders = () => {
     if (listError) {
         return <Alert alertDescription={'Something Error In Sever Please Try again'} className='w-fit mx-auto my-6' role={'alert alert-error'}></Alert>
     }
-     const handleRefetch=()=>{
-    refetch()
-  const notify=()=>toast("Loading...")
-      notify()
-  }
-    const { buyerList = [], companyList = [], productList = [] ,seasonList=[]} = data[0]
+    const handleRefetch = () => {
+        refetch()
+        const notify = () => toast("Loading...")
+        notify()
+    }
+    console.log(seasonRef)
+    const { buyerList = [], companyList = [], productList = [], seasonList = [] } = data[0]
     let tableContent
     let paginationLine
     if (isLoading) {
@@ -205,11 +212,11 @@ const ViewOrders = () => {
         <div>
             <Heading heading={' Order Lists'} />
             <div className='flex items-center'>
-                <RefetchComponent handleRefetch={handleRefetch}/>
-                <FilterAllButton 
-                className={`block border-b ${(!isFiltered && !isSearched) ? "h-12  bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white " : "h-12 bg-white text-black "} hover:bg-gray-200  px-2 font-semibold ml-4 `}
-                handleAll={handleAll}
-                label={"All Orders"}
+                <RefetchComponent handleRefetch={handleRefetch} />
+                <FilterAllButton
+                    className={`block border-b ${(!isFiltered && !isSearched) ? "h-12  bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white " : "h-12 bg-white text-black "} hover:bg-gray-200  px-2 font-semibold ml-4 `}
+                    handleAll={handleAll}
+                    label={"All Orders"}
                 />
                 <FilterDropDown companyName={companyList} label={'Company'} propertyName={'companyName'} handleFilter={handleFilter} />
                 <FilterDropDown companyName={productList} label={'Product'} propertyName={'productName'} handleFilter={handleFilter} />
@@ -217,6 +224,10 @@ const ViewOrders = () => {
                 <FilterDropDown companyName={buyerList} label={'Buyers'} propertyName={'buyerName'} handleFilter={handleFilter} />
                 <FilterDropDown companyName={seasonList} label={'Season'} propertyName={'season'} handleFilter={handleFilter} />
                 <Searching handleSearch={handleSearch} searchedKeyWords={searchedKeyWords} placeholder={'Order / TB / Range'} />
+                {seasonsSummary && <CSVLink data={seasonsSummary} headers={headers} filename={`${seasonRef.current}.csv`}
+                    className="btn btn-primary btn-sm">
+                    Download
+                </CSVLink>}
             </div>
             {tableContent}
             {paginationLine}
