@@ -32,12 +32,15 @@ const FilterDropDown = ({ companyName, label, handleFilter, propertyName }) => {
             case 'buyerName':
                 property = 'Buyers'
                 break
+            case 'season':
+                property = 'Season'
+                break
         }
         if (label === property) {
             let activeClass = "flex items-center justify-between bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white"
             return { label: itemName, activeClass: activeClass }
         } else {
-            let inActiveClass = "flex items-center justify-between hover:bg-gray-200 space-x-5 bg-white px-4 py-2"
+            let inActiveClass = "flex items-center justify-between hover:bg-gray-200 space-x-5 bg-white  "
             return { label, activeClass: inActiveClass }
         }
     }
@@ -48,17 +51,17 @@ const FilterDropDown = ({ companyName, label, handleFilter, propertyName }) => {
             return (
                 <>
                     <a key={UidGenarate()} onClick={() => handleFilter(item, propertyName)}
-                        className="py-2 block border-b font-semibold text-gray-500 hover:bg-slate-300 hover:text-black md:mx-2"
+                        className=" block border-b font-semibold text-gray-500 hover:bg-slate-300 hover:text-black md:mx-2"
                     >{item}</a>
                 </>
             )
         })
     }
     return (
-        <div className="group relative cursor-pointer  py-2 w-44 ml-2 block">
+        <div className="group relative cursor-pointer  p-2 w-36  block">
             <div className={activeClass}>
                 <a
-                    className="flex items-center font-bold justify-between py-2 space-x-5 px-4"
+                    className="flex items-center font-bold justify-between p-2 space-x-5"
                 >
                     {labelName}
                 </a>

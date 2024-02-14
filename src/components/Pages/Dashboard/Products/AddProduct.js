@@ -25,7 +25,7 @@ class CustomizedAxisTick extends PureComponent {
   }
 }
 const AddProduct = () => {
-  const { data: totalProducts, isLoading, isError } = useGetProductsQuery()
+  const { data: {products}=[], isLoading, isError } = useGetProductsQuery()
   const { data: summaryData = [], isLoading: summaryLoading ,isError:summaryError} = useGetProductSummaryQuery()
   const [addProduct, { isSuccess: addingProuductSuccess, isError: addingProductError }] = useAddProductMutation()
   useDocumentTitle('PRODUCT-DASHBOARD')
@@ -33,7 +33,7 @@ const AddProduct = () => {
     UseCollectArray();
 
 //pie chart
-
+// console.log(products)
 if (summaryLoading) {
   return <Spinner />
 }
@@ -53,6 +53,12 @@ if(summaryError){
     })
 
   }
+  let content;
+  if( !isLoading&&!isError&& products){
+    content=  <ul className='text-center'>
+    {products.length!==0 && products?.map(item=><li className='border-t border-b'>{item}</li>)}
+    </ul>
+     }
   return (
     <section>
       <div className='flex justify-between'>
@@ -122,6 +128,9 @@ if(summaryError){
             </button>
           </div>
         </div>
+          <div className='w-1/2  my-4 py-4 border bg-white  '>
+              {content}
+            </div>
         </div>
         <div className='my-6 mx-4'>
           <ViewProducts totalProducts={summaryData} isLoading={isLoading} ></ViewProducts>

@@ -62,13 +62,13 @@ const AddOrders = () => {
   if (isLoading) {
     return <Spinner />;
   }
-  // console.log(refetchOrder.refetchOrder)
+
   const handleInputDropdown = (e) => {
     const val = e.target.value
     const findCompanyLocation = companyData?.find((item, index) => {
       return item?.companyName === val
     })
-    // console.log(findCompanyLocation)
+
     const { companyName, location, shortForm } = findCompanyLocation
 
     dispatch({ type: 'COMPANY_NAME', payload: { companyName, location, shortForm } })
@@ -77,7 +77,10 @@ const AddOrders = () => {
 
   };
 
+ 
+
   const onSubmit = () => {
+    console.log(addOrderState)
     addOrder(addOrderState)
     .then(res => {
       if(res.data){
@@ -87,6 +90,8 @@ const AddOrders = () => {
         notify()
 
       }
+    }).catch(error=>{
+      console.log(error)
     })
    
   }
@@ -131,8 +136,8 @@ const AddOrders = () => {
                 placeholder={'Select your Buyer'}
                 register={register}
                 className={'select select-primary w-full max-w-xs '}
-
               />
+                {error?.data?.error && <h1 className='text-sm text-red-500'>{error?.data?.error}</h1>}
               <InputDropDown
                 label={'Product'}
                 divclass={'my-2'}
@@ -201,6 +206,16 @@ const AddOrders = () => {
                 required
               />
               <Input
+                label={'Season'}
+                className={`input input-bordered w-full max-w-xs`}
+                placeholder={'Season'}
+                inputChange={(e) => dispatch({ type: 'Season', season: e.target.value })}
+                name={'season'}
+                type='text'
+                
+              />
+              
+                  <Input
                 label={'TB'}
                 className={`input input-bordered ${tbError ? "input-error" : "input-primary"} w-full max-w-xs`}
                 placeholder={'TB Number'}

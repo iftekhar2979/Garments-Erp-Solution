@@ -22,6 +22,7 @@ import FilterAllButton from '../../../Utility-Component/Filters/FilterAllButton'
 import usePaginationNextAndPrev from '../../../CustomHooks/usePaginationNextAndPrev';
 import { viewOrdersTableHeading } from '../../../../utils/headings';
 import { reFetchingOrder } from '../../../../Redux/Features/RetchFunctions/refetchSlices';
+import RefetchComponent from '../../../Utility-Component/RefetchComponent';
 
 const status = ['Ordered', 'Completed', 'Pending', "Canceled"]
 const fetchOrder = async (url) => {
@@ -50,6 +51,9 @@ const ViewOrders = () => {
         queryKey: ['orderList', urlOfOrders],
         queryFn: () => fetchOrder(urlOfOrders),
         dependencies: [urlOfOrders],
+        refetchOnMount:false,
+        refetchOnReconnect:true,
+        refetchOnWindowFocus:true,
         
     });
     const dispatch = useDispatch()
@@ -70,7 +74,7 @@ const ViewOrders = () => {
             dispatch(clearFiltering())
             dispatch(filterPageChanging(0))
         }
-        // dispatch(reFetchingOrder(refetch))
+       
 
     }, [pageState, urlOfOrders, pageRef, filterRef, filteredState, searchedKeyWords, filteredPageNumber, searchPageNumber])
     const handleFilter = (filter, property) => {
@@ -176,7 +180,12 @@ const ViewOrders = () => {
     if (listError) {
         return <Alert alertDescription={'Something Error In Sever Please Try again'} className='w-fit mx-auto my-6' role={'alert alert-error'}></Alert>
     }
-    const { buyerList = [], companyList = [], productList = [] } = data[0]
+     const handleRefetch=()=>{
+    refetch()
+  const notify=()=>toast("Loading...")
+      notify()
+  }
+    const { buyerList = [], companyList = [], productList = [] ,seasonList=[]} = data[0]
     let tableContent
     let paginationLine
     if (isLoading) {
@@ -196,8 +205,9 @@ const ViewOrders = () => {
         <div>
             <Heading heading={' Order Lists'} />
             <div className='flex items-center'>
+                <RefetchComponent handleRefetch={handleRefetch}/>
                 <FilterAllButton 
-                className={`block border-b ${(!isFiltered && !isSearched) ? "h-14  bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white py-4" : "h-14 bg-white text-black "} hover:bg-gray-200  px-2 font-semibold ml-4 `}
+                className={`block border-b ${(!isFiltered && !isSearched) ? "h-12  bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white " : "h-12 bg-white text-black "} hover:bg-gray-200  px-2 font-semibold ml-4 `}
                 handleAll={handleAll}
                 label={"All Orders"}
                 />
@@ -205,6 +215,7 @@ const ViewOrders = () => {
                 <FilterDropDown companyName={productList} label={'Product'} propertyName={'productName'} handleFilter={handleFilter} />
                 <FilterDropDown companyName={status} label={'Status'} propertyName={'status'} handleFilter={handleFilter} />
                 <FilterDropDown companyName={buyerList} label={'Buyers'} propertyName={'buyerName'} handleFilter={handleFilter} />
+                <FilterDropDown companyName={seasonList} label={'Season'} propertyName={'season'} handleFilter={handleFilter} />
                 <Searching handleSearch={handleSearch} searchedKeyWords={searchedKeyWords} placeholder={'Order / TB / Range'} />
             </div>
             {tableContent}

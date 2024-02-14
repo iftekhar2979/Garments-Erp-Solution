@@ -81,10 +81,13 @@ const PiStatement = () => {
     }
     const handleEditChange = (e) => {
         setTimeout(() => {
-            axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/piName/${_id}`, { piNumber: e.target.value })
+            axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/piName/${_id}`, { piNumber: e.target.value },{withCredentials:true})
                 .then(res => console.log(res.json))
                 .catch(err => console.log(err))
         }, 800)
+    }
+    const handleSeason=(e)=>{
+        console.log(e.target.value)
     }
     const handleDeliveryStatement = () => {
         setDeliveryStatement(!deliveryStatement)
@@ -92,6 +95,7 @@ const PiStatement = () => {
     }
     return (
         <>
+            {/* <section className='backgroundWaterMark'> */}
             <section className='backgroundWaterMark'>
             {!block &&  <>
              <input type="checkbox" className="toggle toggle-warning mt-4 ml-6" onClick={handleDeliveryStatement} /> 
@@ -106,7 +110,6 @@ const PiStatement = () => {
                             <h2 className='text-center text-3xl font-bold  font-MonoSerit piHeading' >The ABC Sourcing And International</h2>
                             <h5 className='text-center text-xl font-bold piHeading timesNewRoman'>An Unique Trims Solution</h5>
                         </div>
-
                     </div>
                     <div style={{ width: '100%', height: '1px', backgroundColor: 'black', marginBottom: '2px' }}></div>
                     <div style={{ width: '100%', height: '1px', backgroundColor: 'black' }}></div>
@@ -121,11 +124,11 @@ const PiStatement = () => {
                     </div>
                     <div class="ml-2 ">Buyer <span className='ml-[27px]'>: {buyerName}</span>
                     </div>
-                    <div class="ml-2 ">Season <span className='ml-[21px]'>: </span>
+                    <div class="ml-2 ">Season <span className='ml-[21px]'>: <input type="text" onBlur={handleSeason}/> </span>
                     </div>
                 </div>
                 <div>
-                    <table class="my-2 mx-2 b_b calibri" contentEditable='true'> 
+                    <table class="my-2 mx-2 b_b calibri" contentEditable='true' > 
                         <thead class="border">
                             {
                                 state?.map((itemName, index) => {
@@ -239,6 +242,7 @@ const PiStatement = () => {
                     <p className='text-center piHeading font-semibold'>Rajabari Road, Konabari, Gazipur</p>
                 </div>
             </footer>}
+
 
         </>
 

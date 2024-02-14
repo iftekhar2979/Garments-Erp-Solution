@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { ViewContextProvider } from "../../../../contextApi/ViewContext";
 import { UidGenarate } from "./Reducer/intialState";
 
@@ -55,4 +55,4 @@ const RestTable = ({ options, size, sizeChange, defaultValue, total, value }) =>
   );
 };
 
-export default RestTable;
+export default memo(RestTable);

@@ -10,7 +10,6 @@ const TermsAndCondition = (props) => {
                         <td class="w-36 font-bold flex items-start text-[10pt] leading-3">PI Value and Date </td>
                         <td><span class="font-semibold text-md">:</span>
                             <span class="text-[10pt] ml-[5px] ">30 days from the date of PI issue.</span>
-
                         </td>
                     </tr>
                     <tr>
@@ -23,7 +22,7 @@ const TermsAndCondition = (props) => {
                     </tr>
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">Origin</td>
-                        <td><span class="font-semibold text-md">:</span> <span class="text-[10pt] ml-[5px] ">Bangladesh</span></td>
+                        <td><span class="font-semibold text-md">:</span> <span class="text-[10pt] ml-[3px] ">Bangladesh</span></td>
                     </tr>
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">Quantity/Quality </td>
@@ -65,13 +64,15 @@ const TermsAndCondition = (props) => {
                                 reason caused from the openers end should be borne by the L/C opener.</span><br />
                             <span className='ml-[8px]'> The ABC Sourcing & International
                                 will not bear any such charges. Moreover, 0.5% will be </span><br />
+                            {/* <span className='ml-[8px]'> The XYZ Sourcing & International
+                                will not bear any such charges. Moreover, 0.5% will be </span><br /> */}
                             <span className='ml-[8px]'> charged per day on the L/C value as penalty which to
                                 be paid by the L/C </span>
                             <br /> <span className='ml-[8px]'>opener in case of the late payment from the due date.</span></span></td>
                     </tr>
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">Shipment Mode </td>
-                        <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">By Delivery Truck/VAN</span></td>
+                        <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">By Delivery Truck/Van</span></td>
                     </tr>
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">Insurance</td>
@@ -89,14 +90,20 @@ const TermsAndCondition = (props) => {
                         <td class="w-36 font-bold flex items-start text-[10pt]">Advising Bank</td>
                         <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">JAMUNA BANK LTD, KONABARI BRANCH, KONABARI, GAZIPUR, BANGLADESH.<br/> <span className='ml-[8px]'>
                             SWIFT No : JAMUBDDHTFP , ACCOUNT NUMBER : 00160210022869</span></span></td>
+                        {/* <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">UCB BANK LTD, Mirpur-1, BANGLADESH.<br/> <span className='ml-[8px]'>
+                            SWIFT No : UCB BANK , ACCOUNT NUMBER : 4564512145</span></span></td> */}
                     </tr>
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">H.S Code</td>
+                        {/* <td class="w-36 font-bold flex items-start text-[10pt]">H.S Code</td> */}
                         <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">6217.10.00 & 6305.33.00</span></td>
+                        {/* <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">6245.45.00 & 6560.13.15</span></td> */}
                     </tr>
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">BIN NO</td>
+                        {/* <td class="w-36 font-bold flex items-start text-[10pt]">BIN NO</td> */}
                         <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">004500319-0103</span>
+                        {/* <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">25456451-242</span> */}
                         </td>
                     </tr>
 

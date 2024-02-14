@@ -7,6 +7,9 @@ import { UidGenarate } from '../Orders/View PO/Reducer/intialState';
 import { useGetBuyersQuery, useGetPiListQuery } from '../../../../Redux/Features/api/apiSlice';
 import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
 import Searching from '../../../Utility-Component/Filters/Searching';
+import { IoReload } from "react-icons/io5";
+import toast from 'react-hot-toast';
+import RefetchComponent from '../../../Utility-Component/RefetchComponent';
 
 const tableHeadings = [
   {
@@ -30,7 +33,7 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   const [completed, setCompleted] = useState(false)
   const { data: tbLists = [], isLoading, isError, refetch } = useGetPiListQuery(url, {
     refetchOnMountOrArgChange: 600,
-    keepUnusedDataFor:600    
+    keepUnusedDataFor: 600
   })
   const { data = [], isLoading: listLoading } = useGetBuyersQuery(undefined, {
     refetchOnMountOrArgChange: 600,
@@ -40,7 +43,7 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
     return <Spinner />;
   }
   const createdTB = [...new Set(tbLists.flatMap(item => item.tbArray))];
- 
+
   const handleCheckboxChange = (event) => {
     const selectedValue = event.target.value;
     const isChecked = event.target.checked;
@@ -64,6 +67,11 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   const handleAll = () => {
     setUrl(`/tbList`)
   }
+  const handleRefetch=()=>{
+    refetch()
+  const notify=()=>toast("Loading...")
+      notify()
+  }
   return (
     <>
       <Heading heading={'TB NUMBER LISTS'} />
@@ -79,17 +87,19 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
             placeholder={'Filter By Company'}
           />
         </div>
+
         <Searching handleSearch={handleSearch} placeholder={'TB NUMBER...'} />
       </div>
-      <div className="join shadow-sm mx-2 my-2 cursor-pointer ">
-        <a className={`join-item mx-2 text-md border-b p-2 border-md rounded-t-sm border-md rounded-e-xl ${completed ?" font-semibold p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white ":"bg-gray-400 text-white" }`} onClick={()=>setCompleted(true)}>Completed</a>
-        <a className={` join-item border-b text-md  p-2  rounded-t-sm border-md rounded-e-xl ${!completed ? "font-semibold p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white ":"bg-gray-400 text-white" }`} onClick={()=>setCompleted(false)} >Not Completed</a>
+      <div className="join shadow-sm mx-2 my-2  ">
+        <a className={`join-item mx-2 text-md border-b p-2 cursor-pointer border-md rounded-t-sm border-md rounded-e-xl ${completed ? " font-semibold p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white " : "bg-gray-400 text-white"}`} onClick={() => setCompleted(true)}>Completed</a>
+        <a className={` join-item border-b text-md  p-2 cursor-pointer rounded-t-sm border-md rounded-e-xl ${!completed ? "font-semibold p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white " : "bg-gray-400 text-white"}`} onClick={() => setCompleted(false)} >Not Completed</a>
+        <RefetchComponent handleRefetch={handleRefetch}/>
       </div>
       <Table tableHeadings={tableHeadings} tableData={[]} >
-        {tbLists?.filter(item => completed? createdTB.includes(item.tbNumber) : !createdTB.includes(item.tbNumber))
-        .map((item) => (
-          <TBTable key={UidGenarate()} selectedValues={selectedValues} createdTB={createdTB} matchedCompany={matchedCompany?.companyName} handlePi={handlePi} handleCheckboxChange={handleCheckboxChange} piNumbers={item} />
-        ))}
+        {tbLists?.filter(item => completed ? createdTB.includes(item.tbNumber) : !createdTB.includes(item.tbNumber))
+          .map((item) => (
+            <TBTable key={UidGenarate()} selectedValues={selectedValues} createdTB={createdTB} matchedCompany={matchedCompany?.companyName} handlePi={handlePi} handleCheckboxChange={handleCheckboxChange} piNumbers={item} />
+          ))}
       </Table>
       <div className='m-6'>
         <label htmlFor="my-modal-6" className={`btn btn-md btn-accent ${!selectedValues.length > 0 && 'hidden'}`} data-tip="Delete Order" onClick={handlePi}> Make PI</label>

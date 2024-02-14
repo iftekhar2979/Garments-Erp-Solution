@@ -105,8 +105,11 @@ console.log('form',action.payload)
             ...state,
             quantityOrder: [...action.payload]
         }
+       
 
-    } else if (actionType === 'QUANTITY_ORDER_DELETE') {
+    } 
+   
+    else if (actionType === 'QUANTITY_ORDER_DELETE') {
         return {
             ...state,
             quantityOrder: [...action.payload]
@@ -118,7 +121,15 @@ console.log('form',action.payload)
             ...state,
             orderNumber: action.orderNumber,
         }
-    } else if (actionType === 'RANGE') {
+        
+    } 
+     else if(actionType ==='Season'){
+        return  {
+            ...state,
+            season: action.season
+        }
+    }
+    else if (actionType === 'RANGE') {
         return {
             ...state,
             range: action.range,

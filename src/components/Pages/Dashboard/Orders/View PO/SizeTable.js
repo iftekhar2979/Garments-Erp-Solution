@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { memo, useContext, useEffect, useRef, useState } from 'react';
 import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import { UidGenarate } from './Reducer/intialState';
 import { useSelector } from 'react-redux';
 
 let sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
-const SizeTable = ({ options, size, sizeChange, defaultValue, value, isCheacked, total, classNames, copied }) => {
+const SizeTable =( ({ options, size, sizeChange, defaultValue, value, isCheacked, total, copied }) => {
 
 
+ 
   const { poState, sizeName } = useContext(ViewContextProvider)
-  // console.log(sizeName)
+
   let select = (arr, obj) => arr.reduce((r, e) => Object.assign(r, obj[e] ? { [e]: obj[e] } : null), {});
   let output = select(sizeName, defaultValue||{});
   // console.log(poState?.sizeSystem)
@@ -84,6 +85,6 @@ const SizeTable = ({ options, size, sizeChange, defaultValue, value, isCheacked,
       </tr>
     </>
   );
-};
+});
 
-export default SizeTable;
+export default memo(SizeTable);

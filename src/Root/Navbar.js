@@ -24,6 +24,32 @@ const Navbar = () => {
       setUser('');
     })
   }
+let routesOfUser
+  if(userInfo){
+    routesOfUser=<>
+    <li>
+              <NavLink to='/dashboard/companies'>Company List</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard/addProduct'>Product</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard/employes'>Employee</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard/ViewOrders'>View Orders</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard/Chalans'>Chalans</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard/tbLists'>TB LIST</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard/piList'>PI LIST</NavLink>
+            </li>
+    </> 
+  }
   return (
     <div className='navbar bg-wholebg shadow-md'>
       <div className='navbar-start'>
@@ -49,14 +75,19 @@ const Navbar = () => {
             className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100  w-52'
           >
             <li>
-              <a className='justify-between'>HOME</a>
+            <NavLink to='/'>HOME</NavLink>
             </li>
             <li>
               <NavLink to='/dashboard'>DASHBOARD</NavLink>
             </li>
+           {
+            routesOfUser
+           }
+         
           </ul>
         </div>
         <a className='btn btn-ghost normal-case text-xl'>ABC SOURCING</a>
+        {/* <a className='btn btn-ghost normal-case text-xl'>XYZ SOURCING</a> */}
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { memo, useContext, useEffect, useState } from 'react';
 import Heading from '../../../../Utility-Component/Heading';
 import DateInput from '../../../../Utility-Component/Form/DateInput';
 import { ViewContextProvider } from '../../../../contextApi/ViewContext';
@@ -14,8 +14,6 @@ const DetailPOProduct = ({ properties, orderNumberDispatch }) => {
 
 
   useEffect(() => {
-    console.log(completed)
-
     axios.put(`${process.env.REACT_APP_DEVELOPMENT_URL}/editDate/${properties?._id}`, { completeDate: completed },{withCredentials:true})
       .then(res => {
         // // console.log(res.data)
@@ -82,4 +80,4 @@ const DetailPOProduct = ({ properties, orderNumberDispatch }) => {
   );
 };
 
-export default DetailPOProduct;
+export default memo(DetailPOProduct);

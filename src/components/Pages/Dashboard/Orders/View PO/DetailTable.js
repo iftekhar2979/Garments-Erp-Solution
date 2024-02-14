@@ -1,24 +1,26 @@
-import react, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useState } from 'react';
+import react, { memo, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useState } from 'react';
 import SizeTable from './SizeTable';
 import RestTable from './RestTable';
+
 import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import useDocumentTitle from '../../../../CustomHooks/useDocumentTitle';
 import { totalCount } from '../../../../CustomHooks/totalCounting';
 import { useDispatch, useSelector } from 'react-redux';
 import { calculateGrandDeliveryAndRestTotal, pushingDetailOfDeliveryOrder } from '../../../../../Redux/Features/DELIVERY_TABLE/deliverytable';
+import DeliverySizeTable from './DeliverySizeTable';
 
-const intialSizes = { XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0,XXXL:0, lwhSize: 0, singleInput: 0 }
+const intialSizes = { XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0, XXXL: 0, lwhSize: 0, singleInput: 0 }
 const DetailTable = ({ poDetails, isCheacked, }) => {
-  const { sizeName,} = useContext(ViewContextProvider)
+  const { sizeName, } = useContext(ViewContextProvider)
   //redux delivery size
-  const [sizes, setSizes] = useState({ XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0,XXXL:0, lwhSize: 0, singleInput: 0 })
+  const [sizes, setSizes] = useState({ XS: 0, XXS: 0, S: 0, L: 0, M: 0, XL: 0, XXL: 0, XXXL: 0, lwhSize: 0, singleInput: 0 })
   const [totalOrder, setTotalOrder] = useState({})
-  const [restObject, setRestObject] = useState()
+  const [restObject, setRestObject] = useState(false)
   const [value, setValue] = useState(0)
   const dispatchRedux = useDispatch()
 
   const [keyName, setkeyName] = useState('')
-  const { style, colorName, size, restSize, deliverySize, totalQuantity, restQuantity, deliveryStyleId } = poDetails
+  const { style, colorName,restSize, totalQuantity, restQuantity } = poDetails
   useDocumentTitle('Order Details')
 
   let { restSize: rest = {}, size: sized, totalQuantity: totalSizes, colorName: color, sizeName: NameOfSize, style: styleName, deliveryStyleId: deliveryId = {} } = poDetails
@@ -71,14 +73,27 @@ const DetailTable = ({ poDetails, isCheacked, }) => {
   // Alert if Quantity is bigger than the Rest
   useEffect(() => {
     const objKeys = Object.keys(sizes)
-   
-    if(restSize){
+
+    if (restSize) {
       const findKey = objKeys?.find(item => item === keyName)
+      if(value===''){
+        window.confirm
+        ('Please Input At Least Zero !!!')
+      }
       if (value > restSize[findKey]) {
         alert('You are giving more From the rest value ')
       }
     }
   }, [sizes, value, keyName])
+  useEffect(()=>{
+    if(restObject){
+
+      hanldeDeliveryAll()
+    }else{
+      console.log(false)
+      handleUnSelectAll()
+    }
+  },[restObject])
 
   const handleDeliveryChange = useCallback((e) => {
     setValue(e.target.value)
@@ -88,13 +103,32 @@ const DetailTable = ({ poDetails, isCheacked, }) => {
     })
   }
     , [])
-
+  const hanldeDeliveryAll = useCallback(() => {
+    let restSizes = poDetails?.restSize
+    setValue(Object.values(restSizes))
+    setkeyName(Object.keys(restSizes))
+    setSizes({ ...restSizes })
+    setRestObject(true)
+  },[])
+  const handleUnSelectAll = useCallback(() => {
+    setSizes({})
+    setRestObject(false)
+  },[])
+let selectionButton
+  if (poDetails.restQuantity!==0) {
+   selectionButton =<>
+    <input type='checkbox' className='py-2 text-right' checked={restObject}  onClick={()=>setRestObject(!restObject)} />
+      <span className='text-sm mx-2 hover:bg-blue-300 cursor-pointer bg-blue-400 text-white px-2' onClick={()=>setRestObject(!restObject)}>{restObject ?'UnSelect All':'Select All'}</span>
+   
+   </>
+  }else{
+    selectionButton=''
+  }
   let restTable
-  if (!poDetails.restSize) {
+  if (poDetails.restQuantity===0) {
     restTable = 'NO REST QUANTITY LEFT'
   }
-  // console.log(totalOrder)
-  if (poDetails.restSize  && totalOrder?.restSize) {
+  if(poDetails.restQuantity>0) {
     restTable =
       <>
         <RestTable
@@ -135,13 +169,17 @@ const DetailTable = ({ poDetails, isCheacked, }) => {
         ></SizeTable>
       </td>
       <td className='border w-48'>
-        <SizeTable
+     {selectionButton}
+        {/* <button className='btn btn-sm text-center' onClick={hanldeDeliveryAll}>All</button> */}
+        <DeliverySizeTable
           options={sizeName}
           isCheacked={isCheacked}
           total={totalCount(sizes)}
           defaultValue={0}
           sizeChange={handleDeliveryChange}
-        ></SizeTable>
+          restAllDelivery={restObject ? poDetails?.restSize : intialSizes}
+        
+        ></DeliverySizeTable>
       </td>
       <td className='border w-48'>
         {
@@ -155,4 +193,4 @@ const DetailTable = ({ poDetails, isCheacked, }) => {
   )
 };
 
-export default DetailTable;
+export default memo(DetailTable);

@@ -50,7 +50,7 @@ const ViewProducts = ({ totalProducts, data, isLoading, refetch }) => {
         notify()
     }
 
-    
+    // console.log(data)
 
     const handleRemove = async (name) => {
         deleteProduct(name)

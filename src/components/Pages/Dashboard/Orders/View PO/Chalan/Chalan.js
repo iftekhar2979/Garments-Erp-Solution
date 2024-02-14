@@ -80,7 +80,7 @@ const Chalan = () => {
     }, [details])
    
     const handleDeliveryMan = (e) => {
-        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value })
+        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value },{withCredentials:true})
             .then(res => {
                 return res.data
             })
@@ -117,8 +117,12 @@ const Chalan = () => {
     return (
 <>
      <page>
-            <div className='flex justify-center' >
+            <div className='flex justify-center ml-4' >
                 <img src={logo} className='w-2/3'></img>
+                {/* <div className='flex flex-col justify-center ml-4'>
+                            <h2 className='text-center text-3xl font-bold  font-MonoSerit piHeading' >The XYZ Sourcing And International</h2>
+                            <h5 className='text-center text-xl font-bold piHeading timesNewRoman'>An Unique Trims Solution</h5>
+                        </div> */}
             </div>
             <div className='ml-10 my-4 w-10/12 text-black text-sm' >
                 <div className='flex justify-between'>

@@ -38,7 +38,7 @@ const SinglePO = () => {
   const { id } = useParams()
   const details = useSelector(state => state.orderDetails)
   const { grandDeliveryQuantity, grandRestQuantity, details: detail } = useSelector(state => state?.deliveryTable)
-  const [addDeliveryAndUpdateOrders]=useAddDeliveryAndUpdateOrdersMutation()
+  const [addDeliveryAndUpdateOrders,{isLoading:addDeliveryLoading}]=useAddDeliveryAndUpdateOrdersMutation()
   const [addDetailsInSingleOrder, { isSuccess, isError: addingError, error: deliveryErrorDetails, isLoading: AddingDetailsLoading }] = useAddDetailsInSingleOrderMutation()
   const [addDelivery, { isSuccess: deliverySuccess, isError: deliveryError, error: addingDeliveryError, isLoading: addingDeliveryLoading }] = useAddDeliveryMutation()
   const [addDetailsAndPatchInSingleOrder, { isSuccess: patchedDetailSuccess, isError: editingError, isLoading: patchingOrderLoading }] = usePatchInSingleOrderMutation()
@@ -106,55 +106,28 @@ const SinglePO = () => {
         grandRestQuantity,
       }
    
-      // if (grandDeliveryQuantity > 0) {
-      //   addDeliveryAndUpdateOrders({id:_id,deliveryDetails,patchedOrderInfo})
-      //      .then(res => {
-      //        if (res.data?.isUpdated) {
-        
-      //     // console.log('state',res.data)
-      //         dispatch(clearingState())
-      //       }
-      //     }).catch(error => {
-      //       if (error) {
-      //         console.log(error)
-      //         const notify = () => toast.error('Something Error in Server')
-      //         notify()
-      //       }
-      //     })
-      //   // axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/updateOrder/${_id}`,{deliveryDetails,patchedOrderInfo})
-      //   // .then(res=>{
-      //   //   if (res.data) {
-      //   //     console.log('hlk')
-      //   //     const notify = () => toast.success('DID')
-      //   //     notify()
-      //   //           dispatch(clearingState())
-      //   //         }
-      //   // }).catch(error => {
-      //   //   if (error) {
-      //   //     const notify = () => toast.error('Something Error in Server')
-      //   //     notify()
-      //   //   }
-      //   // })
-      //   // addDelivery(deliveryDetails)
-      //   //   .then(res => {
-      //   //     if (res.data) {
-      //   //       increaseChalanNumber("645dcc1d5a65a1351c90c3bc");
-      //   //       addDetailsAndPatchInSingleOrder({ patchedOrderInfo, _id });
-      //   //       dispatch(clearingState())
-      //   //     }
-      //   //   }).catch(error => {
-      //   //     if (error) {
-      //   //       const notify = () => toast.error('Something Error in Server')
-      //   //       notify()
-      //   //     }
-      //   //   })
-      // } else {
-      //   const notify = () => toast.error('Please add the Valid Input')
-      //   notify()
-      // }
+      if (grandDeliveryQuantity > 0) {
+        addDeliveryAndUpdateOrders({id:_id,deliveryDetails,patchedOrderInfo})
+           .then(res => {
+             if (res.data?.isUpdated) {
+              const notify = () => toast('LOADING...')
+              notify()
+              dispatch(clearingState())
+            }
+          }).catch(error => {
+            if (error) {
+              
+              const notify = () => toast.error('Something Error in Server')
+              notify()
+            }
+          })
+
+      }
     } else {
-      console.log(details)
+     
       addDetailsInSingleOrder({ details, _id })
+      const notify = () => toast('LOADING...')
+              notify()
     }
   }
   let errorContent
@@ -211,7 +184,7 @@ const SinglePO = () => {
       {errorContent}
 
       <div className='flex justify-center'>
-        <button className={`btn  ${(patchingOrderLoading || addingDeliveryLoading) ? "btn-disabled" : " btn-primary"}`} disabled={patchingOrderLoading || addingDeliveryLoading} onClick={handleSubmit}>{(patchingOrderLoading || addingDeliveryLoading) ? "Adding delivery..." : "Submit"}</button>
+        <button className={`btn  ${( addDeliveryLoading) ? "btn-disabled" : " btn-primary"}`} disabled={addDeliveryLoading} onClick={handleSubmit}>{(addDeliveryLoading) ? "Adding delivery..." : "Submit"}</button>
       </div>
 
     </div>

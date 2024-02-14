@@ -15,6 +15,8 @@ import { chalanPageChanging, chalanSearching, chalanUrlChanging, clearingChalanF
 import Alert from '../../../Utility-Component/Alert/Alert';
 import FilterAllButton from '../../../Utility-Component/Filters/FilterAllButton';
 import usePaginationNextAndPrev from '../../../CustomHooks/usePaginationNextAndPrev';
+import RefetchComponent from '../../../Utility-Component/RefetchComponent';
+import toast from 'react-hot-toast';
 const tableHeadings = [
     {
         id: UidGenarate(),
@@ -71,6 +73,7 @@ export const ChalanList = () => {
         queryFn: () => fetchOrder(urlOfChalans),
         dependencies: [urlOfChalans],
         keepPreviousData: 600,
+        refetchOnMount:false,
         refetchOnReconnect:true,
         refetchOnWindowFocus:true,
         
@@ -134,6 +137,12 @@ export const ChalanList = () => {
         dispatch(clearingChalanFilter(''))
     }
     const filterObjectPropertyForPagination = { pageState, searchPageNumber }
+   
+    const handleRefetch=()=>{
+        refetch()
+      const notify=()=>toast("Loading...")
+          notify()
+      }
 
     if (!isLoading && !emptyObjectChecker(chalanList)) {
         content =
@@ -149,11 +158,14 @@ export const ChalanList = () => {
         <>
             <Heading heading={"Chalan List and Delivered Product Information"} />
             <div className='flex justify-between'>
+                <div>
+                    <RefetchComponent handleRefetch={handleRefetch}/>
                 <FilterAllButton
                     className={`block border-b ${!isSearched ? "h-14 bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white py-4" : "h-14 bg-white text-black "} hover:bg-gray-200  px-2 font-semibold ml-4 `}
                     handleAll={handleAll}
                     label={"All Chalan"}
                 />
+                </div>
                 <Searching handleSearch={handleSearch} searchedKeyWords={searchedKeyWords} placeholder={'Chalan No...'} />
             </div>
             {content}

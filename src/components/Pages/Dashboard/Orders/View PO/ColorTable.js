@@ -105,7 +105,7 @@ const ColorTable = ({ options, isCheacked, style }) => {
 
 
   }
-  console.log(sizes)
+  
   return (
     <>
       <tr className=''>
