@@ -9,15 +9,22 @@ export const UidGenarate=()=>
 export const intialState={
     id:'',
     colorName:'',
+<<<<<<< HEAD
     sizeName:'',
     size:{
         XXS:0,
         XS:0,
         S:0,
+=======
+    size:{
+        XS:0,
+        SM:0,
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
         L:0,
         M:0,
         XL:0,
         XXL:0,
+<<<<<<< HEAD
         XXXL:0,
         lwhSize:0,
         singleInput:0
@@ -27,10 +34,19 @@ export const intialState={
         XXS:0,
         XS:0,
         S:0,
+=======
+        XXXL:0
+
+    },
+    deliverySize:{
+        XS:0,
+        SM:0,
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
         L:0,
         M:0,
         XL:0,
         XXL:0,
+<<<<<<< HEAD
         XXXL:0,
         lwhSize:0,
         singleInput:0
@@ -40,17 +56,29 @@ export const intialState={
         XXS:0,
         XS:0,
         S:0,
+=======
+        XXXL:0
+    },
+    restSize:{
+        XS:0,
+        SM:0,
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
         L:0,
         M:0,
         XL:0,
         XXL:0,
+<<<<<<< HEAD
         XXXL:0,
         lwhSize:0,
         singleInput:0
+=======
+        XXXL:0
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
     },
     totalQuantity:0,
     deliveryQuantity:0,
     restQuantity:0,
+<<<<<<< HEAD
     style:''
 }
 export const contextState=[]
@@ -141,3 +169,11 @@ export const detailTableGrandState={
     grandRestQuantity:0,
     grandDeliveryQuantity:0,
 }
+=======
+    completedDate:'',
+    style:''
+}
+export const contextState=[
+
+]
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900

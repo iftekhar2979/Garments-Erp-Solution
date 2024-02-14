@@ -1,5 +1,8 @@
 import React from 'react';
+<<<<<<< HEAD
 import { HiOutlinePlusCircle,HiOutlineX } from "react-icons/hi";
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 
 const MoreInput = ({
   handleAdd,
@@ -7,7 +10,10 @@ const MoreInput = ({
   handleRemove,
   val,
   setVal,
+<<<<<<< HEAD
   placeholder,
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   component,
 }) => {
   return (
@@ -19,6 +25,7 @@ const MoreInput = ({
           <div className='mb-4 flex justify-center' key={index}>
             <input
               type='text'
+<<<<<<< HEAD
               placeholder={placeholder}
               className='input input-bordered w-full max-w-xs'
               onChange={(e) => handleChange(e, index)}
@@ -37,6 +44,24 @@ const MoreInput = ({
               <HiOutlineX size={26}/>
             </button>
             </div>
+=======
+              placeholder='Type here'
+              className='input input-bordered w-full max-w-xs'
+              onChange={(e) => handleChange(e, index)}
+            />
+            <button
+              className='btn-sm rounded-full text-center bg-gray-300'
+              onClick={handleAdd}
+            >
+              +
+            </button>
+            <button
+              className='btn-sm rounded-full bg-gray-300'
+              onClick={() => handleRemove(index)}
+            >
+              x
+            </button>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
           </div>
         );
       })}

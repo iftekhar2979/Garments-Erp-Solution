@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext, AuthContextProvider } from '../components/contextApi/UserContext';
@@ -52,6 +53,13 @@ let routesOfUser
   }
   return (
     <div className='navbar bg-wholebg shadow-md'>
+=======
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+const Navbar = () => {
+  return (
+    <div className='navbar bg-base-100 shadow-md'>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
       <div className='navbar-start'>
         <div className='dropdown'>
           <label tabIndex={0} className='btn btn-ghost lg:hidden'>
@@ -75,6 +83,7 @@ let routesOfUser
             className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100  w-52'
           >
             <li>
+<<<<<<< HEAD
             <NavLink to='/'>HOME</NavLink>
             </li>
             <li>
@@ -88,11 +97,25 @@ let routesOfUser
         </div>
         <a className='btn btn-ghost normal-case text-xl'>ABC SOURCING</a>
         {/* <a className='btn btn-ghost normal-case text-xl'>XYZ SOURCING</a> */}
+=======
+              <a className='justify-between'>HOME</a>
+            </li>
+            <li>
+              <NavLink to=''>DASHBOARD</NavLink>
+            </li>
+          </ul>
+        </div>
+        <a className='btn btn-ghost normal-case text-xl'>ERP-SOLUTIONS</a>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
           <li tabIndex={0}>
+<<<<<<< HEAD
             <NavLink
+=======
+          <NavLink
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
               to='/'
               className={({ isActive, isPending }) =>
                 isPending ? 'pending' : isActive ? 'active bg-indigo-400 text-base-100' : ''
@@ -114,9 +137,13 @@ let routesOfUser
         </ul>
       </div>
       <div className='navbar-end'>
+<<<<<<< HEAD
         {userInfo && <h2 className='mx-4 text-xl font-bold'>{userInfo.data.name}</h2>} 
         {!userInfo && <Link className='btn btn-primary ' to="/login">Log In</Link>}
         {userInfo && <Link className='btn  btn-secondary btn-sm' onClick={hanldeLogOut} tooltip>Log Out</Link>}
+=======
+        <Link className='btn' to="/login">Log In</Link>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
       </div>
     </div>
   );
