@@ -88,7 +88,8 @@ const ViewOrders = () => {
         dispatch(filtering(`filterOrderList?${property}=${filter}`))
         dispatch(filterPageChanging(0))
 
-        getSeasonById(filter)
+        getSeasonById({id:filter,query:property})
+        console.log({id:filter,query:property})
         seasonRef.current = filter
 
     }
@@ -99,7 +100,7 @@ const ViewOrders = () => {
         { label: "Quantity", key: "orderQuantity" }
     ];
 
-    console.log(seasonsSummary)
+    // console.log(seasonsSummary)
     const { documentCount, findingData } = orderList
     count = Math.ceil(documentCount / 15)
     const handleRemove = (id) => {
