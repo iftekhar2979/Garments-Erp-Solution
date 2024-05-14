@@ -94,6 +94,7 @@ const AddCompany = () => {
             register={register}
             name={'email'}
             placeholder={'Email'}
+            
           />
 =======
             />

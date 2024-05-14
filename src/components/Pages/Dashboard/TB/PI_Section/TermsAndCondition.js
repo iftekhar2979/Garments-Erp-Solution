@@ -46,15 +46,11 @@ const TermsAndCondition = (props) => {
                                 </span>
                                 <br />
                                 <span className='ml-[8px]'>
-                                Maturity date will be counted from the date of Delivery Challan signed by the client.
-
-                                </span>
-                               
+                                Maturity date will be counted from the date of Delivery Challan signed by the client
+                                </span>   
                             </span>
-
                         </td>
                     </tr>
-
                     <tr>
                         <td class="w-36 font-bold flex items-start text-[10pt]">Other Charges </td>
                         <td><span class="font-semibold text-md">:</span><span class="text-[10pt] ml-[5px] ">Any discrepancy charges related with late acceptance of our submitted documents or

@@ -7,12 +7,10 @@ import useDocumentTitle from '../../../../CustomHooks/useDocumentTitle';
 
 const ProductDeliveryStatement = ({ data }) => {
 
-
-  const { block, handlePrint } = usePrintButton()
   function mergeRows(data) {
     const mergedData = [];
     if (data) {
-      data.forEach(item => {
+     [...data].forEach(item => {
         const existingItem = mergedData.find(
           mergedItem => mergedItem.productName === item.productName
         );

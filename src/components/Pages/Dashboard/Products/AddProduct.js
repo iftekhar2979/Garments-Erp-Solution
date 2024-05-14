@@ -56,7 +56,7 @@ if(summaryError){
   let content;
   if( !isLoading&&!isError&& products){
     content=  <ul className='text-center'>
-    {products.length!==0 && products?.map(item=><li className='border-t border-b'>{item}</li>)}
+    {products.length!==0 && products?.map(item=><li className='border-t border-b' key={item}>{item}</li>)}
     </ul>
      }
   return (

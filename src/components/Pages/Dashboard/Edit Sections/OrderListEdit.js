@@ -57,7 +57,7 @@ const OrderListEdit = () => {
     });
 <<<<<<< HEAD
 
-    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/companyBuyers?companyBuyers=${e.target.value}`,{},{withCredentials:true})
+    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/companyBuyers?companyBuyers=${e.target.value}`,{},{withCredentials:true})
     .then((responce) => {
       setbuyers(responce.data);
     })
@@ -96,6 +96,7 @@ const OrderListEdit = () => {
     obj.orderedDate=  format(parseISO(orderedDate),'PP')
     
     const editedData = { ...companyAndProduct, ...obj };
+<<<<<<< HEAD
     patchDocuments(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList`,{...editedData},defaultData?._id)
 =======
   const onSubmit = (obj) => {
@@ -103,6 +104,9 @@ const OrderListEdit = () => {
     const editedData = { ...companyAndProduct, ...obj };
     putDocument('http://localhost:8000/orderList',{...editedData},defaultData?._id)
 >>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
+=======
+    patchDocuments(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/orderList`,{...editedData},defaultData?._id)
+>>>>>>> season
   };
   return (
     <>

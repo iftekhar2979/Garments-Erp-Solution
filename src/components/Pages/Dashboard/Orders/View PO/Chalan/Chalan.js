@@ -18,6 +18,8 @@ import InputDropDown from '../../../../../Utility-Component/Form/InputDropDown';
 import { format } from 'date-fns';
 import Spinner from '../../../../../Utility-Component/Spinner';
 import { useGetDeliveryManQuery } from '../../../../../../Redux/Features/api/apiSlice';
+import authorestedSignature from "../../../../../../Assets/authorestedSignature.png"
+import storeManagerSignature from "../../../../../../Assets/storeManagerSignature.png"
 
 const tableHeading2 = [
     {
@@ -54,11 +56,11 @@ const tableHeadings = [
     },
 ];
 let sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-const deliveryManArray = ['Mr. Anwar', 'Mr. Shahin','Mr. Taleb', 'Mr. Rahman', 'Mr. Sarwar','Mr. Alamin']
+const deliveryManArray = ['Mr. Anwar', 'Mr. Shahin', 'Mr. Taleb', 'Mr. Rahman', 'Mr. Sarwar', 'Mr. Alamin']
 const Chalan = () => {
     const deliveryDetail = useLoaderData()
-    const {data:deliveryMens,isLoading:deliveryManLoading}=useGetDeliveryManQuery()
-    const { createdAt='', details, grandDeliveryQuantity, chalanNumber, _id, deliveryMan } = deliveryDetail
+    const { data: deliveryMens, isLoading: deliveryManLoading } = useGetDeliveryManQuery()
+    const { createdAt = '', details, grandDeliveryQuantity, chalanNumber, _id, deliveryMan } = deliveryDetail
     useDocumentTitle(`Challan No:${chalanNumber}`)
     let componentRef = useRef();
     const [block, setBlock] = useState(false)
@@ -78,9 +80,9 @@ const Chalan = () => {
         setTotalArrayDetails(totalObj)
 
     }, [details])
-   
+
     const handleDeliveryMan = (e) => {
-        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value },{withCredentials:true})
+        axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/selectDeliveryMan/${_id}`, { deliveryMan: e.target.value }, { withCredentials: true })
             .then(res => {
                 return res.data
             })
@@ -97,15 +99,15 @@ const Chalan = () => {
     const { data: companyAndOtherDetail = [], refetch, isLoading } = useQuery({
         queryKey: [deliveryDetail?.orderId],
         queryFn: async () => {
-            const res = await fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList/${deliveryDetail?.orderId}`,{credentials:'include'});
+            const res = await fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/orderList/${deliveryDetail?.orderId}`, { credentials: 'include' });
             const data = await res.json();
             return data;
         },
     });
     if (isLoading) {
-        return <Spinner/>
+        return <Spinner />
     }
-    const { companyName, buyerName, productName,tbNumber='', range, sizeSystem, location, quantityOrder } = companyAndOtherDetail
+    const { companyName, buyerName, productName, tbNumber = '', range, sizeSystem, location, quantityOrder } = companyAndOtherDetail
 
 
     const handleInputDropdown = (e) => {
@@ -115,68 +117,102 @@ const Chalan = () => {
     }
 
     return (
-<>
-     <page>
-            <div className='flex justify-center ml-4' >
-                <img src={logo} className='w-2/3'></img>
-                {/* <div className='flex flex-col justify-center ml-4'>
+        <>
+            <section>
+                <div className='flex justify-center ml-4' >
+                    <img src={logo} className='w-2/3'></img>
+                    {/* <div className='flex flex-col justify-center ml-4'>
                             <h2 className='text-center text-3xl font-bold  font-MonoSerit piHeading' >The XYZ Sourcing And International</h2>
                             <h5 className='text-center text-xl font-bold piHeading timesNewRoman'>An Unique Trims Solution</h5>
                         </div> */}
-            </div>
-            <div className='ml-10 my-4 w-10/12 text-black text-sm' >
-                <div className='flex justify-between'>
-                    <div className=''>
-                        <h1 className=''>COMPANY NAME : {companyName}</h1>
-                        <h1 className=''>ADDRESS : {location}</h1>
+                </div>
+                <div className='ml-10 my-4 w-10/12 text-black text-sm' >
+                    <div className='flex justify-between'>
+                        <div className=''>
+                            <h1 className=''>COMPANY NAME : {companyName}</h1>
+                            <h1 className=''>ADDRESS : {location}</h1>
 
-                        <h1 className=''>BUYER NAME : {buyerName}</h1>
-                        <h1 className=''>PRODUCT NAME : {productName}</h1>
+                            <h1 className=''>BUYER NAME : {buyerName}</h1>
+                            <h1 className=''>PRODUCT NAME : {productName}</h1>
 
-                        {!(range === 'N/A') && <h1 className=''>RANGE : {range}</h1>}
-                        <h1 className=''>TB NO : {tbNumber}</h1>
-                    </div>
-                    <div className=''>
-                        <h1>Challan No : 00{chalanNumber && chalanNumber}</h1>
-                        <h1>Date : {createdAt && format(new Date(createdAt),'PP' )}</h1>
-                        <h1 className='inline'>Through By : </h1>
-                        <>  <InputDropDown divclass={'inline'} placeholder={deliveryMan?deliveryMan:'Select Delivery Man'} sectionName={'deliveryMan'} labelblock={true} handleInputDropdown={(e) => handleDeliveryMan(e)} options={deliveryMens?.deliveryMan} className={` w-32 text-md ${block && 'appearance-none'}`} />
-                        </>
+                            {!(range === 'N/A') && <h1 className=''>RANGE : {range}</h1>}
+                            <h1 className=''>TB NO : {tbNumber}</h1>
+                        </div>
+                        <div className=''>
+                            <h1>Challan No : 00{chalanNumber && chalanNumber}</h1>
+                            <h1>Date : {createdAt && format(new Date(createdAt), 'PP')}</h1>
+                            <h1 className='inline'>Through By : </h1>
+                            <>  <InputDropDown divclass={'inline'} placeholder={deliveryMan ? deliveryMan : 'Select Delivery Man'} sectionName={'deliveryMan'} labelblock={true} handleInputDropdown={(e) => handleDeliveryMan(e)} options={deliveryMens?.deliveryMan} className={` w-32 text-md ${block && 'appearance-none'}`} />
+                            </>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div >
-                <h1 className='text-center font-bold text-xl text-black'>Delivery Challan</h1>
-            </div>
-            <div className='flex w-[842px]  justify-center' >
-                <table className='my-2 text-sm  text-black mx-2 border-black'>
-                    <thead className='border border-black'>
-                        <ChalanHeading sizeSystem={sizeSystem} block={block} handleInputDropdown={handleInputDropdown} tableState={tableState} />
-                    </thead>
-                    <tbody>
-                        {
-                            details?.map((item) => <ChalanTable key={item._id} props={item} tableState={tableState} totalArrayDetail={totalArrayDetail} sizeSystem={sizeSystem} />)
-                        }
-                        <tr><td colSpan={` ${(tableState['Style'] === 'N/A' && tableState['Color'] === 'N/A') ? '1' : (tableState['Style'] === 'N/A' || tableState['Color'] === 'N/A' ? '2' : '3')}`} className=' border border-black text-center'>Total </td>
-                            <td className=' border border-black text-center'><span className=''>{grandDeliveryQuantity}</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className='mx-2 text-black '>
-                <h2>Received the above in good condition</h2>
-            </div>
-            <div className='flex justify-between relative mx-2 top-24 text-black'>
-                <p className='overline'>Checked & Received by</p>
-                <p className='overline'>Store Manager</p>
-                <p className='overline'>Factory Manager</p>
-                <p className='overline'>Authorized Signature</p>
-            </div>
-            <div className='text-right'>
-                <button className={`${block && 'hidden'} btn btn-primary `} onClick={handlePrint}>Print this out!</button>
-            </div>     
-            </page>   
-</>
+                <div >
+                    <h1 className='text-center font-bold text-xl text-black'>Delivery Challan</h1>
+                </div>
+                <div className='flex w-[842px]  justify-center' >
+                    <table className='my-2 text-sm  text-black mx-2 border-black'>
+                        <thead className='border border-black'>
+                            <ChalanHeading sizeSystem={sizeSystem} block={block} handleInputDropdown={handleInputDropdown} tableState={tableState} />
+                        </thead>
+                        <tbody>
+                            {
+                                details?.map((item) => <ChalanTable key={item._id} props={item} tableState={tableState} totalArrayDetail={totalArrayDetail} sizeSystem={sizeSystem} />)
+                            }
+                            <tr><td colSpan={` ${(tableState['Style'] === 'N/A' && tableState['Color'] === 'N/A') ? '1' : (tableState['Style'] === 'N/A' || tableState['Color'] === 'N/A' ? '2' : '3')}`} className=' border border-black text-center'>Total </td>
+                                <td className=' border border-black text-center'><span className=''>{grandDeliveryQuantity}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className='mx-2 text-black '>
+                    <h2>Received the above in good condition</h2>
+                </div>
+                {/* <footer className='flex justify-between relative mx-2 text-black'>
+                    <div>
+
+                        <p className='overline'>Checked & Received by</p>
+                    </div>
+                    <div>
+                        <img src={storeManagerSignature} alt="store manager signature" className='w-14'/>
+                        <p className='overline'>Store Manager</p>
+                    </div>
+                    <div>
+
+                        <p className='overline'>Factory Manager</p>
+                    </div>
+                    <div>
+                        <img src={authorestedSignature} alt="Hasan"  className='w-14'/>
+
+                        <p className='overline'>Authorized Signature</p>
+                    </div>
+                </footer> */}
+                <section class="w-full pt-4">
+                    <div className='flex justify-between '>
+                        <div className='flex items-end'>
+
+                            <p className='overline'>Checked & Received by</p>
+                        </div>
+                        <div className='flex items-end flex-col'>
+                            <img src={storeManagerSignature} alt="store manager signature" className='w-28' />
+                            <p className='overline'>Store Manager</p>
+                        </div>
+                        <div className='flex items-end '> 
+
+                            <p className='overline'>Factory Manager</p>
+                        </div>
+                        <div className='flex items-end flex-col'>
+                                <img src={authorestedSignature} alt="Hasan" className='w-28' />
+                                <p className='overline'>Authorized Signature</p>
+                        </div>
+                    </div>
+
+                </section>
+                <div className='text-right'>
+                    <button className={`${block && 'hidden'} btn btn-primary `} onClick={handlePrint}>Print this out!</button>
+                </div>
+            </section>
+        </>
     )
 };
 export default Chalan;

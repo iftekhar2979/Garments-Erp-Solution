@@ -50,33 +50,28 @@ const ViewProducts = ({ totalProducts, data, isLoading, refetch }) => {
         const notify = () => toast.error('Deleted product Succesfully');
         notify()
     }
-
-    // console.log(data)
-
     const handleRemove = async (name) => {
         deleteProduct(name)
     };
 
     return (
         <>
-
-            {/* <h1 className="text-4xl text-center my-6">Your Total Products {data?.length}</h1> */}
+            <h1 className="text-4xl text-center my-6">Product Summary With Order</h1>
             <hr />
             <div className="">
                 <Table tableHeadings={tableHeadings} tableData={[]}>
                     {
-                        totalProducts?.map(item => {
+                        totalProducts?.map((item,index) => {
                             let { product_Name, total_Rest_Quantity, total_Ordered_Quantity, Order_Count } = item
                             return (
                                 <>
-                                    <tr>
+                                    <tr key={index}>
                                         <td className='mx-2 border text-md text-center'>{product_Name}</td>
                                         <td className='mx-2 border text-md text-center'>{total_Ordered_Quantity}</td>
                                         <td className='mx-2 border text-md text-center'>{(total_Ordered_Quantity - total_Rest_Quantity)||0}</td>
                                         <td className='mx-2 border text-md text-center'>{total_Rest_Quantity}</td>
                                         <td className='mx-2 border text-md text-center'>{Order_Count}</td>
                                         <td className='mx-2 border text-md text-center'><button className="btn btn-md btn-error " onClick={() => handleRemove(product_Name)}>X</button></td>
-
                                     </tr>
                                 </>
 

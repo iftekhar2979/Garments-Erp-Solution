@@ -34,7 +34,6 @@ const ChalanListTable = ({detail}) => {
                 </td>
                 <td className="border px-1 w-14">
                 {productName}
-              
                 </td>
                 <td className="border px-1 w-16">
                 <Link to={`/chalan/${_id}`} >  <span className={lastClickedClass()} onClick={handleLastRoute} >{chalanNumber}</span> </Link>

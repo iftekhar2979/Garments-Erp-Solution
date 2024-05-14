@@ -13,49 +13,36 @@ import { setCredentials } from '../../../Redux/Features/api/Users/userSlice';
 import toast from 'react-hot-toast';
 
 const Login = () => {
+
+    const { userInfo } = useSelector((state) => state.user);
     const navigate = useNavigate()
-    const { signIn, setUser } = useContext(AuthContext)
-    const [loginError, setLoginError] = useState({})
-    const [showpass,setShowPass]=useState(false)
+    const [loginError, setLoginError] = useState(false)
+    const [showpass, setShowPass] = useState(false)
     const { register, handleSubmit } = useForm()
     const location = useLocation();
-    const from = location.state.from.pathName || '/';
+    const from = location.state?.from?.pathName || '/';
 
-    
-  const [login, { isLoading }] = useLoginMutation();
-  const dispatch = useDispatch();
-
-
-  const { userInfo } = useSelector((state) => state.user);
-
-const isObjectEmpty = (objectName) => {
-    return JSON.stringify(objectName) === "{}";
-};
-
-
-    const onsubmit =async (obj) => {
+    const [login, { isLoading }] = useLoginMutation();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (userInfo?.data?.email) {
+            navigate('/dashboard')
+        } else {
+            navigate('/')
+        }
+    }, [userInfo?.data?.email])
+    const onsubmit = async (obj) => {
         const { email, password } = obj;
-     
-     
-        signIn(email, password)
-        .then(async (result) => {
-            const user = result.user;
-
-            setUser(user);
+        try {
             const res = await login({ email, password }).unwrap();
-           
             dispatch(setCredentials({ ...res }));
+            navigate("/dashboard", { replace: true });
             toast.success(res.message || res.data.message);
-            navigate(from, { replace: true });
-            
-        })
-        .catch((err) => setLoginError(err));
-
-  
-
+            window.location.reload()
+        } catch (err) {
+            setLoginError(true)
+        }
     }
-
-
     return (
         <>
             <section className="bg-gray-100 shadow-xl rounded-sm dark:bg-gray-900">
@@ -70,23 +57,23 @@ const isObjectEmpty = (objectName) => {
                                     <InputForm label={'Email'} register={register} name={'email'} type={'email'} />
                                 </div>
                                 <div>
-                                    <InputForm label={'Password'}  register={register} name={'password'   
-                                  } type={showpass?'text':'password'} />
+                                    <InputForm label={'Password'} register={register} name={'password'
+                                    } type={showpass ? 'text' : 'password'} />
                                 </div>
-                                {isObjectEmpty(loginError) ? "" : <p className='text-error'>Give Valid Email and Password</p>}
+                                {loginError ? <p className='text-error'>Put Valid Email and Password</p> : ""}
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-start">       
-                                        <div className="ml-3 text-sm">  
-                                            <div className="swap-on cursor-pointer " onClick={()=>setShowPass(!showpass)}>{showpass?'Hide Password':'Show Password'}</div>
+                                    <div className="flex items-start">
+                                        <div className="ml-3 text-sm">
+                                            <div className="swap-on cursor-pointer " onClick={() => setShowPass(!showpass)}>{showpass ? 'Hide Password' : 'Show Password'}</div>
                                         </div>
                                     </div>
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                                 </div>
-                                <Button type={'submit'}  className={isLoading?"btn btn-disabled":` btn btn-sm btn-primary` } >Sign In</Button>
+                                <Button type={'submit'} className={isLoading ? "btn btn-disabled" : ` btn btn-sm btn-primary`} >Sign In</Button>
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                     Don’t have an account yet? <span type='submit' className="font-medium text-primary-600 hover:underline dark:text-primary-500"><Link to="/signup">Sign up</Link></span>
                                 </p>
-                                
+
                             </form>
                         </div>
                     </div>

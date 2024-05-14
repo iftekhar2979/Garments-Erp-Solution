@@ -33,16 +33,6 @@ const ColorTable = ({ options, isCheacked, style }) => {
   const [sizes, setSizes] = useState({})
   const [updated, setUpdated] = useState([]);
 
-
-  const {
-    totalQuantity,
-    restSize = {},
-    restQuantity,
-    deliveryQuantity,
-  } = details;
-
-
-
   let id_Color_Size_style
 
   useEffect(() => {

@@ -8,6 +8,8 @@ import Table from '../../../../Utility-Component/Table/Table';
 import { emptyObjectChecker } from '../../../../CustomHooks/Functions.js/emptyObjChecker';
 import Modal from '../../../../Utility-Component/Modal';
 import { deleteWithModal } from '../../../../CustomHooks/Functions.js/deleteRequest';
+import usePaginationNextAndPrev from '../../../../CustomHooks/usePaginationNextAndPrev';
+import Pagination from '../../../../Utility-Component/Pagination';
 const tableHeadings = [
     {
         id: UidGenarate(),
@@ -45,6 +47,18 @@ const PIList = (props) => {
     const { data: piList = [], isLoading, isError, refetch } = useGetCreatedPIListsQuery(undefined, {
         refetchOnMountOrArgChange: true
     })
+    // const { handleNext, handlePrev } = usePaginationNextAndPrev({
+    //     filterName: 'piFiltering',
+    //     PageChanging: chalanPageChanging,
+    //     incrementFirstPage: incrementFirstPage,
+    //     lastPageIncrement: lastPageIncrement,
+    //     decrementFirstPage: decrementFirstPage,
+    //     lastPageDecrement: lastPageDecrement,
+    //     page: pageState,
+    //     count,
+    //     firstPage:firstPage,
+    //     lastPage:lastPage
+    // })
     const [delDetail, setdelDetail] = useState({})
     if (isLoading) {
         return <Spinner />
@@ -53,7 +67,7 @@ const PIList = (props) => {
         setdelDetail(id)
     }
     const handleDelete = (id) => {
-        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/deletePi?id`, id, setdelDetail, refetch)
+        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/deletePi?id`, id, setdelDetail, refetch)
     }
     let content
     if (!isLoading && !isError) {
@@ -62,13 +76,12 @@ const PIList = (props) => {
                 <Table tableHeadings={tableHeadings} tableData={[]}>
                     {Array.isArray(piList) && piList?.map(item => <PiListTable key={UidGenarate()} handleRemove={handleRemove} details={item} />)}
                 </Table>
-                {/* <Pagination count={count} page={page} handlePage={handlePage} /> */}
+                {/* <Pagination count={count} handlePrev={handlePrev} handleNext={handleNext} firstPage={firstPage} lastPage={lastPage} filterObjectPropertyForPagination={filterObjectPropertyForPagination} handlePage={handlePage} /> */}
             </>
     }
     if (isError) {
         content = 'Something Wrong In Server !!!'
     }
-
 
     return (
         <>

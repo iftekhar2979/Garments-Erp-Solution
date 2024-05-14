@@ -6,8 +6,8 @@ export const getSeasonSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
  
     getSeasonById: builder.mutation({
-      query: (id) => ({
-        url: `/season/${id}`,
+      query: ({id,query}) => ({
+        url: `/season/${id}?query=${query}`,
         method:"POST"
       }),
     }),

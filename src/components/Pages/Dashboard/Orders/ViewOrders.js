@@ -59,7 +59,6 @@ const ViewOrders = () => {
         queryKey: ['orderList', urlOfOrders],
         queryFn: () => fetchOrder(urlOfOrders),
         dependencies: [urlOfOrders],
-        refetchOnMount: false,
         refetchOnReconnect: true,
         refetchOnWindowFocus: true,
 
@@ -67,17 +66,17 @@ const ViewOrders = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         if (pageRef?.current) {
-            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?page=${pageState}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/api/orderList?page=${pageState}`
             dispatch(urlChanging(url))
         }
         if (isFiltered && filterRef) {
-            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/${filteredState}&page=${filteredPageNumber}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/api/${filteredState}&page=${filteredPageNumber}`
             dispatch(urlChanging(url)) //changing request url
             dispatch(clearSearching('')) // clear searching
             dispatch(searchingPageChanging(0)) //filtering page number 0
         }
         if (isSearched) {
-            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/search?orderNumber=${searchedKeyWords}&page=${searchPageNumber}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/api/search?orderNumber=${searchedKeyWords}&page=${searchPageNumber}`
             dispatch(urlChanging(url))
             dispatch(clearFiltering())
             dispatch(filterPageChanging(0))
@@ -89,7 +88,7 @@ const ViewOrders = () => {
         dispatch(filtering(`filterOrderList?${property}=${filter}`))
         dispatch(filterPageChanging(0))
 
-        getSeasonById(filter)
+        getSeasonById({id:filter,query:property})
         seasonRef.current = filter
 
     }
@@ -100,7 +99,6 @@ const ViewOrders = () => {
         { label: "Quantity", key: "orderQuantity" }
     ];
 
-    console.log(seasonsSummary)
     const { documentCount, findingData } = orderList
     count = Math.ceil(documentCount / 15)
     const handleRemove = (id) => {
@@ -134,10 +132,10 @@ const ViewOrders = () => {
     }
     let filterObjectPropertyForPagination = { pageState, filteredPageNumber, searchPageNumber, isSearched, isFiltered }
     const handleDelete = (id) => {
-        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList?id`, id, setdelDetail, refetch)
+        deleteWithModal(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/orderList?id`, id, setdelDetail, refetch)
     }
     const handleCopyOrder = (id) => {
-        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/order/copy/${id}`, {}, { withCredentials: true })
+        axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/order/copy/${id}`, {}, { withCredentials: true })
             .then(res => {
                 if (res.data) {
                     const notify = () => toast.success('Order Copied')
@@ -187,12 +185,7 @@ const ViewOrders = () => {
     if (listError) {
         return <Alert alertDescription={'Something Error In Sever Please Try again'} className='w-fit mx-auto my-6' role={'alert alert-error'}></Alert>
     }
-    const handleRefetch = () => {
-        refetch()
-        const notify = () => toast("Loading...")
-        notify()
-    }
-    console.log(seasonRef)
+   
     const { buyerList = [], companyList = [], productList = [], seasonList = [] } = data[0]
     let tableContent
     let paginationLine
@@ -213,7 +206,7 @@ const ViewOrders = () => {
         <div>
             <Heading heading={' Order Lists'} />
             <div className='flex items-center'>
-                <RefetchComponent handleRefetch={handleRefetch} />
+                {/* <RefetchComponent handleRefetch={handleRefetch} /> */}
                 <FilterAllButton
                     className={`block border-b ${(!isFiltered && !isSearched) ? "h-12  bg-gradient-to-r from-indigo-500 via-purple-500 to-red-300 text-white " : "h-12 bg-white text-black "} hover:bg-gray-200  px-2 font-semibold ml-4 `}
                     handleAll={handleAll}
