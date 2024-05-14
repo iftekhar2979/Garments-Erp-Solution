@@ -94,11 +94,11 @@ export const ChalanList = () => {
     const pageRef = useRef(false)
     useEffect(() => {
         if (pageRef.current) {
-            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/chalanLists?page=${pageState}`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/api/chalanLists?page=${pageState}`
             dispatch(chalanUrlChanging(url))
         }
         if (isSearched) {
-            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/chalanLists?chalanNumber=${searchedKeyWords}&page=0`
+            let url = `${process.env.REACT_APP_DEVELOPMENT_URL}/api/chalanLists?chalanNumber=${searchedKeyWords}&page=0`
             dispatch(chalanUrlChanging(url))
         }
     }, [pageState, pageRef, urlOfChalans, searchPageNumber, isSearched, searchedKeyWords])

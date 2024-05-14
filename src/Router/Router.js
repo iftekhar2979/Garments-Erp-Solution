@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home></Home>
+                element: <Login/>
             }, {
                 path: '/login',
                 element: <Login></Login>
@@ -74,7 +74,7 @@ export const router = createBrowserRouter([
                         path: '/dashboard/edit/:id',
                         element: <OrderListEdit></OrderListEdit>,
                         loader: async ({ params }) => {
-                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList/${params.id}`,{credentials:'include'})
+                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/orderList/${params.id}`,{credentials:'include'})
                         }
                     },
                     , {
@@ -89,13 +89,13 @@ export const router = createBrowserRouter([
                         path: '/dashboard/po/deliveryDetail/:id',
                         element: <ViewContext><DeliveryDetail></DeliveryDetail></ViewContext>,
                         loader: async ({ params }) => {
-                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/deliveryDetail/${params.id}`,{credentials:'include'})
+                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/deliveryDetail/${params.id}`,{credentials:'include'})
                         },
                     }, {
                         path: '/dashboard/po/singledeliveryDetail/:id',
                         element: <ViewContext><SingleDetailDelivery /></ViewContext>,
                         loader: async ({ params }) => {
-                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/singleDeliveryDetail/${params.id}`,{credentials:'include'})
+                            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/singleDeliveryDetail/${params.id}`,{credentials:'include'})
                         }
                     },{
                         path:'/dashboard/tbLists',
@@ -123,7 +123,7 @@ export const router = createBrowserRouter([
         path: '/chalan/:id',
         element: <PrivateRoute><ViewContext><Chalan></Chalan></ViewContext></PrivateRoute>,
         loader: async ({ params }) => {
-            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/singleDeliveryDetail/${params.id}`,{credentials:'include'})
+            return fetch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/singleDeliveryDetail/${params.id}`,{credentials:'include'})
         }
     },
     ,{

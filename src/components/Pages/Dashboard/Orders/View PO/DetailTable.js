@@ -73,7 +73,6 @@ const DetailTable = ({ poDetails, isCheacked, }) => {
   // Alert if Quantity is bigger than the Rest
   useEffect(() => {
     const objKeys = Object.keys(sizes)
-
     if (restSize) {
       const findKey = objKeys?.find(item => item === keyName)
       if(value===''){
@@ -119,7 +118,6 @@ let selectionButton
    selectionButton =<>
     <input type='checkbox' className='py-2 text-right' checked={restObject}  onClick={()=>setRestObject(!restObject)} />
       <span className='text-sm mx-2 hover:bg-blue-300 cursor-pointer bg-blue-400 text-white px-2' onClick={()=>setRestObject(!restObject)}>{restObject ?'UnSelect All':'Select All'}</span>
-   
    </>
   }else{
     selectionButton=''

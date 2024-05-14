@@ -53,7 +53,7 @@ const TBAndPi = () => {
   const dispatch=useDispatch()
   const handlePi = () => {
     dispatch(addTBNumbersAndDates(selectedValues))
-    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/pi`, { selectedValues }, { withCredentials: true })
+    axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/pi`, { selectedValues }, { withCredentials: true })
     .then(res => setPiData(res.data))
     .catch(err => {
       const notifySuccess = () => toast.error('Server side Error, Please Reload!!!');

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_DEVELOPMENT_URL}`,
+    baseUrl: `${process.env.REACT_APP_DEVELOPMENT_URL}/api`,
     credentials: "include",
   });
 export const apiSlice = createApi({
@@ -110,7 +110,7 @@ export const apiSlice = createApi({
         //PATCH THE OLDER SIZES AND REST'S FROM THE ORDER
         patchOlderDataFromDeliveryWhenDelete: builder.mutation({
             query: ({ _id, orderId }) => ({
-                url: `deleteDeliveryDetail?id=${_id}&postId=${orderId}`,
+                url: `/deleteDeliveryDetail?id=${_id}&postId=${orderId}`,
                 method: 'PATCH',
             }),
             invalidatesTags: ['SingleOrderAndDetails']
@@ -118,14 +118,14 @@ export const apiSlice = createApi({
         //DELETE DELIVERY
         deleteDelivery: builder.mutation({
             query: (_id) => ({
-                url: `deleteDeliveryDetail?id=${_id}`,
+                url: `/deleteDeliveryDetail?id=${_id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['SingleOrderAndDetails']
         }),
         deletingDelivery:builder.mutation({
             query: ({ _id, orderId }) => ({
-                url: `deleteDelivery?id=${_id}&postId=${orderId}`,
+                url: `/deleteDelivery?id=${_id}&postId=${orderId}`,
                 method: 'PATCH',
             }),
             invalidatesTags: ['SingleOrderAndDetails']

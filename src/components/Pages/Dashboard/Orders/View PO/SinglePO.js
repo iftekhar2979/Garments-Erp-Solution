@@ -36,6 +36,7 @@ const tableHeadings = [
 
 const SinglePO = () => {
   const { id } = useParams()
+  const [edit,setEdit]=useState(false)
   const details = useSelector(state => state.orderDetails)
   const { grandDeliveryQuantity, grandRestQuantity, details: detail } = useSelector(state => state?.deliveryTable)
   const [addDeliveryAndUpdateOrders,{isLoading:addDeliveryLoading}]=useAddDeliveryAndUpdateOrdersMutation()
@@ -136,8 +137,6 @@ const SinglePO = () => {
     errorContent = <h1 className='bg-red-300 text-2xl '>Something Error IN Server Please Reload The Page And Try Again!!!</h1>
   }
 
-
-
   return (
     <div>
       <Heading heading={`Your Selected Order Number : ${orderNumber}`}></Heading>
@@ -174,7 +173,7 @@ const SinglePO = () => {
                   key={index}
                   setisCheacked={setisCheacked}
                   isCheacked={isCheacked}
-
+                edit={edit}
                 />
               ))}
 

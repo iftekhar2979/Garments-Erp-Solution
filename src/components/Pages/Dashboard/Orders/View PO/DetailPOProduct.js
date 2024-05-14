@@ -14,16 +14,14 @@ const DetailPOProduct = ({ properties, orderNumberDispatch }) => {
 
 
   useEffect(() => {
-    axios.put(`${process.env.REACT_APP_DEVELOPMENT_URL}/editDate/${properties?._id}`, { completeDate: completed },{withCredentials:true})
+    axios.put(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/editDate/${properties?._id}`, { completeDate: completed },{withCredentials:true})
       .then(res => {
-        // // console.log(res.data)
         return res.data
       })
 
-    // console.log(compDate)
   }, [completed, properties?._id])
   const handleStatus = (e) => {
-    axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/editStatus/${properties?._id}`, { status: e.target.value },{withCredentials:true})
+    axios.patch(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/editStatus/${properties?._id}`, { status: e.target.value },{withCredentials:true})
       .then(res => res.data)
   }
   return (
@@ -66,7 +64,6 @@ const DetailPOProduct = ({ properties, orderNumberDispatch }) => {
           options={status}
           placeholder={'Status'}
           defaultValue={properties?.status}
-          // handleInputDropdown={(e)=>orderNumberDispatch({type:'STATUS',[e.target.name]:e.target.value,property:e.target.name})} 
           handleInputDropdown={handleStatus}
         />
         <textarea

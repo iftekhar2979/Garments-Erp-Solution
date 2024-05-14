@@ -48,7 +48,7 @@ let tableHeadingsFullWithCartoonSticker = [
   },
 
 ];
-const PoTable = ({ style, isCheacked, setisCheacked }) => {
+const PoTable = ({ style, isCheacked, setisCheacked ,edit}) => {
   // const { isLoading, isError, singleOrderDetails: poState } = useSelector(state => state.singleOrder)
   const details = useSelector(state => state.orderDetails)
   const [arr, setArr] = useState(new Array(style?.colorQuantity));
@@ -93,9 +93,10 @@ const PoTable = ({ style, isCheacked, setisCheacked }) => {
               </tr>
             </thead>
             <tbody>
+                       
               {[...arr].map((item, index) => (
                 <ColorTable options={sizeName} style={style?.style} key={index} isCheacked={isCheacked} setisCheacked={setisCheacked} status={status} />
-              ))}
+              ))} 
               <td></td>
               <td>Order Qty: <span className='font-bold '>{details?.grandTotalQuantity}</span></td>
               <td>Rest Qty:  <span className='font-bold '>{details?.grandRestQuantity}</span></td>

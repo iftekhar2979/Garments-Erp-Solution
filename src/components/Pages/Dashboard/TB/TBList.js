@@ -10,6 +10,7 @@ import Searching from '../../../Utility-Component/Filters/Searching';
 import { IoReload } from "react-icons/io5";
 import toast from 'react-hot-toast';
 import RefetchComponent from '../../../Utility-Component/RefetchComponent';
+import ErrorComponent from '../../Error/ErrorComponent';
 
 const tableHeadings = [
   {
@@ -42,6 +43,7 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   if (isLoading && listLoading) {
     return <Spinner />;
   }
+
   const createdTB = [...new Set(tbLists.flatMap(item => item.tbArray))];
 
   const handleCheckboxChange = (event) => {
@@ -57,7 +59,6 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
   if (selectedValues.length !== 0) {
     matchedCompany = tbLists.find(item => item.tbNumber === selectedValues[0])
   }
-  const { companyList = {} } = data[0]
   const handleInputDropdown = (e) => {
     setUrl(`/tbList?companyName=${e.target.value}`)
   }
@@ -78,14 +79,18 @@ const TBList = ({ selectedValues, setSelectedValues, handlePi }) => {
       <div className='flex justify-between'>
         <div className='flex items-center'>
           <button className='block border-b border-white shadow rounded bg-white h-[3rem] hover:bg-gray-200  px-2 font-semibold mt-4 ml-4 ' onClick={handleAll}> ALL</button>
-          <InputDropDown
-            divclass={'my-2'}
-            handleInputDropdown={handleInputDropdown}
-            className={`select  mx-4 max-w-xs`}
-            options={companyList}
-            sectionName={'companyName'}
-            placeholder={'Filter By Company'}
-          />
+       {isError ?
+        <p className="text-error">Fetching Error </p>
+        :
+        <InputDropDown
+        divclass={'my-2'}
+        handleInputDropdown={handleInputDropdown}
+        className={`select  mx-4 max-w-xs`}
+        options={data[0]?.companyList}
+        sectionName={'companyName'}
+        placeholder={'Filter By Company'}
+      />
+        }
         </div>
 
         <Searching handleSearch={handleSearch} placeholder={'TB NUMBER...'} />

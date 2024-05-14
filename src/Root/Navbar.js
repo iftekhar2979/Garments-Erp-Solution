@@ -1,54 +1,48 @@
 import React, { useContext, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext, AuthContextProvider } from '../components/contextApi/UserContext';
 import { useLogoutMutation } from '../Redux/Features/api/Users/userApiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCredentials } from '../Redux/Features/api/Users/userSlice';
 const Navbar = () => {
-  // const state=useContext(AuthContextProvider)
-  const { user, signOutUser, setUser } = useContext(AuthContext)
   const [logout] = useLogoutMutation()
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch()
+  const { user, setUser } = useContext(AuthContext)
+  const navigate = useNavigate()
 
-
-  // console.log(userInfo)
   const hanldeLogOut = () => {
-    signOutUser().then((result) => {
-      logout().then(res => {
-        dispatch(removeCredentials())
-     
-      }).catch(error=>{
-     
-      })
-      setUser('');
+    logout().then(res => {
+      dispatch(removeCredentials())
+    
+
     })
   }
-let routesOfUser
-  if(userInfo){
-    routesOfUser=<>
-    <li>
-              <NavLink to='/dashboard/companies'>Company List</NavLink>
-            </li>
-            <li>
-              <NavLink to='/dashboard/addProduct'>Product</NavLink>
-            </li>
-            <li>
-              <NavLink to='/dashboard/employes'>Employee</NavLink>
-            </li>
-            <li>
-              <NavLink to='/dashboard/ViewOrders'>View Orders</NavLink>
-            </li>
-            <li>
-              <NavLink to='/dashboard/Chalans'>Chalans</NavLink>
-            </li>
-            <li>
-              <NavLink to='/dashboard/tbLists'>TB LIST</NavLink>
-            </li>
-            <li>
-              <NavLink to='/dashboard/piList'>PI LIST</NavLink>
-            </li>
-    </> 
+  let routesOfUser
+  if (userInfo) {
+    routesOfUser = <>
+      <li>
+        <NavLink to='/dashboard/companies'>Company List</NavLink>
+      </li>
+      <li>
+        <NavLink to='/dashboard/addProduct'>Product</NavLink>
+      </li>
+      <li>
+        <NavLink to='/dashboard/employes'>Employee</NavLink>
+      </li>
+      <li>
+        <NavLink to='/dashboard/ViewOrders'>View Orders</NavLink>
+      </li>
+      <li>
+        <NavLink to='/dashboard/Chalans'>Chalans</NavLink>
+      </li>
+      <li>
+        <NavLink to='/dashboard/tbLists'>TB LIST</NavLink>
+      </li>
+      <li>
+        <NavLink to='/dashboard/piList'>PI LIST</NavLink>
+      </li>
+    </>
   }
   return (
     <div className='navbar bg-wholebg shadow-md'>
@@ -75,15 +69,12 @@ let routesOfUser
             className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100  w-52'
           >
             <li>
-            <NavLink to='/'>HOME</NavLink>
-            </li>
-            <li>
               <NavLink to='/dashboard'>DASHBOARD</NavLink>
             </li>
-           {
-            routesOfUser
-           }
-         
+            {
+              routesOfUser
+            }
+
           </ul>
         </div>
         <a className='btn btn-ghost normal-case text-xl'>ABC SOURCING</a>
@@ -91,30 +82,35 @@ let routesOfUser
       </div>
       <div className='navbar-center hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>
-          <li tabIndex={0}>
-            <NavLink
-              to='/'
-              className={({ isActive, isPending }) =>
-                isPending ? 'pending' : isActive ? 'active bg-indigo-400 text-base-100' : ''
-              }
-            >
-              HOME
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to='/dashboard'
-              className={({ isActive, isPending }) =>
-                isPending ? 'pending' : isActive ? 'active bg-indigo-400 text-base-100' : ''
-              }
-            >
-              DASHBOARD
-            </NavLink>
-          </li>
+
+          {userInfo &&
+            <>
+              {/* <li tabIndex={0}>
+                <NavLink
+                  to='/'
+                  className={({ isActive, isPending }) =>
+                    isPending ? 'pending' : isActive ? 'active bg-indigo-400 text-base-100' : ''
+                  }
+                >
+                  HOME
+                </NavLink>
+              </li> */}
+              {/* <li>
+                <NavLink
+                  to='/dashboard'
+                  className={({ isActive, isPending }) =>
+                    isPending ? 'pending' : isActive ? 'active bg-indigo-400 text-base-100' : ''
+                  }
+                >
+                  DASHBOARD
+                </NavLink>
+              </li> */}
+            </>
+          }
         </ul>
       </div>
       <div className='navbar-end'>
-        {userInfo && <h2 className='mx-4 text-xl font-bold'>{userInfo.data.name}</h2>} 
+        {userInfo && <h2 className='mx-4 text-xl font-bold'>{userInfo.data.name}</h2>}
         {!userInfo && <Link className='btn btn-primary ' to="/login">Log In</Link>}
         {userInfo && <Link className='btn  btn-secondary btn-sm' onClick={hanldeLogOut} tooltip>Log Out</Link>}
       </div>

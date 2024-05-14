@@ -30,5 +30,5 @@ export const store=configureStore({
    middleware:(getDefaultMiddleware)=>{
    return getDefaultMiddleware().concat(apiSlice.middleware)
    },
-   devTools:false
+   devTools: process.env.REACT_APP_REDUX_DEVELOPMENT_MODE
 })
