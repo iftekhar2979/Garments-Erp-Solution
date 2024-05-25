@@ -43,3 +43,12 @@ Github link : <https://github.com/iftekhar2979/Garments_Erp_Server.git>
 ## Live Link
 
 <https://testerp.theabcsi.com/>
+
+Creadential :
+Admin : 
+email :admindemo@sourching.com
+password : 123456
+
+User :
+email : demo@sourching.com
+password : 123456
