@@ -42,4 +42,4 @@ Github link : <https://github.com/iftekhar2979/garments-Sourching.git>
 Github link : <https://github.com/iftekhar2979/Garments_Erp_Server.git>
 ## Live Link
 
-<https://mellifluous-kashata-ea4cfa.netlify.app/>
+<https://testerp.theabcsi.com/>
