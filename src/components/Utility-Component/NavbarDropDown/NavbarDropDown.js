@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 import NavbarDropDownList from '../../Utility-Component/NavbarDropDown/NavbarDropDownList';
+<<<<<<< HEAD
 import { useSelector } from 'react-redux';
 const NavbarDropDown = ({ name, data }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -14,6 +15,11 @@ const NavbarDropDown = ({ name, data }) => {
     filteredIds=data
   }
 
+=======
+const NavbarDropDown = ({ name, data }) => {
+  const [dropdown, setDropdown] = useState(false);
+  // console.log(dropdown);
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   return (
     <>
       <div className='dropdown dropdown-open'>
@@ -24,16 +30,25 @@ const NavbarDropDown = ({ name, data }) => {
             aria-controls={`dropdown-${name}`}
             onClick={() => setDropdown(!dropdown)}
           >
+<<<<<<< HEAD
          
             <span className='flex-1 text-left whitespace-nowrap'>
+=======
+            <span className='flex-1 ml-3 text-left whitespace-nowrap'>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
               {name}
             </span>
             <HiChevronDown></HiChevronDown>
           </button>
           {dropdown && (
             <>
+<<<<<<< HEAD
               <ul className='text-base font-normal'>
                 {filteredIds?.map((item) => {
+=======
+              <ul className='text-base font-normal py-2 bg-gray-100 space-y-2'>
+                {data?.map((item) => {
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
                   return (
                     <NavbarDropDownList
                       data={item}

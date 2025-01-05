@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createContext, useEffect, useReducer, useState } from 'react';
 import { UidGenarate, contextState, detailTableContextState, detailTableGrandState, grandQuantityState } from '../Pages/Dashboard/Orders/View PO/Reducer/intialState';
 import { contextReducer, detailContextFunction, detailTableGrandFunction, grandReducer } from '../Pages/Dashboard/Orders/View PO/Reducer/reducerFunction';
@@ -152,6 +153,17 @@ const ViewContext = ({ children }) => {
 
   }, [detailTableGrandDispatch, detailTableContext])
   const obj = { poState, setPoState, context,detailTableGrandTotal,setAction,action, contextDispatch, sizeName,lwhHeadingDetailTable, setsizeName,detailContextDispatch, grandDispatch, grandTotal, tableHeadingsFull, tableDetailHeading, lwhHeading, sizes, status,detailTableContext }
+=======
+import { createContext, useReducer, useState } from 'react';
+import { contextState } from '../Pages/Dashboard/Orders/View PO/Reducer/intialState';
+import { contextReducer } from '../Pages/Dashboard/Orders/View PO/Reducer/reducerFunction';
+export const ViewContextProvider = createContext(null);
+const ViewContext = ({ children }) => {
+  const [poState,setPoState]=useState()
+ const [context,contextDispatch]=useReducer(contextReducer,contextState)
+console.log(context)
+const obj={poState,setPoState,context,contextDispatch}
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   return (
     <ViewContextProvider.Provider value={obj}>
       {children}

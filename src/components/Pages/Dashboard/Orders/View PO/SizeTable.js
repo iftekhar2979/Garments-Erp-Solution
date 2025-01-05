@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { memo, useContext, useEffect, useRef, useState } from 'react';
 import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import { UidGenarate } from './Reducer/intialState';
@@ -33,10 +34,31 @@ const SizeTable =( ({ options, size, sizeChange, defaultValue, value, isCheacked
                     name={'lwhSize'}
                     disabled={isCheacked ? true : false}
                     value={output ? output[singleSize] : 0}
+=======
+import React from 'react';
+
+const SizeTable = ({ options, size, sizeChange, defaultValue,total }) => {
+
+  return (
+    <>
+      <table className=''>
+        <tbody>
+          {options?.map((singleSize, i) => {
+          
+            return (
+              <tr key={i}>
+                <td>{singleSize}</td>
+                <td>
+                  <input
+                    type='text'
+                    className='border w-20'
+                    name={singleSize}
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
                     onChange={sizeChange}
                   />
                 </td>
               </tr>
+<<<<<<< HEAD
             </>
             : (poState?.sizeSystem === 'SM-XL') ?
               <>
@@ -88,3 +110,19 @@ const SizeTable =( ({ options, size, sizeChange, defaultValue, value, isCheacked
 });
 
 export default memo(SizeTable);
+=======
+            );
+          })}
+          <tr>
+          <td >Total : </td>
+            <td className="font-bold"> {isNaN(total) ? 0 : total}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </>
+  );
+};
+
+export default SizeTable;
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900

@@ -11,10 +11,13 @@ import InputDropDown from '../../../Utility-Component/Form/InputDropDown';
 import Heading from '../../../Utility-Component/Heading';
 import InputForm from '../../../Utility-Component/InputForm';
 import PreviousSelected from './PreviousSelected';
+<<<<<<< HEAD
 import patchDocuments from '../../../CustomHooks/putDocument';
 import { format, parseISO } from 'date-fns';
 import { useGetCompanyNamesQuery, useGetProductsQuery } from '../../../../Redux/Features/api/apiSlice';
 
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 const OrderListEdit = () => {
   const defaultData = useLoaderData();
   const [buyers, setbuyers] = useState();
@@ -31,6 +34,7 @@ const OrderListEdit = () => {
     buyerName: '',
     targetDate: '',
   });
+<<<<<<< HEAD
   const { data: companyData, isLoading, isError } = useGetCompanyNamesQuery(undefined,{
     refetchOnMountOrArgChange: 600,
     keepUnusedDataFor:600    
@@ -38,12 +42,20 @@ const OrderListEdit = () => {
   const { data: {products}=[], isLoading:productIsLoading, isError:productIsError } = useGetProductsQuery()
 
   const companyNames=companyData?.map(item=>item.companyName)
+=======
+  const { companyData, loading, error, setcompanyData } = useFetch(
+    'http://localhost:8000/companyNames'
+  );
+  //custom hook for load products from server
+  const { product } = useProductItem();
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 
 
   const handleInputDropdown = (e) => {
     setCompanyAndProduct((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+<<<<<<< HEAD
 
     axios.post(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/companyBuyers?companyBuyers=${e.target.value}`,{},{withCredentials:true})
     .then((responce) => {
@@ -52,10 +64,23 @@ const OrderListEdit = () => {
     .catch((error) => console.log(error));
   }
    
+=======
+    axios
+      .post(`http://localhost:8000/companyBuyers?companyName=${e.target.value}`)
+      .then((responce) => {
+        setbuyers(responce.data);
+      })
+      .catch((error) => console.log(error));
+  };
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   const handleBuyer = (e) => {
     setCompanyAndProduct((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+<<<<<<< HEAD
+=======
+    // console.log(companyName)
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   };
 
   const handleProduct = (e) => {
@@ -63,6 +88,7 @@ const OrderListEdit = () => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+<<<<<<< HEAD
 
   const onSubmit = (obj) => {
     let {targetDate,orderedDate}=obj
@@ -70,7 +96,17 @@ const OrderListEdit = () => {
     obj.orderedDate=  format(parseISO(orderedDate),'PP')
     
     const editedData = { ...companyAndProduct, ...obj };
+<<<<<<< HEAD
+    patchDocuments(`${process.env.REACT_APP_DEVELOPMENT_URL}/orderList`,{...editedData},defaultData?._id)
+=======
+  const onSubmit = (obj) => {
+    console.log(obj);
+    const editedData = { ...companyAndProduct, ...obj };
+    putDocument('http://localhost:8000/orderList',{...editedData},defaultData?._id)
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
+=======
     patchDocuments(`${process.env.REACT_APP_DEVELOPMENT_URL}/api/orderList`,{...editedData},defaultData?._id)
+>>>>>>> season
   };
   return (
     <>
@@ -86,11 +122,17 @@ const OrderListEdit = () => {
             <InputDropDown
               label={'Company'}
               handleInputDropdown={handleInputDropdown}
+<<<<<<< HEAD
               options={companyNames}
               sectionName={'companyName'}
               placeholder={'Select your Company'}
               // prevSelected={defaultData?.companyName}
               className={'select select-primary'}
+=======
+              options={companyData}
+              sectionName={'companyName'}
+              placeholder={'Select your Company'}
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
               register={register}
               
             />
@@ -101,14 +143,18 @@ const OrderListEdit = () => {
               options={buyers}
               sectionName={'buyerName'}
               placeholder={'Select your Buyer'}
+<<<<<<< HEAD
               className={'select select-primary'}
               // prevSelected={defaultData?.buyerName}
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
               register={register}
               
             />
             <InputDropDown
               label={'Product'}
               handleInputDropdown={handleProduct}
+<<<<<<< HEAD
               options={products}
               sectionName={'productName'}
               placeholder={'Select your Product Name'}
@@ -128,6 +174,25 @@ const OrderListEdit = () => {
               register={register}
               name={'range'}
               defaultValue={defaultData?.range}
+=======
+              options={product?.products}
+              sectionName={'productName'}
+              placeholder={'Select your Product Name'}
+              register={register}
+            
+            />
+            <InputForm
+              label={'P.O Number'}
+              register={register}
+              name={'poNumber'}
+              defaultValue={defaultData?.poNumber}
+            />
+            <InputForm
+              label={'Quantity'}
+              register={register}
+              name={'quantity'}
+              defaultValue={defaultData?.quantity}
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
             />
             <InputDate
               register={register}

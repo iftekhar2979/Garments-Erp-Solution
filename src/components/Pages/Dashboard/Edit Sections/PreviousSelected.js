@@ -5,9 +5,15 @@ const PreviousSelected = ({ data }) => {
   const {
     companyName,
     buyerName,
+<<<<<<< HEAD
     orderNumber,
     productName,
     range,
+=======
+    poNumber,
+    productName,
+    quantity,
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
     targetDate,
     orderedDate,
     _id,
@@ -28,12 +34,21 @@ const PreviousSelected = ({ data }) => {
         <span className='text-xl'>{productName}</span>
       </div>
       <div>
+<<<<<<< HEAD
         <p className='font-bold text-xl inline'> Order Number : </p>
         <span className='text-xl'>{orderNumber}</span>
       </div>
       <div>
         <p className='font-bold text-xl inline'> Range : </p>
         <span className='text-xl'>{range}</span>
+=======
+        <p className='font-bold text-xl inline'> P.O Number : </p>
+        <span className='text-xl'>{poNumber}</span>
+      </div>
+      <div>
+        <p className='font-bold text-xl inline'> Quantity : </p>
+        <span className='text-xl'>{quantity}</span>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
       </div>
       <div>
         <p className='font-bold text-xl inline'> Target Date : </p>

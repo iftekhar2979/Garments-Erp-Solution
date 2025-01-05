@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import React, { useEffect, useState } from 'react';
 const QuantityOrder = ({component,dispatch}) => {
@@ -19,12 +20,47 @@ const QuantityOrder = ({component,dispatch}) => {
       dispatch({type:'QUANTITY_ORDER_DELETE',payload:deleteVal})
       setData(deleteVal)
 }
+=======
+// import { set } from 'date-fns';
+import React, { useEffect } from 'react';
+import useTowMOre from '../../../CustomHooks/useTwoMore';
+
+const QuantityOrder = ({
+  component,
+  quantity,
+  setQuantity,
+  setColors,
+  setTotalQty,
+}) => {
+  const {
+    handleAdd,
+    handleChange,
+    quant,
+    handleRemove,
+    handleChangeOther,
+    totalQuanity,
+    val,
+  } = useTowMOre();
+
+  useEffect(() => {
+    const colors = [...val];
+    const quantantites = [...quant];
+    setTotalQty(totalQuanity);
+    setColors(colors);
+    setQuantity(quantantites);
+  }, [setQuantity, quant, val, setColors, totalQuanity, setTotalQty]);
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 
   return (
     <div>
       <div className='w-full border my-2'>
         <label className='label'>{component} </label>
+<<<<<<< HEAD
         {data?.map((item, index) => {
+=======
+
+        {val?.map((item, index) => {
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
           return (
             <div className='mb-4 flex justify-center' key={index}>
               <div>
@@ -34,12 +70,16 @@ const QuantityOrder = ({component,dispatch}) => {
                   placeholder='Type here'
                   className='input input-bordered w-full max-w-xs'
                   name='style'
+<<<<<<< HEAD
                   required
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
                   onChange={(e) => handleChange(e, index)}
                 />
                 <label className='label'>Color Quantity</label>
                 <input
                   type='number'
+<<<<<<< HEAD
                   onWheel={e => e.target.blur()}
                   placeholder='Type here'
                   className='input input-bordered w-full max-w-xs'
@@ -60,6 +100,27 @@ const QuantityOrder = ({component,dispatch}) => {
               >
                 x
               </a>
+=======
+                  placeholder='Type here'
+                  className='input input-bordered w-full max-w-xs'
+                  name='colorQuantity'
+                  onChange={(e) => handleChangeOther(e, index)}
+                />
+              </div>
+
+              <button
+                className='btn-sm rounded-full  text-center bg-gray-300'
+                onClick={handleAdd}
+              >
+                +
+              </button>
+              <button
+                className='btn-sm rounded-full bg-gray-300'
+                onClick={() => handleRemove(index)}
+              >
+                x
+              </button>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
             </div>
           );
         })}

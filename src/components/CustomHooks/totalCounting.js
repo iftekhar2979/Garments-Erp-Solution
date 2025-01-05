@@ -4,6 +4,7 @@ export const totalCount=(state)=>{
       return acc + cur;
     }, 0);
     return totalQuanity
+<<<<<<< HEAD
 }
 
 export const grandTotalQuantity=(state)=>{
@@ -20,3 +21,6 @@ export const isEmptyObj=function isEmptyObject(obj) {
   }
   return true;
 }
+=======
+}
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900

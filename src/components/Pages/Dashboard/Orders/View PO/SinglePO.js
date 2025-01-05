@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom';
+=======
+import React, { useContext, useEffect } from 'react';
+import { useLoaderData } from 'react-router-dom';
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 import { ViewContextProvider } from '../../../../contextApi/ViewContext';
 import Heading from '../../../../Utility-Component/Heading';
 import Table from '../../../../Utility-Component/Table/Table';
 import PoTable from './PoTable';
+<<<<<<< HEAD
 import DetailPOProduct from './DetailPOProduct'
 import { intialOrderNumber } from './Reducer/intialState';
 import { orderNumberFunction } from './Reducer/reducerFunction';
@@ -21,6 +27,8 @@ import { useAddDeliveryMutation, useAddDetailsAndPatchInSingleOrderMutation, use
 import { clearingDeliveryState } from '../../../../../Redux/Features/DELIVERY_TABLE/deliverytable';
 import { useAddDeliveryAndUpdateOrdersMutation } from '../../../../../Redux/Features/api/apiSlice';
 
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 const tableHeadings = [
   {
     id: 111,
@@ -33,6 +41,7 @@ const tableHeadings = [
   },
 ];
 
+<<<<<<< HEAD
 
 const SinglePO = () => {
   const { id } = useParams()
@@ -188,6 +197,36 @@ const SinglePO = () => {
 
     </div>
 
+=======
+const SinglePO = () => {
+  const poDetail = useLoaderData();
+  const {setPoState}=useContext(ViewContextProvider)
+ useEffect(()=>{
+  setPoState(poDetail)
+ },[poDetail,setPoState])
+ 
+  const { orderNumber, style } = poDetail;
+
+  return (
+    <div>
+      <Heading heading={`Your Selected PO Number : ${orderNumber}`}></Heading>
+      {/* <DetailPOProduct properties={poDetail}></DetailPOProduct> */}
+
+      <Table tableHeadings={tableHeadings} tableData={[]}>
+        {/* {color.map(item=><PoTable color={item} quantity={quantity} />)} */}
+        {style?.map((item, index) => (
+          <PoTable
+            style={item}
+            key={index}
+           
+            
+          />
+        ))}
+
+        {/* {new Array(style?.color).map(item=><PoTable color={item} quantity={quantity} />)}} */}
+      </Table>
+    </div>
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   );
 };
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -32,6 +33,8 @@
   animation: spin 2s linear infinite;
 }
 
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -39,6 +42,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+<<<<<<< HEAD
 
 
 
@@ -51,17 +55,23 @@ body {
 }
 body::-webkit-scrollbar {
   display: none;
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 table {
   border-spacing: 0px;
   /* table-layout: fixed; */
 
+<<<<<<< HEAD
 
 }
 
@@ -69,19 +79,33 @@ table th {
   word-break: break-all;
 }
 
+=======
+ 
+}
+table th{
+  word-break: break-all;
+}
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 td {
   /* border: 1px solid #666; */
   word-break: break-all;
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
 th {
   /* border: 1px solid #666; */
   word-break: break-all;
 
 }
+<<<<<<< HEAD
 
 input[type="date"] {
+=======
+input[type="date"]{
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   background-color: #0080ff;
   padding: 15px;
   position: relative;
@@ -91,13 +115,18 @@ input[type="date"] {
   outline: none;
   border-radius: 5px;
 }
+<<<<<<< HEAD
 
 ::-webkit-calendar-picker-indicator {
+=======
+::-webkit-calendar-picker-indicator{
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
   background-color: #ffffff;
   padding: 5px;
   cursor: pointer;
   border-radius: 3px;
 }
+<<<<<<< HEAD
 
 @media screen and (max-device-width:1024px),
 screen and (max-width:1600px) {
@@ -200,3 +229,20 @@ page[size="A4"][layout="landscape"] {
 .b_b_None {
   border-bottom: none;
 }
+=======
+@media screen and (max-device-width:1024px), screen and (max-width:1600px) {
+  ul.menu.p-4.md\:w-1\/3.bg-gray-200.text-base-content{
+    width:100%;
+    background: #d8dde7;
+  }
+  }
+  @media screen and (max-device-width:789px), screen and (max-width:1024px) {
+    ul.menu.p-4.md\:w-1\/3.bg-gray-200.text-base-content{
+      width:25%;
+      background: #d8dde7;
+    }
+    }
+    .scrollbar-hidden::-webkit-scrollbar {
+      display: none;
+    }
+>>>>>>> aa8c0e4d95acdb69fe711a58a57bcae3528c2900
